@@ -19,7 +19,7 @@ public class MemberDAO {
 
         try{
 
-            String sql = "insert into MEMBER values (SEQ_MEM.nextval, ?, ?, ?, ?, to_date(?,'YYMMDD'), ?, ?, ?, ?, default, default, default)";
+            String sql = "insert into MEMBER values (SEQ_MEM.nextval, ?, ?, ?, ?, to_date(?,'YYMMDD'), ?, ?, ?, default, default, default)";
 
             pstmt = con.prepareStatement(sql);
 

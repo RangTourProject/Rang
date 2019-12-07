@@ -14,7 +14,7 @@
 
 <section>
     <div class="container register">
-        <form action="${pageContext.request.contextPath}/insert.me" method="post" enctype="multipart/form-data">
+        <form action="${pageContext.request.contextPath}/insert.me" method="post">
             <div class="row">
                 <!-- 왼쪽 화면 프로필 사진과 간단한 설명등 -->
                 <div class="col-md-3 register-left">
