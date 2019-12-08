@@ -37,13 +37,23 @@
             <!-- 로그인 상태가 아닐때 -->
             <c:if test="${empty member}">
             <!-- login 버튼 -->
-            <button type="button" class="btn btn-outline-warning ml-auto" onclick="location.href='${pageContext.request.contextPath}/views/login/login.jsp'">Login</button>
+            <button type="button" class="btn btn-outline-warning ml-auto" onclick="location.href='views/member/login.jsp'">Login</button>
             </c:if>
 
             <!-- 로그인 일 때 -->
             <c:if test="${!empty member}">
-            <button type="button" class="btn ml-auto" onclick="location.href='#'"><i class="fas fa-user-circle fa-3x" style="color: #fed136;"></i></button>
+                <div class="btn-group ml-2" role="group">
+                    <button type="button" class="btn" data-toggle="dropdown">
+                        <i class="fas fa-user-circle fa-3x" style="color: #fed136;"></i>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                        <a class="dropdown-item" href="#">마이페이지</a>
+                        <a class="dropdown-item" href="logout.me">로그아웃</a>
+                    </div>
+                </div>
             </c:if>
+
         </div>
+
     </div>
 </nav>

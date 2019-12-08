@@ -5,7 +5,7 @@
 <html>
 <head>
     <title>Login Page</title>
-    <c:import url="../../views/common/commonUtil.jsp"/>
+    <c:import url="../common/commonUtil.jsp"/>
     <link rel="stylesheet" type="text/css" href="../../resources/css/login.css">
 </head>
 <body>
@@ -48,7 +48,7 @@
                 </div>
                 <div class="card-footer">
                     <div class="d-flex justify-content-center links">
-                        계정이 없으신가요? &nbsp;<a href="../signUp/signUp.jsp">회원가입</a>
+                        계정이 없으신가요? &nbsp;<a href="signUp.jsp">회원가입</a>
                     </div>
                     <div class="d-flex justify-content-center">
                         <a href="#">비밀번호 찾기</a>
