@@ -1,10 +1,8 @@
 package com.rang.jsp.member.controller;
 
-import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.rang.jsp.member.model.service.MemberService;
 import com.rang.jsp.member.model.vo.Member;
-import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

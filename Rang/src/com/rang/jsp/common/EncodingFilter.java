@@ -15,13 +15,12 @@ import javax.servlet.annotation.WebFilter;
 @WebFilter("/*")
 public class EncodingFilter implements Filter {
 
-    /**
-     * Default constructor. 
-     */
-    public EncodingFilter() {
-        // TODO Auto-generated constructor stub
-    }
-
+	/**
+	 * Default constructor.
+	 */
+	public EncodingFilter() {
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see Filter#destroy()
