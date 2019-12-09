@@ -27,7 +27,7 @@
     <div class="container">
         <div class="ml-auto">
             <div class="form-area">
-                <form role="form">
+                <form role="form" action="${pageContext.request.contextPath}/insert.mb" method="post" enctype="multipart/form-data">
                     <br style="clear:both">
                     <h3 style="margin-bottom: 25px; text-align: center;">게시글 작성</h3>
                     <!-- 사진 -->
@@ -38,7 +38,7 @@
                                 <img src="" id="imgProfile1" style="width: 200px; height: 200px" class="img-thumbnail" />
                                 <div class="middle">
                                     <input type="button" class="btn btn-secondary" id="btnChangePicture1" value="사진 등록">
-                                    <input type="file" style="display: none;" id="profilePicture1" name="pPhoto">
+                                    <input type="file" style="display: none;" id="profilePicture1" name="img1">
                                 </div>
                             </div>
                             <div class="ml-auto">
@@ -52,7 +52,7 @@
                                 <img src="" id="imgProfile2" style="width: 200px; height: 200px" class="img-thumbnail" />
                                 <div class="middle">
                                     <input type="button" class="btn btn-secondary" id="btnChangePicture2" value="사진 등록">
-                                    <input type="file" style="display: none;" id="profilePicture2" name="pPhoto">
+                                    <input type="file" style="display: none;" id="profilePicture2" name="img2">
                                 </div>
                             </div>
                             <div class="ml-auto">
@@ -66,7 +66,7 @@
                                 <img src="" id="imgProfile3" style="width: 200px; height: 200px" class="img-thumbnail" />
                                 <div class="middle">
                                     <input type="button" class="btn btn-secondary" id="btnChangePicture3" value="사진 등록">
-                                    <input type="file" style="display: none;" id="profilePicture3" name="pPhoto">
+                                    <input type="file" style="display: none;" id="profilePicture3" name="img3">
                                 </div>
                             </div>
                             <div class="ml-auto">
@@ -80,7 +80,7 @@
                                 <img src="" id="imgProfile4" style="width: 200px; height: 200px" class="img-thumbnail" />
                                 <div class="middle">
                                     <input type="button" class="btn btn-secondary" id="btnChangePicture4" value="사진 등록">
-                                    <input type="file" style="display: none;" id="profilePicture4" name="pPhoto">
+                                    <input type="file" style="display: none;" id="profilePicture4" name="img4">
                                 </div>
                             </div>
                             <div class="ml-auto">
@@ -94,10 +94,13 @@
                         <input type="text" class="form-control" id="bTitle" name="bTitle" placeholder="제목" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="writer" name="writer" value="${member.nickName}" placeholder="작성자" style="display: none">
+                        <input type="text" class="form-control" id="userNo" name="userNo" value="${member.userNo}" style="display: none">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="place" name="place" placeholder="여행지" required>
+                        <input type="text" class="form-control" id="writer" name="writer" value="${member.nickName}" style="display: none">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="locationName" name="locationName" placeholder="여행지" required>
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" id="totalCost" name="totalCost" placeholder="비용" required>
@@ -110,7 +113,7 @@
                         <span class="help-block"><p id="characterLeft" class="help-block ">더 이상 작성할 수 없습니다.</p></span>
                     </div>
                     <div class="form-group">
-                        <button type="button" id="submit" name="submit" class="btn btn-primary float-right">작성완료</button>
+                        <button type="submit" id="submit" name="submit" class="btn btn-primary float-right">작성완료</button>
                     </div>
                 </form>
             </div>

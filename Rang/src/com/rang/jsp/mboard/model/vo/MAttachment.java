@@ -2,7 +2,7 @@ package com.rang.jsp.mboard.model.vo;
 
 import java.util.Date;
 
-public class MAattachment {
+public class MAttachment {
     private int mfno;
     private int mbno;
     private String moriginName;
@@ -12,10 +12,10 @@ public class MAattachment {
     private int mflevel;
     private String status;
 
-    public MAattachment() {
+    public MAttachment() {
     }
 
-    public MAattachment(int mfno, int mbno, String moriginName, String mchangeName, Date uploadDate, String mfilePath, int mflevel, String status) {
+    public MAttachment(int mfno, int mbno, String moriginName, String mchangeName, Date uploadDate, String mfilePath, int mflevel, String status) {
         this.mfno = mfno;
         this.mbno = mbno;
         this.moriginName = moriginName;
