@@ -132,51 +132,51 @@
 
     <!-- 이미지 관련 스크립트 -->
     <script>
-        $(function () {
+    $(function () {
 
-            $imgSrc = $('#imgProfile').attr('src');
-            <!-- 이미지 미리보기 스크립트 -->
-            function readURL(input) {
+        $imgSrc = $('#imgProfile').attr('src');
+        <!-- 이미지 미리보기 스크립트 -->
+        function readURL(input) {
 
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
 
-                    reader.onload = function (e) {
-                        $('#imgProfile').attr('src', e.target.result);
-                    };
+                reader.onload = function (e) {
+                    $('#imgProfile').attr('src', e.target.result);
+                };
 
-                    reader.readAsDataURL(input.files[0]);
-                }
+                reader.readAsDataURL(input.files[0]);
             }
+        }
 
-            <!-- 이미지 변경시 효과 -->
-            $('#btnChangePicture').on('click', function () {
-                if (!$('#btnChangePicture').hasClass('changing')) {
-                    $('#profilePicture').click();
-                }
-                // else {
-                //     // change
-                // }
-            });
-
-            $('#profilePicture').on('change', function () {
-                readURL(this);
-                $('#btnChangePicture').addClass('changing');
-                $('#btnChangePicture').attr('value', '등록 완료');
-                $('#btnDiscard').removeClass('d-none');
-                // $('#imgProfile').attr('src', '');
-            });
-            $('#btnDiscard').on('click', function () {
-                // if ($('#btnDiscard').hasClass('d-none')) {
-                $('#btnChangePicture').removeClass('changing');
-                $('#btnChangePicture').attr('value', 'Change');
-                $('#btnDiscard').addClass('d-none');
-                $('#imgProfile').attr('src', $imgSrc);
-                $('#profilePicture').val('');
-                // }
-            });
+        <!-- 이미지 변경시 효과 -->
+        $('#btnChangePicture').on('click', function () {
+            if (!$('#btnChangePicture').hasClass('changing')) {
+                $('#profilePicture').click();
+            }
+            // else {
+            //     // change
+            // }
         });
-    </script>
+
+        $('#profilePicture').on('change', function () {
+            readURL(this);
+            $('#btnChangePicture').addClass('changing');
+            $('#btnChangePicture').attr('value', '등록 완료');
+            $('#btnDiscard').removeClass('d-none');
+            // $('#imgProfile').attr('src', '');
+        });
+        $('#btnDiscard').on('click', function () {
+            // if ($('#btnDiscard').hasClass('d-none')) {
+            $('#btnChangePicture').removeClass('changing');
+            $('#btnChangePicture').attr('value', 'Change');
+            $('#btnDiscard').addClass('d-none');
+            $('#imgProfile').attr('src', $imgSrc);
+            $('#profilePicture').val('');
+            // }
+        });
+    });
+</script>
 
     <!-- 다음 주소 Api -->
     <script>

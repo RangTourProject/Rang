@@ -13,7 +13,7 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav text-uppercase ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link active" href="${pageContext.request.contextPath}/views/board/mBoard.jsp">인기 게시글</a>
+                    <a class="nav-link active" href="${pageContext.request.contextPath}/views/mBoard/mBoard.jsp">인기 게시글</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link " href="#">여행 Share</a>
@@ -37,7 +37,7 @@
             <!-- 로그인 상태가 아닐때 -->
             <c:if test="${empty member}">
             <!-- login 버튼 -->
-            <button type="button" class="btn btn-outline-warning ml-auto" onclick="location.href='views/member/login.jsp'">Login</button>
+            <button type="button" class="btn btn-outline-warning ml-auto" onclick="location.href='${pageContext.request.contextPath}/views/member/login.jsp'">Login</button>
             </c:if>
 
             <!-- 로그인 일 때 -->
@@ -47,7 +47,7 @@
                         <i class="fas fa-user-circle fa-3x" style="color: #fed136;"></i>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                        <a class="dropdown-item" href="#">마이페이지</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/views/myPage/myPage.jsp">마이페이지</a>
                         <a class="dropdown-item" href="logout.me">로그아웃</a>
                     </div>
                 </div>

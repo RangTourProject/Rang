@@ -19,8 +19,8 @@
                 <h3 class="section-subheading text-muted">여행 사진을 공유 한다. 가능하면 modal 활용 예정</h3>
             </div>
         </div>
-        <div class="row">
 
+        <div class="row">
             <div class="col-md-4 col-sm-6 mboard-item">
                 <a class="mboard-link" data-toggle="modal" href="#">
                     <div class="mboard-hover">
@@ -129,6 +129,12 @@
             </div>
         </div>
     </div>
+
+    <c:if test="${!empty member}">
+    <div class="col" align="right">
+        <button type="button" class="btn btn-outline-warning" onclick="location.href='insertMBoard.jsp'">게시글 작성</button>
+    </div>
+    </c:if>
 </section>
 
 <c:import url="../common/footer.jsp"/>
