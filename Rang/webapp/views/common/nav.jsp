@@ -13,7 +13,7 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav text-uppercase ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link active" href="${pageContext.request.contextPath}/views/mBoard/mBoard.jsp">인기 게시글</a>
+                    <a class="nav-link active" href="${pageContext.request.contextPath}/selectList.mb">인기 게시글</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link " href="#">여행 Share</a>

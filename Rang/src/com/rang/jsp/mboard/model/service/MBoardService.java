@@ -6,6 +6,7 @@ import com.rang.jsp.mboard.model.vo.MBoard;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static com.rang.jsp.common.JDBCTemplate.*;
 
@@ -48,5 +49,33 @@ public class MBoardService {
         close(con);
 
         return result;
+    }
+
+    public ArrayList<MBoard> selectList() {
+
+        con = getConnection();
+
+        ArrayList<MBoard> list = mbdao.selectList(con);
+
+        close(con);
+
+        return list;
+
+    }
+
+    // modal ajax 메소드
+    public HashMap<String, Object> selectOne(int mbno) {
+
+        con = getConnection();
+
+        System.out.println("ajax 서비스 도착 체크");
+
+        HashMap<String,Object> hmap = null;
+
+        hmap = mbdao.selectOne(con, mbno);
+
+        close(con);
+
+        return hmap;
     }
 }

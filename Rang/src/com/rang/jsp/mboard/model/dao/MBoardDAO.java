@@ -5,6 +5,7 @@ import com.rang.jsp.mboard.model.vo.MBoard;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static com.rang.jsp.common.JDBCTemplate.close;
 
@@ -102,5 +103,119 @@ public class MBoardDAO {
         }
 
         return result;
+    }
+
+    // 게시글 리스트 조회
+    public ArrayList<MBoard> selectList(Connection con) {
+        ArrayList<MBoard> list = null;
+        Statement stmt = null;
+        ResultSet rset = null;
+
+        try{
+
+            String sql = "SELECT * FROM MATTACHMENT join MBOARD using (mbno) WHERE MFNO IN(SELECT MIN(MFNO) FROM MATTACHMENT GROUP BY MBNO)";
+
+            stmt = con.createStatement();
+
+            rset = stmt.executeQuery(sql);
+
+            list = new ArrayList<>();
+
+            while(rset.next()){
+
+                MBoard mb = new MBoard();
+
+                mb.setMbno(rset.getInt("MBNO"));
+                mb.setWriter(rset.getString("writer"));
+                mb.setMbtitle(rset.getString("mbtitle"));
+                mb.setMbcontent(rset.getString("mbcontent"));
+                mb.setHashtag(rset.getString("hashtag"));
+                mb.setLocationname(rset.getString("locationname"));
+                mb.setTotalcost(rset.getInt("totalcost"));
+                mb.setMbdate(rset.getDate("mbdate"));
+                mb.setMbcount(rset.getInt("MBCOUNT"));
+                mb.setMbfile(rset.getString("mchangename"));
+
+                list.add(mb);
+            }
+
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            close(rset);
+            close(stmt);
+        }
+
+        return list;
+    }
+
+    // modal ajax 메소드
+    public HashMap<String, Object> selectOne(Connection con, int mbno) {
+
+        HashMap<String, Object> hmap = null;
+
+        MBoard mb = null;
+        ArrayList<MAttachment> list = null;
+
+        PreparedStatement pstmt = null;
+        ResultSet rset = null;
+
+        try {
+
+            String sql = "select B.*, A.* from MBOARD B join MATTACHMENT A ON (B.MBNO = A.MBNO) WHERE B.STATUS = 'N' and A.STATUS = 'N' and B.MBNO = ?";
+
+            pstmt = con.prepareStatement(sql);
+
+            pstmt.setInt(1, mbno);
+
+            rset = pstmt.executeQuery();
+
+            list = new ArrayList<>();
+
+            // 반복하여 리스트 와 mb 담기
+            while (rset.next()){
+
+                // 1. 게시글은 항상 같기 때문에 그냥 반복하여 덮어씌움
+                mb = new MBoard();
+
+                mb.setMbno(mbno);
+                mb.setUserno(rset.getInt("userno"));
+                mb.setWriter(rset.getString("writer"));
+                mb.setMbtitle(rset.getString("mbtitle"));
+                mb.setMbcontent(rset.getString("mbcontent"));
+                mb.setHashtag(rset.getString("hashtag"));
+                mb.setLocationname(rset.getString("locationname"));
+                mb.setTotalcost(rset.getInt("totalcost"));
+                mb.setMbdate(rset.getDate("mbdate"));
+                mb.setMbcount(rset.getInt("MBCOUNT"));
+
+                // 2. attachment 담기
+                MAttachment mat = new MAttachment();
+
+                mat.setMfno(rset.getInt("mfno"));
+                mat.setMbno(mbno);
+                mat.setMoriginName(rset.getString("moriginname"));
+                mat.setMchangeName(rset.getString("mchangename"));
+                mat.setMfilePath(rset.getString("mfilepath"));
+                mat.setUploadDate(rset.getDate("uploaddate"));
+                mat.setStatus(rset.getString("status"));
+
+                list.add(mat);
+            }
+
+            hmap = new HashMap<>();
+
+            hmap.put("mBoard", mb);
+            hmap.put("mAttachment", list);
+
+        }catch (SQLException e ){
+            e.printStackTrace();
+        }finally {
+            close(rset);
+            close(pstmt);
+        }
+
+        return hmap;
     }
 }
