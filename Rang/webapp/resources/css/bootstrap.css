@@ -5833,7 +5833,7 @@ a.close.disabled {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1040;
+  z-index: -1;
   width: 100vw;
   height: 100vh;
   background-color: #000;
@@ -5931,7 +5931,7 @@ a.close.disabled {
 @media (min-width: 992px) {
   .modal-lg,
   .modal-xl {
-    max-width: 800px;
+    max-width: 1000px;
   }
 }
 
@@ -6249,7 +6249,7 @@ a.close.disabled {
 
 @media (prefers-reduced-motion: reduce) {
   .carousel-item {
-    transition: none;
+    /*transition: none;*/
   }
 }
 

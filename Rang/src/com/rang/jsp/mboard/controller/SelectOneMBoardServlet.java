@@ -19,7 +19,7 @@ public class SelectOneMBoardServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // 모달창 ajax
-
+        
         MBoardService mbs = new MBoardService();
 
         int mbno = Integer.parseInt(request.getParameter("mbno"));

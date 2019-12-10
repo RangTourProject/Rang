@@ -7,19 +7,95 @@
     <title>메인 게시판</title>
     <c:import url="../common/commonUtil.jsp"/>
     <style>
-        .modal-backdrop {
-            z-index: -1;
-        }
+        /*.modal-backdrop {*/
+        /*    z-index: -1;*/
+        /*}*/
         .modal {
-            position: absolute;
-            top: 100px;
+            /*position: absolute;*/
+            top: 50px;
+        }
+
+        /* 모달 오픈시 스크롤 방지 */
+        .modal-dialog{ overflow-y: initial !important }
+        .modal-body{ height: 100%; overflow-y: auto; }
+        body.modal-open {
+            overflow: hidden;
+            position:fixed;
+            width: 100%;
+        }
+        /*댓글용*/
+        .detailBox {
+            width:auto;
+            border:1px solid #bbb;
+            margin:20px;
+        }
+        .titleBox {
+            background-color:#fdfdfd;
+            padding:10px;
+        }
+        .titleBox label{
+            color:#444;
+            margin:0;
+            display:inline-block;
+        }
+
+        .commentBox {
+            padding:10px;
+            border-top:1px dotted #bbb;
+        }
+        .commentBox .form-group:first-child, .actionBox .form-group:first-child {
+            width:80%;
+        }
+        .commentBox .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {
+            width:18%;
+        }
+        .actionBox .form-group * {
+            width:100%;
+        }
+        .taskDescription {
+            margin-top:10px;
+        }
+        .commentList {
+            padding:0;
+            list-style:none;
+            max-height:200px;
+            overflow:auto;
+        }
+        .commentList li {
+            margin:0;
+            margin-top:10px;
+        }
+        .commentList li > div {
+            display:table-cell;
+        }
+        .commenterImage {
+            width:30px;
+            margin-right:5px;
+            height:100%;
+            float:left;
+        }
+        .commenterImage img {
+            width:100%;
+            border-radius:50%;
+        }
+        .commentText p {
+            margin:0;
+        }
+        .sub-text {
+            color:#aaa;
+            font-family:verdana;
+            font-size:11px;
+        }
+        .actionBox {
+            border-top:1px dotted #bbb;
+            padding:10px;
         }
     </style>
 </head>
 <body>
 <c:import url="../common/nav.jsp"/>
 
-<!-- Mboard Grid -->
+<!-- Mboard -->
 <section class="bg-light page-section" id="mboard">
     <div class="container">
         <div class="row">
@@ -69,9 +145,7 @@
     </div>
     </c:if>
 
-
 </section>
-
 
 <!-- 모달 -->
 <section>
@@ -83,10 +157,9 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-lg-5">
-
                             <!-- Carousel Wrapper 태그 적용 -->
                             <div id="carousel-thumb" class="carousel carousel-fade carousel-thumbnails"
-                                 data-ride="carousel">
+                                 data-ride="carousel" data-interval="false" >
                                 <!-- 슬라이드 효과 -->
                                 <div class="carousel-inner" role="listbox">
                                     <!-- 첫 페이지 -->
@@ -128,7 +201,6 @@
                             </div>
                         </div>
                         <div class="col-lg-7">
-
                             <!-- 타이트 제목 -->
                             <h2 class="h2-responsive" id="modalTitle">
                                 <strong></strong>
@@ -220,12 +292,120 @@
 
                                 </div>
                                 <!-- Accordion card -->
+                                <!-- Accordion card -->
+                                <div class="card">
 
+                                    <!-- Card header -->
+                                    <div class="card-header" role="tab" id="headingThree4">
+                                        <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseThree4"
+                                           aria-expanded="false" aria-controls="collapseThree4">
+                                            <h5 class="mb-0">
+                                                Collapsible Group Item #3 <i class="fas fa-angle-down rotate-icon"></i>
+                                            </h5>
+                                        </a>
+                                    </div>
+
+                                    <!-- Card body -->
+                                    <div id="collapseThree4" class="collapse" role="tabpanel" aria-labelledby="headingThree4"
+                                         data-parent="#accordionEx">
+                                        <div class="card-body">
+                                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
+                                            squid. 3
+                                            wolf moon officia aute,
+                                            non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- Accordion card -->
+
+                                <!-- Accordion card -->
+                                <div class="card">
+
+                                    <!-- Card header -->
+                                    <div class="card-header" role="tab" id="headingThree5">
+                                        <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseThree5"
+                                           aria-expanded="false" aria-controls="collapseThree5">
+                                            <h5 class="mb-0">
+                                                Collapsible Group Item #3 <i class="fas fa-angle-down rotate-icon"></i>
+                                            </h5>
+                                        </a>
+                                    </div>
+
+                                    <!-- Card body -->
+                                    <div id="collapseThree5" class="collapse" role="tabpanel" aria-labelledby="headingThree5"
+                                         data-parent="#accordionEx">
+                                        <div class="card-body">
+                                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
+                                            squid. 3
+                                            wolf moon officia aute,
+                                            non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- Accordion card -->
                             </div>
                             <!-- Accordion wrapper -->
 
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">창 닫기</button>
                         </div>
+
+                        <!-- 댓글 란 작성 -->
+
+                        <div class="col-auto">
+                            <div class="detailBox">
+                                <div class="titleBox">
+                                    <label>Comment Box</label>
+                                    <button type="button" class="close" aria-hidden="true">&times;</button>
+                                </div>
+                                <div class="commentBox">
+
+                                    <p class="taskDescription">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                </div>
+                                <div class="actionBox">
+                                    <ul class="commentList">
+                                        <li>
+                                            <div class="commenterImage">
+                                                <img src="http://placekitten.com/50/50" />
+                                            </div>
+                                            <div class="commentText">
+                                                <p class="">Hello this is a test comment.</p> <span class="date sub-text">on March 5th, 2014</span>
+
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="commenterImage">
+                                                <img src="http://placekitten.com/45/45" />
+                                            </div>
+                                            <div class="commentText">
+                                                <p class="">Hello this is a test comment and this comment is particularly very long and it goes on and on and on.</p> <span class="date sub-text">on March 5th, 2014</span>
+
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="commenterImage">
+                                                <img src="http://placekitten.com/40/40" />
+                                            </div>
+                                            <div class="commentText">
+                                                <p class="">Hello this is a test comment.</p> <span class="date sub-text">on March 5th, 2014</span>
+
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <form class="form-inline" role="form">
+                                        <div class="form-group">
+                                            <input class="form-control" type="text" placeholder="Your comments" />
+                                        </div>
+                                        <div class="form-group">
+                                            <button class="btn btn-default">Add</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
             </div>
@@ -235,6 +415,10 @@
     <!-- ajax -->
     <script>
         function test(mbno){
+
+            // 캐러셀 초기화
+            $('.carousel').carousel(0);
+
             $.ajax({
                 url : '${pageContext.request.contextPath}/selectOne.mb?mbno='+ mbno,
                 type : 'post',
@@ -278,5 +462,6 @@
 
 <!-- 스크롤 관련 스크립트 -->
 <script src="${pageContext.request.contextPath}/resources/js/scroll.js"></script>
+
 </body>
 </html>
