@@ -156,7 +156,9 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-lg-5">
+                        <div class="col-lg-6">
+
+                            <!-- 사진 -->
                             <!-- Carousel Wrapper 태그 적용 -->
                             <div id="carousel-thumb" class="carousel carousel-fade carousel-thumbnails"
                                  data-ride="carousel" data-interval="false" >
@@ -200,7 +202,10 @@
 <%--                                </ol>--%>
                             </div>
                         </div>
-                        <div class="col-lg-7">
+
+                        <!-- 모달 내용 부분 -->
+
+                        <div class="col-lg-6">
                             <!-- 타이트 제목 -->
                             <h2 class="h2-responsive" id="modalTitle">
                                 <strong></strong>
@@ -348,20 +353,19 @@
                             </div>
                             <!-- Accordion wrapper -->
 
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">창 닫기</button>
+<%--                            <button type="button" class="btn btn-secondary" data-dismiss="modal">창 닫기</button>--%>
                         </div>
 
-                        <!-- 댓글 란 작성 -->
-
-                        <div class="col-auto">
+                        <!-- 댓글 전체 -->
+                        <div class="col-12">
                             <div class="detailBox">
-                                <div class="titleBox">
-                                    <label>Comment Box</label>
-                                    <button type="button" class="close" aria-hidden="true">&times;</button>
-                                </div>
+<%--                                <div class="titleBox">--%>
+<%--                                    <label>댓글창</label>--%>
+<%--                                    <button type="button" class="close" aria-hidden="true">&times;</button>--%>
+<%--                                </div>--%>
                                 <div class="commentBox">
 
-                                    <p class="taskDescription">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                    <p class="taskDescription">글 내용?</p>
                                 </div>
                                 <div class="actionBox">
                                     <ul class="commentList">
@@ -370,29 +374,15 @@
                                                 <img src="http://placekitten.com/50/50" />
                                             </div>
                                             <div class="commentText">
-                                                <p class="">Hello this is a test comment.</p> <span class="date sub-text">on March 5th, 2014</span>
-
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="commenterImage">
-                                                <img src="http://placekitten.com/45/45" />
-                                            </div>
-                                            <div class="commentText">
-                                                <p class="">Hello this is a test comment and this comment is particularly very long and it goes on and on and on.</p> <span class="date sub-text">on March 5th, 2014</span>
-
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="commenterImage">
-                                                <img src="http://placekitten.com/40/40" />
-                                            </div>
-                                            <div class="commentText">
-                                                <p class="">Hello this is a test comment.</p> <span class="date sub-text">on March 5th, 2014</span>
-
+                                                <p class="d-inline-block">샘플1</p>
+                                                <i class="fa fa-heart "></i>
+                                                <i class="fa fa-reply " onclick="reComment(this);"></i>
+                                                <span class="date sub-text d-block">2019.02.17</span>
                                             </div>
                                         </li>
                                     </ul>
+
+                                    <!-- 댓글 작성 폼 -->
                                     <form class="form-inline" role="form">
                                         <div class="form-group">
                                             <input class="form-control" type="text" placeholder="Your comments" />
@@ -412,7 +402,7 @@
         </div>
     </div>
 
-    <!-- ajax -->
+    <!-- 모달 ajax -->
     <script>
         function test(mbno){
 
@@ -454,6 +444,26 @@
                 }
             })
         };
+    </script>
+
+    <script>
+        // 리플 버튼 누를시 작동
+        function reComment(obj) {
+            // 현재 버튼 숨기기
+            $(obj).css('display', 'none');
+
+            // 내용 입력 공간 만들기
+            var htmlCode = '<form class="form-inline" role="form">'
+                +'<div class="form-group">'
+                +'<input class="form-control" type="text" placeholder="Your comments" />'
+                +'</div>'
+                +'<div class="form-group">'
+                +'<button class="btn btn-default">Add</button>'
+                +'</div>'
+                +'</form>';
+
+            $(obj).parents('div').append(htmlCode);
+        }
     </script>
 
 </section>
