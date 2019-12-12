@@ -88,4 +88,57 @@ public class MemberDAO {
 
         return mb;
     }
+
+    public int updateMember(Connection con, Member m) {
+        int result = 0;
+        PreparedStatement pstmt = null;
+
+        try {
+
+            String sql = "UPDATE MEMBER SET USERNAME = ?, PASSWORD = ? , NICKNAME = ? , ZIPCODE = ? , ADDRESS = ? , PHONE = ? WHERE USERNO = ? ";
+
+            pstmt = con.prepareStatement(sql);
+
+            pstmt.setString(1, m.getUserName());
+            pstmt.setString(2, m.getPassword());
+            pstmt.setString(3, m.getNickName());
+            pstmt.setString(4, m.getZipCode());
+            pstmt.setString(5, m.getAddress());
+            pstmt.setString(6, m.getPhone());
+            pstmt.setInt(7, m.getUserNo());
+
+            result = pstmt.executeUpdate();
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+
+            close(pstmt);
+        }
+
+        return result;
+    }
+
+    public int deleteMember(Connection con, int userNo) {
+        int result = 0;
+        PreparedStatement pstmt = null;
+
+        try {
+
+            String sql  = "DELETE FROM MEMBER WHERE USERNO = ?";
+
+            pstmt = con.prepareStatement(sql);
+
+            pstmt.setInt(1, userNo);
+
+            result = pstmt.executeUpdate();
+
+        } catch(SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(pstmt);
+        }
+
+        return result;
+    }
 }

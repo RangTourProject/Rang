@@ -26,6 +26,17 @@ public class Member implements Serializable {
         this.password = password;
     }
 
+    // 회원 수정용
+    public Member(int userNo, String userName, String password, String nickName, String zipCode, String address, String phone) {
+        this.userNo = userNo;
+        this.userName = userName;
+        this.password = password;
+        this.nickName = nickName;
+        this.zipCode = zipCode;
+        this.address = address;
+        this.phone = phone;
+    }
+
     // 전체
     public Member(int userNo, String email, String userName, String password, String nickName, String birthDate, String zipCode, String address, String phone, Date enrollDate, String status, String grade) {
         this.userNo = userNo;
