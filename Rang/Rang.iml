@@ -32,21 +32,21 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/webapp/WEB-INF/lib" />
+          <root url="file:///usr/local/Cellar/tomcat@8/8.5.47/libexec/lib" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
-        <jarDirectory url="file://$MODULE_DIR$/webapp/WEB-INF/lib" recursive="false" />
+        <jarDirectory url="file:///usr/local/Cellar/tomcat@8/8.5.47/libexec/lib" recursive="false" />
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../dev/tomcat&amp;ojdbc/8.5.47/libexec/lib" />
+          <root url="file://$MODULE_DIR$/webapp/WEB-INF/lib" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
-        <jarDirectory url="file://$MODULE_DIR$/../../dev/tomcat&amp;ojdbc/8.5.47/libexec/lib" recursive="false" />
+        <jarDirectory url="file://$MODULE_DIR$/webapp/WEB-INF/lib" recursive="false" />
       </library>
     </orderEntry>
   </component>

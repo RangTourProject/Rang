@@ -21,9 +21,7 @@ public class PlannerOpenServlet extends HttpServlet {
         ArrayList<City> list = new ArrayList<>();
 
         PlannerService ps = new PlannerService();
-        list = ps.loadCity();
-
-
+        list = ps.loadCity();ㄴ
 
     }
 }
