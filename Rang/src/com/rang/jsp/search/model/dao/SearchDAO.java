@@ -62,19 +62,64 @@ public class SearchDAO {
 		return mb;
 	}
 
-	public ArrayList<MBoard> searchOne(Connection con, String condition, String keyword) {
+//
+//	 public ArrayList<MBoard> searchOne(Connection con, String condition, String keyword) {
+//		ArrayList<MBoard> list =null;
+//		PreparedStatement pstmt = null;
+//		ResultSet rset = null;
+//
+//		String sql = null;
+//
+//	 	switch(condition) { case "nickName" : sql = ""; }
+//
+//	 	return list;
+//	}
+
+	public ArrayList<MBoard> searchMBoard(Connection con, String keyword) {
 		
-		ArrayList<MBoard> list =null;
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		
-		String sql = null;
-		
-		switch(condition) {
-		case "nickName" :
-			sql = "";
+		MBoard mb = null;
+		ArrayList<MBoard> list = null;
+        PreparedStatement pstmt = null;
+        ResultSet rset = null;
+
+//		SELECT * FROM MATTACHMENT join MBOARD using (mbno) WHERE MFNO IN(SELECT MIN(MFNO) FROM MATTACHMENT GROUP BY MBNO)
+//		SELECT * FROM MBOARD WHERE HASHTAG LIKE CONCAT( CONCAT('%', ?), '%')
+        String sql ="Select * from (SELECT * FROM MATTACHMENT join MBOARD using (mbno) WHERE MFNO IN(SELECT MIN(MFNO) FROM MATTACHMENT GROUP BY MBNO)) WHERE HASHTAG LIKE CONCAT( CONCAT('%', ?), '%')";
+        
+        try {
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, keyword);
+			
+			rset = pstmt.executeQuery();
+
+			list = new ArrayList<>();
+
+			while (rset.next()) {
+				mb = new MBoard();
+
+				mb.setMbno(rset.getInt("MBNO"));
+				mb.setWriter(rset.getString("writer"));
+				mb.setMbtitle(rset.getString("mbtitle"));
+				mb.setMbcontent(rset.getString("mbcontent"));
+				mb.setHashtag(rset.getString("hashtag"));
+				mb.setLocationname(rset.getString("locationname"));
+				mb.setTotalcost(rset.getInt("totalcost"));
+				mb.setMbdate(rset.getDate("mbdate"));
+				mb.setMbcount(rset.getInt("MBCOUNT"));
+				mb.setMbfile(rset.getString("mchangename"));
+				
+				list.add(mb);
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			close(rset);
+			close(pstmt);
 		}
-		
+
 		return list;
 	}
 

@@ -39,7 +39,7 @@ public class SearchServlet extends HttpServlet {
 		
 		SearchService ss = new SearchService();
 		
-		list = ss.searchOne(condition, keyword);
+//		list = ss.searchOne(condition, keyword);
 		
 		String page =  "";
 		
