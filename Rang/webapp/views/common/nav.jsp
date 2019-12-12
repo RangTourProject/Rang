@@ -19,7 +19,7 @@
                     <a class="nav-link " href="#">여행 Share</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="#">너랑나랑</a>
+                    <a class="nav-link " href="${pageContext.request.contextPath}/selectList.tb">너랑나랑</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link " href="${pageContext.request.contextPath}/views/planner/map.jsp">Planner</a>
