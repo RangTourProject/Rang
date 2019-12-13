@@ -5,6 +5,7 @@ import com.rang.jsp.mboardComment.model.vo.MBoardComment;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static com.rang.jsp.common.JDBCTemplate.*;
 import static com.rang.jsp.common.JDBCTemplate.close;

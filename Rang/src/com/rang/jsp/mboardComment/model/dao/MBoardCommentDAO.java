@@ -1,9 +1,11 @@
 package com.rang.jsp.mboardComment.model.dao;
 
 import com.rang.jsp.mboardComment.model.vo.MBoardComment;
+import com.rang.jsp.member.model.vo.Member;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static com.rang.jsp.common.JDBCTemplate.close;
 
@@ -13,13 +15,7 @@ public class MBoardCommentDAO {
         int result = 0;
         PreparedStatement pstmt = null;
 
-        String sql = "INSERT INTO MCOMMENT VALUES(SEQ_MC.NEXTVAL, ?, ?, ?, SYSDATE, 0, DEFAULT, NULL)";
-
-		/* 댓글 번호를 적용할 경우
-		 * INSERT INTO MCOMMENT
-		   VALUES(SEQ_MC.NEXTVAL, ?, ?, ?, SYSDATE,
-		   (SELECT MCLEVEL FROM MCOMMENT WHERE MCNO = ?) + 1, DEFAULT, ?)
-		 */
+        String sql = "INSERT INTO MCOMMENT VALUES(SEQ_MC.NEXTVAL, ?, ?, ?, SYSDATE, (NVL((SELECT MCLEVEL FROM MCOMMENT WHERE MCNO = ?), -1) + 1), DEFAULT, ?)";
 
         try {
 
@@ -28,6 +24,15 @@ public class MBoardCommentDAO {
             pstmt.setInt(1, mbc.getMbno());
             pstmt.setInt(2, mbc.getUserno());
             pstmt.setString(3, mbc.getMccontent());
+            pstmt.setInt(4, mbc.getRef_mcno());
+
+            if(mbc.getRef_mcno() > 0) {
+
+                pstmt.setInt(5, mbc.getRef_mcno());
+
+            } else {
+                pstmt.setNull(5, 0);
+            }
 
             result = pstmt.executeUpdate();
 
@@ -78,10 +83,14 @@ public class MBoardCommentDAO {
         PreparedStatement pstmt = null;
         ResultSet rset = null;
 
-        String sql = "SELECT MCNO, MCCONTENT, MCDATE, USERNO " +
-                "FROM MCOMMENT " +
-                "JOIN MEMBER USING(USERNO) " +
-                "WHERE MBNO = ? AND MCOMMENT.STATUS = 'N' ";
+        String sql = "SELECT MCNO, MCCONTENT, MCDATE, USERNO, MCLEVEL, "
+                + "(SELECT NICKNANE FROM MEMBER WHERE USERNO = MCOMMENT.USERNO) NICKNANE "
+                + "FROM MCOMMENT "
+                + "WHERE MBNO = ? AND MCOMMENT.STATUS = 'N' "
+                + "START WITH MCLEVEL = 0 "
+                + "CONNECT BY PRIOR MCNO = REF_MCNO";
+
+        // NICKNAME 오타 있음 나중에 수정
 
         try {
 
@@ -101,6 +110,7 @@ public class MBoardCommentDAO {
                 mbc.setUserno(rset.getInt("userno"));
                 mbc.setMcdate(rset.getDate("mcdate"));
                 mbc.setMccontent(rset.getString("mccontent"));
+                mbc.setMclevel(rset.getInt("mclevel"));
 
                 list.add(mbc);
             }

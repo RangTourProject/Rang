@@ -94,6 +94,9 @@
         .fa-save {
             display : none;
         }
+        .commentList > li[class] {
+            margin-left : 20px;
+        }
     </style>
 </head>
 <body>
@@ -107,10 +110,10 @@
                 <h2 class="section-heading text-uppercase">메인 게시판</h2>
                 <h3 class="section-subheading text-muted">여행 사진을 공유 한다. 가능하면 modal 활용 예정</h3>
             </div>
-        </div>
+            <%--        </div>--%>
 
-        <!-- 게시글 조회 -->
-        <div class="row">
+            <!-- 게시글 조회 -->
+            <%--        <div class="row">--%>
             <c:forEach var="mboard" items="${list}">
                 <div class="col-md-4 col-sm-6 mboard-item">
                     <a class="mboard-link" data-toggle="modal" onclick="modalCall(${mboard.mbno});" href="#modal1">
@@ -144,9 +147,9 @@
 
     <!-- 글작성 -->
     <c:if test="${!empty member}">
-    <div class="col" align="right">
-        <button type="button" class="btn btn-outline-warning" onclick="location.href='${pageContext.request.contextPath}/views/mBoard/insertMBoard.jsp'">게시글 작성</button>
-    </div>
+        <div class="col" align="right">
+            <button type="button" class="btn btn-outline-warning" onclick="location.href='${pageContext.request.contextPath}/views/mBoard/insertMBoard.jsp'">게시글 작성</button>
+        </div>
     </c:if>
 
 </section>
@@ -193,17 +196,17 @@
                                 </a>
                                 <!--/.Controls-->
                                 <!-- 아래 이동 버튼 -->
-<%--                                <ol class="carousel-indicators">--%>
-<%--                                    <li data-target="#carousel-thumb" data-slide-to="0" class="active">--%>
-<%--                                        <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/img%20(23).jpg" width="60">--%>
-<%--                                    </li>--%>
-<%--                                    <li data-target="#carousel-thumb" data-slide-to="1">--%>
-<%--                                        <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/img%20(24).jpg" width="60">--%>
-<%--                                    </li>--%>
-<%--                                    <li data-target="#carousel-thumb" data-slide-to="2">--%>
-<%--                                        <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/img%20(25).jpg" width="60">--%>
-<%--                                    </li>--%>
-<%--                                </ol>--%>
+                                <%--                                <ol class="carousel-indicators">--%>
+                                <%--                                    <li data-target="#carousel-thumb" data-slide-to="0" class="active">--%>
+                                <%--                                        <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/img%20(23).jpg" width="60">--%>
+                                <%--                                    </li>--%>
+                                <%--                                    <li data-target="#carousel-thumb" data-slide-to="1">--%>
+                                <%--                                        <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/img%20(24).jpg" width="60">--%>
+                                <%--                                    </li>--%>
+                                <%--                                    <li data-target="#carousel-thumb" data-slide-to="2">--%>
+                                <%--                                        <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/img%20(25).jpg" width="60">--%>
+                                <%--                                    </li>--%>
+                                <%--                                </ol>--%>
                             </div>
                         </div>
 
@@ -336,7 +339,7 @@
                                         <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseThree5"
                                            aria-expanded="false" aria-controls="collapseThree5">
                                             <h5 class="mb-0">
-                                                Collapsible Group Item #3 <i class="fas fa-angle-down rotate-icon"></i>
+                                                소셜 기능 <i class="fas fa-angle-down rotate-icon"></i>
                                             </h5>
                                         </a>
                                     </div>
@@ -345,19 +348,19 @@
                                     <div id="collapseThree5" class="collapse" role="tabpanel" aria-labelledby="headingThree5"
                                          data-parent="#accordionEx">
                                         <div class="card-body">
-                                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
-                                            squid. 3
-                                            wolf moon officia aute,
-                                            non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
+                                            <button type="button" class="btn btn-secondary" ><i class="fas fa-heart"></i></button>
+                                            <input type="hidden" id="mbnoVal" value="">
+                                            <button id="updateBoard" type="button" class="btn btn-secondary" onclick="updateBoard();" >게시글 수정</button>
+                                            <button id="deleteBoard" type="button" class="btn btn-secondary" onclick="deleteBoard();" >게시글 삭제</button>
                                         </div>
                                     </div>
 
                                 </div>
                                 <!-- Accordion card -->
+
                             </div>
                             <!-- Accordion wrapper -->
 
-<%--                            <button type="button" class="btn btn-secondary" data-dismiss="modal">창 닫기</button>--%>
                         </div>
 
                         <!-- 댓글 작성 -->
@@ -373,6 +376,8 @@
                                     <p class="taskDescription">댓글을 작성할 때는 타인을 존중하고 커뮤니티 가이드를 준수해야 합니다</p>
                                 </div>
                                 <div class="actionBox">
+
+                                    <!-- 댓글 리스트 영역 -->
                                     <ul class="commentList">
 
                                         <!--  <li>
@@ -386,11 +391,17 @@
                                          </li> -->
 
                                     </ul>
+
+                                    <!-- 댓글 입력 창 -->
                                     <form class="form-inline" role="form">
                                         <div class="form-group">
                                             <input type="hidden" id="mbno4Reply" name="mbno" value="" />
-                                            <input class="form-control" id="myComment" type="text" placeholder="Your comments" />
+                                            <input type="hidden" id="clevelCo" name="clevelCo" value="0" />
+                                            <input type="text" class="form-control" id="myComment" placeholder="Your comments" />
+                                            <input type="hidden" >
                                         </div>
+
+                                        <!--  댓글 작성 버튼  -->
                                         <div class="form-group">
                                             <button type="button" class="btn btn-default" onclick="insertComment();">Add</button>
                                         </div>
@@ -409,7 +420,7 @@
 
     <!-- 모달 ajax -->
     <script>
-        var loginUserNo = '${member.userNo}';
+        loginUserNo = '${member.userNo}';
 
         // 이미지와 게시글 내용 불러오기
         function modalCall(mbno){
@@ -421,6 +432,8 @@
                 type : 'post',
                 success : function (data) {
 
+                    console.log(data);
+
                     // 게시글 이미지 & 텍스트 불러오기
                     var $title = $('#modalTitle > strong');
                     var $location = $('#locationName > a > h5');
@@ -429,6 +442,9 @@
                     var $photo3 = $('#photo3 > img');
                     var $photo4 = $('#photo4 > img');
 
+                    // mbno 값 저장해두기
+                    var $updateBoard = $('#updateBoard');
+
                     $photo1.attr('src', "");
                     $photo2.attr('src', "");
                     $photo3.attr('src', "");
@@ -436,7 +452,9 @@
 
                     $title.text(data.mBoard.mbtitle);
                     $location.html(data.mBoard.locationname + "<i class=\"fas fa-angle-down rotate-icon\"></i>");
+                    $updateBoard.attr('onclick', "updateBoard(" + data.mBoard.mbno + ");");
 
+                    //onclick="updateBoard();
                     for(var i in data.mAttachment){
                         $photo1.attr('src', "/Rang/resources/mBoardPhoto/"+data.mAttachment[0].mchangeName);
                         $photo2.attr('src', "/Rang/resources/mBoardPhoto/"+data.mAttachment[1].mchangeName);
@@ -445,18 +463,22 @@
                     }
                     // 게시글 이미지 & 텍스트 불러오기 끝
 
-
-
-
                     // 댓글 불러오기
-                    // 댓글 영역 초기화
+                    // 댓글 초기화
                     $('.commentList').empty();
 
-                    // 반복문으로 댓글 전부 불러오기
                     for(var i in data.clist){
 
                         // 댓글 한 개 담는 태그
-                        var $li = $('<li id="' + data.clist[i].mcno + '">');
+                        var $li;
+
+                        if (data.clist[i].mclevel == 0) {
+                            $li = $('<li id="' + data.clist[i].mcno + '">');
+                        } else {
+                            // 참조한 댓글의 레벨 답댓글
+                            //var clevel = Number($(obj).siblings('input[name=clevel]').val()) +1
+                            $li = $('<li id="' + data.clist[i].mcno + '" class="'  + data.clist[i].mclevel + '">');
+                        }
 
                         // 해당 댓글 작성자 사진
                         var $div1 = $('<div class="commenterImage">');
@@ -468,11 +490,11 @@
                         var $span = $('<span class="date sub-text">');
 
                         // 해당 댓글 수정/삭제
-                        var $div3 = $('<div><i class="fas fa-edit"></i><i class="fas fa-save"></i>&nbsp;<i class="fas fa-trash-alt"></i>&nbsp;<i class="fas fa-reply"></i>');
+                        var $div3 = $('<div><i class="fas fa-edit"></i><i class="fas fa-save"></i>&nbsp;<i class="fas fa-trash-alt"></i>');
 
                         $div1.append($img);
 
-                        // $div2.append($p.html(anchorTagGenerator(data.clist[i].mccontent)))
+                        $div2.append($p.html(anchorTagGenerator(data.clist[i].mccontent)));
                         $div2.append($p.text(data.clist[i].mccontent))
                             .append($span.text(data.clist[i].mcdate));
 
@@ -489,7 +511,6 @@
 
                     }
 
-                    // 게시글 값 넣어주기
                     $('#mbno4Reply').val(mbno);
 
                     icon_event();
@@ -504,7 +525,6 @@
 
         // 댓글 추가용 메소드
         function insertComment(){
-
             /*
             * 에이작스를 통하여 게시글 번호와 댓글 내용을 전달하고 게시글을 db에 성공적으로 저장하였을 경우
             * 화면에 태그를 작성한다.( 화면에만 찍어둠 실제 댓글은 새로 고쳐졌을 때 가져온다.)
@@ -515,27 +535,62 @@
                 type : 'post',
                 data : {
                     mbno : $('#mbno4Reply').val(),
-                    content : $('#myComment').val()
+                    content : $('#myComment').val(),
+                    mclevel : $('#clevelCo').val()
                 },
                 success : function(data){
 
+                    console.log(data);
                     // 댓글 한 개 담는 태그
-                    var $li = $('<li id="' + data + '" class="' + loginUserNo + '">');
 
+                    // var a; : 자바스트립트 변수. 흔히 아는 방식으로 스크립트만 사용가능
+                    // var $a; : 제이쿼리에서 사용하는 내장함수들을 모두 사용O
+                    //         .css(), .hide(), .show()등 모든 스크립트 사용이 가능함
+
+                    // li태그로 클래스주고 정렬(은 자동으로 DAO에서 하게끔
+                    // 그냥 lv만 따로 뺴서 묶기
+
+                    var $li;
+
+                    var $appender;
+
+                    // ref_mcno 가 없으므로 주석하고 새로 갱신
+                    // if (ref_mcno == '' || ref_mcno == undefined ) {
+                    // $li = $('<li id="' + data + '" class= originCo"' + loginUserNo + '">');
+                    if($('#clevelCo').val() == 0) {
+                        $li = $('<li id="' + data + '">');
+                        $appender = $('.commentList');
+
+                    } else {
+                        // 참조한 댓글의 레벨 답댓글
+                        //var clevel = Number($(obj).siblings('input[name=clevel]').val()) +1
+                        // $li = $('<li class = "'  + (Number($(obj).siblings('input[name=clevel]').val()) +1) + '>');
+                        $li = $('<li id="' + data + '" class = "'  + $('#clevelCo').val() + '">');
+                        var str = $('#myComment').val();
+                        var anchor = str.substring(str.indexOf('@'), str.indexOf(' '));
+                        $appender = $('#'+anchor.substring(1));
+                    }
+
+                    /* 댓글 실험중 */
                     // 해당 댓글 작성자 사진
+                    // 주석부분1
                     var $div1 = $('<div class="commenterImage">');
                     var $img = $('<img src="http://placekitten.com/50/50" />');
 
                     // 해당 댓글 내용
+                    // 주석 부분2
                     var $div2 = $('<div class="commentText">');
                     var $p = $('<p>');
                     var $span = $('<span class="date sub-text">');
 
                     // 해당 댓글 수정/삭제
-                    var $div3 = $('<div><i class="fas fa-edit"></i><i class="fas fa-save"></i>&nbsp;<i class="fas fa-trash-alt"></i>&nbsp;<i class="fas fa-reply"></i>');
+                    var $div3 = $('<div><i class="fas fa-edit"></i><i class="fas fa-save"></i>&nbsp;<i class="fas fa-trash-alt"></i>');
+
+                    // append() 현재 선택된 문서요소의 마지막 자식으로 새로운 문서 요소를 추가
+                    // insert() 현재 선택된 문서요소의 지정된 요소 앞에 새로운 문서 요소를 추가
 
                     $div1.append($img);
-                    // $div2.append($p.html(anchorTagGenerator($('#myComment').val())))
+                    $div2.append($p.html(anchorTagGenerator($('#myComment').val())))
                     $div2.append($p.text($('#myComment').val()))
                         .append($span.text('방금 전'));
 
@@ -543,12 +598,22 @@
                         .append($div2)
                         .append($div3);
 
-                    $('.commentList').append($li);
+                    if($('#clevelCo').val() == 0){
+                        console.log($li);
+                        console.log($appender);
+                        $appender.append($li);
+                    } else {
+                        console.log($li);
+                        console.log($appender);
+                        $li.insertAfter($appender);
+                    }
+
 
                     icon_event();
 
                     // 댓글 초기화
                     $('#myComment').val('');
+
                 }, error : function(){
                     alert("댓글 작성 실패!");
                 }
@@ -559,26 +624,36 @@
         /*
             anchor 사용시
         */
-        /*
-       function anchorTagGenerator(str){
 
-           if(str.startsWith('@')){
-               var anchor = str.substring(str.indexOf('@'), str.indexOf(' '));
-               var content = str.substring(anchor.length+1);
+        function anchorTagGenerator(str){
 
-               return "<a href='#" + anchor.substring(1) + "'>" + anchor  + "</a> " + content;
-           } else {
-               return str;
-           }
-       } */
+            if(str.startsWith('@')){
+                var anchor = str.substring(str.indexOf('@'), str.indexOf(' '));
+                var content = str.substring(anchor.length+1);
+
+                return "<a href='#" + anchor.substring(1) + "'>" + anchor  + "</a> " + content;
+            } else {
+                return str;
+            }
+        }
 
         // 게시글 수정 삭제 등록 아이콘 호출
         function icon_event(){
 
             // @ anchor 적용
+            // clevel 클래스 값에 + 1 해주기
             $('.commentList').children().each(function(){
+
                 $(this).on('click', function(){
-                    $('#myComment').val('@'+$(this).attr('id') +" "+ $('#myComment').val());
+                    $('#myComment').val("");
+                    $('#myComment').val('@'+$(this).attr('id') +" ");
+                    console.log($(this).attr('class'));
+                    if($(this).attr('class') == undefined) {
+                        $('#clevelCo').val(1);
+                    } else {
+                        $('#clevelCo').val(parseInt($(this).attr('class')) + 1);
+                    }
+
                 });
             });
 
@@ -655,6 +730,11 @@
                     }
                 });
             });
+        }
+
+        // 게시글 수정
+        function updateBoard(mbno) {
+            location.href = "${pageContext.request.contextPath}/mUpView.mb?mbno="+mbno;
         }
 
     </script>

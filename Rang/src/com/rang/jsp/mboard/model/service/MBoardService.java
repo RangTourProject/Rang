@@ -78,4 +78,36 @@ public class MBoardService {
 
         return hmap;
     }
+
+    // mboard 수정 화면 서블릿
+    public HashMap<String, Object> updateView(int mbno) {
+
+        con = getConnection();
+
+        HashMap<String, Object> hmap = mbdao.selectOne(con, mbno);
+
+        close(con);
+
+        return hmap;
+    }
+
+    // 게시글 수정 내용 업데이트 용
+    public int updateMBoard(MBoard mb, ArrayList<MAttachment> list) {
+        con = getConnection();
+
+        int result = 0;
+
+        int result1 = mbdao.updateMBoard(con, mb);
+
+        int result2 = mbdao.updateMAttachment(con, list);
+
+        if(result1 > 0 && result2 > 0){
+            commit(con);
+            result = 1;
+        }else rollback(con);
+
+        close(con);
+
+        return result;
+    }
 }

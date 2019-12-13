@@ -23,22 +23,30 @@ public class InsertMBCommentServlet extends HttpServlet {
 
         String mcContent = request.getParameter("content");
         int mbno = Integer.parseInt(request.getParameter("mbno"));
+        int mclevel = Integer.parseInt(request.getParameter("mclevel"));
 
         // 세션을 불러와서 저장된 멤버 객체를 불러온다.
         HttpSession session = request.getSession(false);
         Member writer = (Member)session.getAttribute("member");
 
         MBoardComment mbc = new MBoardComment();
+        mbc.setRef_mcno(0);
+        if(mcContent.charAt(0) == '@') { String ref_mcno = mcContent.substring(1, mcContent.indexOf(' '));
+            mbc.setRef_mcno(Integer.parseInt(ref_mcno));
+        }
 
         mbc.setMbno(mbno);
         mbc.setUserno(writer.getUserNo());
         mbc.setMccontent(mcContent);
+        mbc.setMclevel(mclevel);
 
-//        System.out.println("컨트롤러에서 뽑았니 : " + mbc);
+        System.out.println(mbc);
 
         int result = new MBoardCommnetService().insertMBCommnet(mbc);
 
         response.setContentType("application/json; charset=UTF-8");
+
         new Gson().toJson(result, response.getWriter());
+
     }
 }

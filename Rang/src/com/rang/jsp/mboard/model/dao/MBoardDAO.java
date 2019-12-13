@@ -218,4 +218,56 @@ public class MBoardDAO {
 
         return hmap;
     }
+
+    public int updateMBoard(Connection con, MBoard mb) {
+        int result = 0;
+        PreparedStatement pstmt = null;
+
+        try {
+            String sql = "UPDATE MBOARD SET MBTITLE = ?, MBCONTENT = ? WHERE MBNO = ?";
+
+            pstmt = con.prepareStatement(sql);
+
+            pstmt.setString(1, mb.getMbtitle());
+            pstmt.setString(2, mb.getMbcontent());
+            pstmt.setInt(3, mb.getMbno());
+
+            result = pstmt.executeUpdate();
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            close(pstmt);
+        }
+
+        return result;
+    }
+
+    public int updateMAttachment(Connection con, ArrayList<MAttachment> list) {
+        int result = 0;
+
+        PreparedStatement pstmt = null;
+
+        try{
+            String sql = "UPDATE MATTACHMENT SET MORIGINNAME = ? , MCHANGENAME = ? WHERE MFNO = ?";
+
+            pstmt = con.prepareStatement(sql);
+
+            for(int i = 0; i < list.size() ; i++){
+
+                pstmt.setString(1, list.get(i).getMoriginName());
+                pstmt.setString(2, list.get(i).getMchangeName());
+                pstmt.setInt(3, list.get(i).getMfno());
+
+                result += pstmt.executeUpdate();
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            close(pstmt);
+        }
+
+        return result;
+    }
 }

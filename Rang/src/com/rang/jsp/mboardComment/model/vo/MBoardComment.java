@@ -6,7 +6,7 @@ public class MBoardComment {
     private int mcno;
     private int mbno;
     private String mccontent;
-    private int userno ;
+    private int userno;
     private Date mcdate;
     private int ref_mcno;
     private int mclevel;
