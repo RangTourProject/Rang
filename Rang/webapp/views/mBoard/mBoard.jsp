@@ -348,7 +348,7 @@
                                     <div id="collapseThree5" class="collapse" role="tabpanel" aria-labelledby="headingThree5"
                                          data-parent="#accordionEx">
                                         <div class="card-body">
-                                            <button type="button" class="btn btn-secondary" ><i class="fas fa-heart"></i></button>
+                                            <button id="mboardLike" type="button" class="btn btn-secondary" onclick="mboardLike()" ><i class="fas fa-heart"></i></button>
                                             <input type="hidden" id="mbnoVal" value="">
                                             <button id="updateBoard" type="button" class="btn btn-secondary" onclick="updateBoard();" >게시글 수정</button>
                                             <button id="deleteBoard" type="button" class="btn btn-secondary" onclick="deleteBoard();" >게시글 삭제</button>
@@ -444,6 +444,7 @@
 
                     // mbno 값 저장해두기
                     var $updateBoard = $('#updateBoard');
+                    var $mboardLike = $('#mboardLike');
 
                     $photo1.attr('src', "");
                     $photo2.attr('src', "");
@@ -453,6 +454,7 @@
                     $title.text(data.mBoard.mbtitle);
                     $location.html(data.mBoard.locationname + "<i class=\"fas fa-angle-down rotate-icon\"></i>");
                     $updateBoard.attr('onclick', "updateBoard(" + data.mBoard.mbno + ");");
+                    $mboardLike.attr('onclick', "mboardLike(" + data.mBoard.mbno + ");");
 
                     //onclick="updateBoard();
                     for(var i in data.mAttachment){
@@ -735,6 +737,32 @@
         // 게시글 수정
         function updateBoard(mbno) {
             location.href = "${pageContext.request.contextPath}/mUpView.mb?mbno="+mbno;
+        }
+
+        // 좋아요 관련 스크립트
+        function mboardLike(mbno){
+            $.ajax({
+                url : '${pageContext.request.contextPath}/like.mb',
+                type : 'post',
+                data : { memno : ${member.userNo},
+                    mbno : mbno },
+                success : function(data) {
+                    console.log(data);
+                    if(data.like == 0){
+                        // 좋아요 성공
+                        console.log(data);
+                        alert("좋아요 성공 !");
+                        $('.btn-myLike').addClass('unLike');
+
+                    } else if(data.like == 1) {
+                        // 좋아요 취소
+                        alert("좋아요 취소 !");
+                        $('.btn-myLike').removeClass('unLike');
+                    }
+                },error : function(){
+                    alert("좋아요 실행 실패");
+                }
+            });
         }
 
     </script>

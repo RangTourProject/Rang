@@ -6,6 +6,7 @@ import com.rang.jsp.planner.model.vo.City;
 import java.sql.Connection;
 import java.util.ArrayList;
 
+import static com.rang.jsp.common.JDBCTemplate.close;
 import static com.rang.jsp.common.JDBCTemplate.getConnection;
 
 public class MapService {
@@ -18,6 +19,8 @@ public class MapService {
         ArrayList<City> list = null;
 
         list = new MapDAO().loadCity(con);
+
+        close(con);
 
         return list;
     }

@@ -20,10 +20,10 @@ public class FollowDAO {
 		try {
 			
 			pstmt = con.prepareStatement(sql);
-			
+
 			pstmt.setInt(1, memno);
 			pstmt.setInt(2, target_memno);
-			
+
 			result = pstmt.executeUpdate();
 			
 		} catch (SQLException e) {

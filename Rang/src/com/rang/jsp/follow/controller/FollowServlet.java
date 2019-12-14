@@ -40,8 +40,7 @@ public class FollowServlet extends HttpServlet {
 		
 		Map<String, Integer> result = fs.followLogic(memno, target_memno);
 		
-		
-		
+
 		response.setContentType("application/json; charset=UTF-8");
 		new Gson().toJson(result, response.getWriter());
 

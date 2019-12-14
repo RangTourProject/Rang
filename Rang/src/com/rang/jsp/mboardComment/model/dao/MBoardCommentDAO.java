@@ -2,20 +2,41 @@ package com.rang.jsp.mboardComment.model.dao;
 
 import com.rang.jsp.mboardComment.model.vo.MBoardComment;
 import com.rang.jsp.member.model.vo.Member;
+import com.rang.jsp.tBoard.model.dao.TBoardDAO;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Properties;
 
 import static com.rang.jsp.common.JDBCTemplate.close;
 
 public class MBoardCommentDAO {
 
+    private Properties prop = new Properties();
+
+    public MBoardCommentDAO() {
+        String filePath = TBoardDAO.class.getResource("/mappers/mBComment.properties").getPath();
+
+        try {
+            prop.load(new FileReader(filePath));
+        } catch (FileNotFoundException e) {
+
+            e.printStackTrace();
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        }
+    }
+
+    // mboard 댓글 등록용
     public int insertMComment(Connection con, MBoardComment mbc) {
         int result = 0;
         PreparedStatement pstmt = null;
 
-        String sql = "INSERT INTO MCOMMENT VALUES(SEQ_MC.NEXTVAL, ?, ?, ?, SYSDATE, (NVL((SELECT MCLEVEL FROM MCOMMENT WHERE MCNO = ?), -1) + 1), DEFAULT, ?)";
+        String sql = prop.getProperty("insertMComment");
 
         try {
 
@@ -52,7 +73,7 @@ public class MBoardCommentDAO {
         Statement stmt = null;
         ResultSet rset = null;
 
-        String sql = "SELECT MAX(MCNO) FROM MCOMMENT";
+        String sql = prop.getProperty("selectLastMComment");
 
         try {
 
@@ -84,13 +105,12 @@ public class MBoardCommentDAO {
         ResultSet rset = null;
 
         String sql = "SELECT MCNO, MCCONTENT, MCDATE, USERNO, MCLEVEL, "
-                + "(SELECT NICKNANE FROM MEMBER WHERE USERNO = MCOMMENT.USERNO) NICKNANE "
+                + "(SELECT NICKNAME FROM MEMBER WHERE USERNO = MCOMMENT.USERNO) NICKNAME "
                 + "FROM MCOMMENT "
                 + "WHERE MBNO = ? AND MCOMMENT.STATUS = 'N' "
                 + "START WITH MCLEVEL = 0 "
                 + "CONNECT BY PRIOR MCNO = REF_MCNO";
 
-        // NICKNAME 오타 있음 나중에 수정
 
         try {
 
@@ -129,11 +149,12 @@ public class MBoardCommentDAO {
         return list;
     }
 
+    // 게시글 수정용
     public int updateMComment(Connection con, MBoardComment mbco) {
         int result = 0;
         PreparedStatement pstmt = null;
 
-        String sql = "UPDATE MCOMMENT SET MCCONTENT = ? WHERE MCNO = ?";
+        String sql = prop.getProperty("updateMComment");
 
         try {
 
@@ -158,7 +179,7 @@ public class MBoardCommentDAO {
         int result = 0;
         PreparedStatement pstmt = null;
 
-        String sql = "UPDATE MCOMMENT SET STATUS = 'Y' WHERE MCNO = ?";
+        String sql = prop.getProperty("deleteMComment");
 
         try {
 

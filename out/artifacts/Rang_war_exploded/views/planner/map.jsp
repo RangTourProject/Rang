@@ -18,103 +18,61 @@
 <c:import url="../../views/common/nav.jsp"/>
 <section>
 
-    <!-- 검색창 -->
-    <div id="search-panel">
-        <input id="address" type="text" placeholder="검색할 위치를 입력하세요." />
-        <button id="submit" type="button" value="Geocode">지도 검색</button>
-    </div>
-
-    <!-- 지도 호출 -->
     <div id="map"></div>
-
     <script>
-        /**
-         * Google Map API 주소의 callback 파라미터와 동일한 이름의 함수이다.
-         * Google Map API에서 콜백으로 실행시킨다.
-         */
-        function initMap() {
-            console.log('Map is initialized.');
 
-            /*
-             * 기본 맵을 설정.
-             * 1번째 파라미터 : 구글 맵을 표시할 위치. 여기서는 #map
-             * 2번째 파라미터 : 맵 옵션.
-             *      ㄴ zoom : 맵 확대 정도
-             *      ㄴ center : 맵 중심 좌표 설정
-             *              ㄴ lat : 위도 (latitude)
-             *              ㄴ lng : 경도 (longitude)
-             */
+        function initMap() {
 
             var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 12.5,
-                center: {
-                    lat: -34.397,
-                    lng: 150.644
-                }
+                zoom: 3,
+                center: {lat: -28.024, lng: 140.887}
             });
 
-            /**
-             * Google Geocoding. Google Map API에 포함되어 있다.
-             */
-            var geocoder = new google.maps.Geocoder();
+            // Create an array of alphabetical characters used to label the markers.
+            var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-            // submit 버튼 클릭 이벤트 실행
-            document.getElementById('submit').addEventListener('click', function() {
-                console.log('submit 버튼 클릭 이벤트 실행');
-
-                // 여기서 실행
-                geocodeAddress(geocoder, map);
-            });
-
-            /*
-             * geocodeAddress
-             *
-             * 입력한 주소로 맵의 좌표를 바꾼다.
-             */
-            function geocodeAddress(geocoder, resultMap) {
-                console.log('geocodeAddress 함수 실행');
-
-                /*
-                * 지오코드로 부터 입력받은 주소 저장
-                */
-                var address = document.getElementById('address').value;
-
-                /**
-                 * 입력받은 주소로 좌표에 맵 마커를 찍는다.
-                 * 1번째 파라미터 : 주소 등 여러가지.
-                 *      ㄴ 참고 : https://developers.google.com/maps/documentation/javascript/geocoding#GeocodingRequests
-                 *
-                 * 2번째 파라미터의 함수
-                 *      ㄴ result : 결과값
-                 *      ㄴ status : 상태. OK가 나오면 정상.
-                 */
-                geocoder.geocode({'address': address}, function(result, status) {
-                    console.log(result);
-                    console.log(status);
-
-                    if (status === 'OK') {
-                        // 맵의 중심 좌표를 설정한다.
-                        resultMap.setCenter(result[0].geometry.location);
-                        // 맵의 확대 정도를 설정한다.
-                        resultMap.setZoom(18);
-                        // 맵 마커
-                        var marker = new google.maps.Marker({
-                            map: resultMap,
-                            position: result[0].geometry.location
-                        });
-
-                        // 도시 주소
-                        console.log(result[0].formatted_address);
-                        // 위도
-                        console.log('위도(latitude) : ' + marker.position.lat());
-                        // 경도
-                        console.log('경도(longitude) : ' + marker.position.lng());
-                    } else {
-                        alert('지오코드가 다음의 이유로 성공하지 못했습니다 : ' + status);
-                    }
+            // Add some markers to the map.
+            // Note: The code uses the JavaScript Array.prototype.map() method to
+            // create an array of markers based on a given "locations" array.
+            // The map() method here has nothing to do with the Google Maps API.
+            var markers = locations.map(function(location, i) {
+                return new google.maps.Marker({
+                    position: location,
+                    label: labels[i % labels.length]
                 });
-            }
+            });
+
+            // Add a marker clusterer to manage the markers.
+            var markerCluster = new MarkerClusterer(map, markers,
+                {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
         }
+        var locations = [
+            {lat: -31.563910, lng: 147.154312},
+            {lat: -33.718234, lng: 150.363181},
+            {lat: -33.727111, lng: 150.371124},
+            {lat: -33.848588, lng: 151.209834},
+            {lat: -33.851702, lng: 151.216968},
+            {lat: -34.671264, lng: 150.863657},
+            {lat: -35.304724, lng: 148.662905},
+            {lat: -36.817685, lng: 175.699196},
+            {lat: -36.828611, lng: 175.790222},
+            {lat: -37.750000, lng: 145.116667},
+            {lat: -37.759859, lng: 145.128708},
+            {lat: -37.765015, lng: 145.133858},
+            {lat: -37.770104, lng: 145.143299},
+            {lat: -37.773700, lng: 145.145187},
+            {lat: -37.774785, lng: 145.137978},
+            {lat: -37.819616, lng: 144.968119},
+            {lat: -38.330766, lng: 144.695692},
+            {lat: -39.927193, lng: 175.053218},
+            {lat: -41.330162, lng: 174.865694},
+            {lat: -42.734358, lng: 147.439506},
+            {lat: -42.734358, lng: 147.501315},
+            {lat: -42.735258, lng: 147.438000},
+            {lat: -43.999792, lng: 170.463352}
+        ]
+    </script>
+    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
     </script>
     <!-- 지도 api & key -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3phkjHg5O4aOf3Scz99ZBCjg75C6MDnA&callback=initMap"

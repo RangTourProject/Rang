@@ -1,17 +1,40 @@
 package com.rang.jsp.search.model.dao;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Properties;
 
 import com.rang.jsp.mboard.model.vo.MBoard;
 import com.rang.jsp.member.model.vo.Member;
-import static com.rang.jsp.common.JDBCTemplate.*; 
+import com.rang.jsp.tBoard.model.dao.TBoardDAO;
+
+import static com.rang.jsp.common.JDBCTemplate.*;
 
 public class SearchDAO {
 
+	private Properties prop = new Properties();
+
+	public SearchDAO() {
+		String filePath = TBoardDAO.class.getResource("/mappers/search.properties").getPath();
+
+		try {
+			prop.load(new FileReader(filePath));
+		} catch (FileNotFoundException e) {
+
+			e.printStackTrace();
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+	}
+
+	// 회원 검색용
 	public Member searchMember(Connection con, String keyword) {
 		
 		Member mb = null;
@@ -21,9 +44,7 @@ public class SearchDAO {
         
         
         
-        String sql ="SELECT * FROM MEMBER "
-        		+ " WHERE NICKNANE LIKE CONCAT( CONCAT('%', ?), '%')";
-//        NICKNANE 를 NICKNAME 으로 수정해야 한다.
+        String sql = prop.getProperty("searchMember");
         
         try {
         	
@@ -75,6 +96,7 @@ public class SearchDAO {
 //	 	return list;
 //	}
 
+	// 게시글 검색
 	public ArrayList<MBoard> searchMBoard(Connection con, String keyword) {
 		
 		MBoard mb = null;
@@ -84,7 +106,7 @@ public class SearchDAO {
 
 //		SELECT * FROM MATTACHMENT join MBOARD using (mbno) WHERE MFNO IN(SELECT MIN(MFNO) FROM MATTACHMENT GROUP BY MBNO)
 //		SELECT * FROM MBOARD WHERE HASHTAG LIKE CONCAT( CONCAT('%', ?), '%')
-        String sql ="Select * from (SELECT * FROM MATTACHMENT join MBOARD using (mbno) WHERE MFNO IN(SELECT MIN(MFNO) FROM MATTACHMENT GROUP BY MBNO)) WHERE HASHTAG LIKE CONCAT( CONCAT('%', ?), '%')";
+        String sql = prop.getProperty("searchMBoard");
         
         try {
 			pstmt = con.prepareStatement(sql);

@@ -1,14 +1,36 @@
 package com.rang.jsp.member.model.dao;
 
 import com.rang.jsp.member.model.vo.Member;
+import com.rang.jsp.tBoard.model.dao.TBoardDAO;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
 
 import static com.rang.jsp.common.JDBCTemplate.*;
 
 public class MemberDAO {
+
+    private Properties prop = new Properties();
+
+    public MemberDAO() {
+        String filePath = TBoardDAO.class.getResource("/mappers/member.properties").getPath();
+
+        try {
+            prop.load(new FileReader(filePath));
+        } catch (FileNotFoundException e) {
+
+            e.printStackTrace();
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        }
+    }
 
     // 회원 가입용 메소드
     public int insertMember(Connection con, Member m) {
@@ -19,7 +41,7 @@ public class MemberDAO {
 
         try{
 
-            String sql = "insert into MEMBER values (SEQ_MEM.nextval, ?, ?, ?, ?, to_date(?,'YYMMDD'), ?, ?, ?, default, default, default)";
+            String sql = prop.getProperty("insertMember");
 
             pstmt = con.prepareStatement(sql);
 
@@ -43,6 +65,7 @@ public class MemberDAO {
         return result;
     }
 
+    // 회원 한명 조회용
     public Member selectOne(Connection con, Member m) {
 
         Member mb = null;
@@ -50,9 +73,9 @@ public class MemberDAO {
         PreparedStatement pstmt = null;
         ResultSet rset = null;
 
-        try {
+        String sql = prop.getProperty("selectOne");
 
-            String sql = "SELECT * FROM MEMBER WHERE EMAIL = ? AND PASSWORD = ?";
+        try {
 
             pstmt = con.prepareStatement(sql);
 
@@ -95,7 +118,7 @@ public class MemberDAO {
 
         try {
 
-            String sql = "UPDATE MEMBER SET USERNAME = ?, PASSWORD = ? , NICKNAME = ? , ZIPCODE = ? , ADDRESS = ? , PHONE = ? WHERE USERNO = ? ";
+            String sql = prop.getProperty("updateMember");
 
             pstmt = con.prepareStatement(sql);
 
@@ -125,7 +148,7 @@ public class MemberDAO {
 
         try {
 
-            String sql  = "DELETE FROM MEMBER WHERE USERNO = ?";
+            String sql  = prop.getProperty("deleteMember");
 
             pstmt = con.prepareStatement(sql);
 

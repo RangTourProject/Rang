@@ -23,6 +23,14 @@ public class LoadingMapServlet extends HttpServlet {
 
         list = new MapService().loadCity();
 
+        if(list != null){
+
+            request.setAttribute("cityList" , list);
+            request.getRequestDispatcher("views/planner/map.jsp").forward(request, response);
+        }else {
+            response.sendRedirect("errorPage.jsp");
+        }
+
 
     }
 }

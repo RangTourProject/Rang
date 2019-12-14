@@ -2,14 +2,35 @@ package com.rang.jsp.mboard.model.dao;
 
 import com.rang.jsp.mboard.model.vo.MAttachment;
 import com.rang.jsp.mboard.model.vo.MBoard;
+import com.rang.jsp.tBoard.model.dao.TBoardDAO;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Properties;
 
 import static com.rang.jsp.common.JDBCTemplate.close;
 
 public class MBoardDAO {
+
+    private Properties prop = new Properties();
+
+    public MBoardDAO() {
+        String filePath = TBoardDAO.class.getResource("/mappers/mBoard.properties").getPath();
+
+        try {
+            prop.load(new FileReader(filePath));
+        } catch (FileNotFoundException e) {
+
+            e.printStackTrace();
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        }
+    }
 
     // 게시글 등록용
     public int insertMBoard(Connection con, MBoard mb) {
@@ -17,8 +38,10 @@ public class MBoardDAO {
 
         PreparedStatement pstmt = null;
 
+        String sql = prop.getProperty("insertMBoard");
+
         try{
-            String sql = "insert into MBOARD values (SEQ_MBNO.nextval, ?, ?, ?, ?, ?, ?, ?,default , null , default , default )";
+
 
             pstmt = con.prepareStatement(sql);
 
@@ -49,7 +72,7 @@ public class MBoardDAO {
         ResultSet rset = null;
 
         try{
-            String sql = "select MBNO from (select * from MBOARD ORDER BY MBDATE DESC) where ROWNUM = 1";
+            String sql = prop.getProperty("selectCurrentMBno");
 
             stmt = con.createStatement();
 
@@ -76,7 +99,7 @@ public class MBoardDAO {
         PreparedStatement pstmt = null;
 
         try{
-            String sql = "insert into MATTACHMENT values (SEQ_MFNO.nextval, ?, ?, ?, default , ?, null , default)";
+            String sql = prop.getProperty("insertMAttachment");
 
             pstmt = con.prepareStatement(sql);
 
@@ -113,7 +136,7 @@ public class MBoardDAO {
 
         try{
 
-            String sql = "SELECT * FROM MATTACHMENT join MBOARD using (mbno) WHERE MFNO IN(SELECT MIN(MFNO) FROM MATTACHMENT GROUP BY MBNO)";
+            String sql = prop.getProperty("selectList");
 
             stmt = con.createStatement();
 
@@ -163,7 +186,7 @@ public class MBoardDAO {
 
         try {
 
-            String sql = "select B.*, A.* from MBOARD B join MATTACHMENT A ON (B.MBNO = A.MBNO) WHERE B.STATUS = 'N' and A.STATUS = 'N' and B.MBNO = ?";
+            String sql = prop.getProperty("selectOne");
 
             pstmt = con.prepareStatement(sql);
 
@@ -219,12 +242,13 @@ public class MBoardDAO {
         return hmap;
     }
 
+    // 게시글 수정용
     public int updateMBoard(Connection con, MBoard mb) {
         int result = 0;
         PreparedStatement pstmt = null;
 
         try {
-            String sql = "UPDATE MBOARD SET MBTITLE = ?, MBCONTENT = ? WHERE MBNO = ?";
+            String sql = prop.getProperty("updateMBoard");
 
             pstmt = con.prepareStatement(sql);
 
@@ -249,7 +273,7 @@ public class MBoardDAO {
         PreparedStatement pstmt = null;
 
         try{
-            String sql = "UPDATE MATTACHMENT SET MORIGINNAME = ? , MCHANGENAME = ? WHERE MFNO = ?";
+            String sql = prop.getProperty("updateMAttachment");
 
             pstmt = con.prepareStatement(sql);
 
