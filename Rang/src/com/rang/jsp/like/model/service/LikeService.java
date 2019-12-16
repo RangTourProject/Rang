@@ -1,8 +1,10 @@
 package com.rang.jsp.like.model.service;
 
 import com.rang.jsp.like.model.dao.LikeDAO;
+import com.rang.jsp.like.model.vo.ILike;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static com.rang.jsp.common.JDBCTemplate.*;
@@ -41,5 +43,17 @@ public class LikeService {
 
         return hmap;
 
+    }
+
+    // 누가 좋아요를 눌렀는가?
+    public ArrayList<ILike> whoLike(int mbno) {
+
+        con = getConnection();
+
+        ArrayList<ILike> likeList = lsdao.whoLike(con, mbno);
+
+        close(con);
+
+        return likeList;
     }
 }
