@@ -16,6 +16,8 @@ public class MBoard {
     private Date mbdate;
     private String status;
 
+
+
     public MBoard() {
     }
 

@@ -26,14 +26,14 @@ public class MapDAO {
             stmt = con.createStatement();
             rset = stmt.executeQuery(sql);
 
+            list = new ArrayList<>();
+
             while (rset.next()){
 
                 City c = new City();
-
-                c.setCity_code(rset.getString(1));
-                c.setCity_name(rset.getString(2));
-                c.setLat(rset.getFloat(3));
-                c.setLng(rset.getFloat(4));
+                c.setCity_name(rset.getString(1));
+                c.setLat(rset.getFloat(2));
+                c.setLng(rset.getFloat(3));
 
                 list.add(c);
             }

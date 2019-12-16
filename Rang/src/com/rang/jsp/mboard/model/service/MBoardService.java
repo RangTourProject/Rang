@@ -110,4 +110,17 @@ public class MBoardService {
 
         return result;
     }
+
+    // 게시글 삭제
+    public int deleteMBoard(int mbno) {
+
+        con = getConnection();
+
+        int result = mbdao.deleteMBoard(con, mbno);
+
+        if(result > 0) commit(con);
+        else rollback(con);
+
+        return result;
+    }
 }

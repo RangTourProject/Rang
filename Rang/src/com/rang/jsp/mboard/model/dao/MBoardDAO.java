@@ -294,4 +294,26 @@ public class MBoardDAO {
 
         return result;
     }
+
+    // 게시글 삭제
+    public int deleteMBoard(Connection con, int mbno) {
+        int result = 0;
+        PreparedStatement pstmt = null;
+        String sql = prop.getProperty("deleteMBoard");
+
+        try {
+            pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, mbno);
+
+            result = pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        } finally {
+            close(pstmt);
+        }
+
+        return result;
+    }
 }

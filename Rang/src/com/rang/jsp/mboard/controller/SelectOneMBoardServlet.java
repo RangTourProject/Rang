@@ -39,6 +39,7 @@ public class SelectOneMBoardServlet extends HttpServlet {
 
         // 게시글 댓글 조회한 내용을 게시글 HashMap에 추가하기
         mboard.put("clist", clist);
+
         mboard.put("likeList", likeList);
 
         // 확인

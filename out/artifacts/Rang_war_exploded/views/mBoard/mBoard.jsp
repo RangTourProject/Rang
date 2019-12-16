@@ -444,6 +444,7 @@
 
                     // mbno 값 저장해두기
                     var $updateBoard = $('#updateBoard');
+                    var $deleteBoard = $('#deleteBoard');
                     var $mboardLike = $('#mboardLike');
 
                     $photo1.attr('src', "");
@@ -454,9 +455,10 @@
                     $title.text(data.mBoard.mbtitle);
                     $location.html(data.mBoard.locationname + "<i class=\"fas fa-angle-down rotate-icon\"></i>");
                     $updateBoard.attr('onclick', "updateBoard(" + data.mBoard.mbno + ");");
+                    $deleteBoard.attr('onclick', "deleteBoard(" + data.mBoard.mbno + ");");
                     $mboardLike.attr('onclick', "mboardLike(" + data.mBoard.mbno + ");");
 
-                    //onclick="updateBoard();
+
                     for(var i in data.mAttachment){
                         $photo1.attr('src', "/Rang/resources/mBoardPhoto/"+data.mAttachment[0].mchangeName);
                         $photo2.attr('src', "/Rang/resources/mBoardPhoto/"+data.mAttachment[1].mchangeName);
@@ -739,12 +741,37 @@
             location.href = "${pageContext.request.contextPath}/mUpView.mb?mbno="+mbno;
         }
 
+        // 게시글 삭제
+        function deleteBoard(mbno){
+            $.ajax({
+                url : "${pageContext.request.contextPath}/delete.mb",
+                type : "post",
+                data : {mbno : mbno},
+                success : function(data) {
+
+                    if (data > 0 ) {
+
+                        alert ("게시글이 삭제되었습니다.");
+                        $('div#'+mbno).remove();
+
+                    } else {
+
+                        alert("failed");
+                    }
+
+                },error : function(){
+                    alert("error 발생")
+                }
+
+            });
+        }
+
         // 좋아요 관련 스크립트
         function mboardLike(mbno){
             $.ajax({
                 url : '${pageContext.request.contextPath}/like.mb',
                 type : 'post',
-                data : { memno : ${member.userNo},
+                data : { memno : ${member.userNo}, // 로그인 상태가 아닐때 신텍스에러 발생
                     mbno : mbno },
                 success : function(data) {
                     console.log(data);

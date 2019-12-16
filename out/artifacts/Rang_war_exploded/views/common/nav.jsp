@@ -19,7 +19,7 @@
                     <a class="nav-link " href="${pageContext.request.contextPath}/selectList.tb">너랑나랑</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="${pageContext.request.contextPath}/views/planner/map.jsp">Planner</a>
+                    <a class="nav-link " href="${pageContext.request.contextPath}/loadmap.mp">Planner</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link " href="${pageContext.request.contextPath}/memberPage.mp?nickName=${member.nickName}">마이페이지</a>
