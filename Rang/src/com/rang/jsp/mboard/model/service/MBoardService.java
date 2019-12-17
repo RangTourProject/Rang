@@ -123,4 +123,38 @@ public class MBoardService {
 
         return result;
     }
+
+    // 내 게시글 보여주깅
+    public ArrayList<MBoard> myPageList(String nickName) {
+        con = getConnection();
+
+        ArrayList<MBoard> list = mbdao.myPageList(con, nickName);
+
+        close(con);
+
+        return list;
+    }
+
+    // 사용자메인 게시글 수 보여주기
+    public int mBoardCount(String nickName) {
+        con = getConnection();
+
+        int mBoardCount = mbdao.mBoardCount(con,nickName);
+
+        if(mBoardCount > 0) commit(con);
+        else rollback(con);
+
+        close(con);
+        return mBoardCount;
+    }
+
+    // 검색한놈 게시글 보깅
+    public ArrayList<MBoard> selectList(String keyword) {
+        con = getConnection();
+
+        ArrayList<MBoard> list = mbdao.myPageSearchList(con, keyword);
+
+
+        return list;
+    }
 }

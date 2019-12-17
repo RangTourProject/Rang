@@ -6,98 +6,6 @@
 <head>
     <title>메인 게시판</title>
     <c:import url="../common/commonUtil.jsp"/>
-    <style>
-        /*.modal-backdrop {*/
-        /*    z-index: -1;*/
-        /*}*/
-        .modal {
-            /*position: absolute;*/
-            top: 50px;
-        }
-
-        /* 모달 오픈시 스크롤 방지 */
-        .modal-dialog{ overflow-y: initial !important }
-        .modal-body{ height: 100%; overflow-y: auto; }
-        body.modal-open {
-            overflow: hidden;
-            position:fixed;
-            width: 100%;
-        }
-        /*댓글용*/
-        .detailBox {
-            width:auto;
-            border:1px solid #bbb;
-            margin:20px;
-        }
-        .titleBox {
-            background-color:#fdfdfd;
-            padding:10px;
-        }
-        .titleBox label{
-            color:#444;
-            margin:0;
-            display:inline-block;
-        }
-
-        .commentBox {
-            padding:10px;
-            border-top:1px dotted #bbb;
-        }
-        .commentBox .form-group:first-child, .actionBox .form-group:first-child {
-            width:80%;
-        }
-        .commentBox .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {
-            width:18%;
-        }
-        .actionBox .form-group * {
-            width:100%;
-        }
-        .taskDescription {
-            margin-top:10px;
-        }
-        .commentList {
-            padding:0;
-            list-style:none;
-            max-height:200px;
-            overflow:auto;
-        }
-        .commentList li {
-            margin:0;
-            margin-top:10px;
-        }
-        .commentList li > div {
-            display:table-cell;
-        }
-        .commenterImage {
-            width:30px;
-            margin-right:5px;
-            height:100%;
-            float: left;
-        }
-        .commenterImage img {
-            width:100%;
-            border-radius:50%;
-        }
-        .commentText p {
-            margin-left: 10px;
-            margin:0;
-        }
-        .sub-text {
-            color:#aaa;
-            font-family:verdana;
-            font-size:11px;
-        }
-        .actionBox {
-            border-top:1px dotted #bbb;
-            padding:10px;
-        }
-        .fa-save {
-            display : none;
-        }
-        .commentList > li[class] {
-            margin-left : 20px;
-        }
-    </style>
 </head>
 <body>
 <c:import url="../common/nav.jsp"/>
@@ -128,7 +36,7 @@
                         <h4 class="d-block">${mboard.mbtitle}</h4>
                         <ul class="float-right d-inline-block">
                             <li style="display: inline-block; margin-right: 5px">
-                                <i class="far fa-heart" style="margin-right: 5px; color:#fed136;"></i>준비
+                                <i class="far fa-heart mbcount" style="margin-right: 5px; color:#fed136;" ></i>준비
                             </li>
                             <li style="display: inline-block; margin-right: 5px">
                                 <i class="far fa-comment" style="margin-right: 5px; color:#fed136;"></i>준비중
@@ -348,8 +256,16 @@
                                     <div id="collapseThree5" class="collapse" role="tabpanel" aria-labelledby="headingThree5"
                                          data-parent="#accordionEx">
                                         <div class="card-body">
-                                            <button id="mboardLike" type="button" class="btn btn-secondary" onclick="mboardLike()" ><i class="fas fa-heart"></i></button>
-                                            <input type="hidden" id="mbnoVal" value="">
+                                            <!-- 좋아요를 누른 상태인지 c:if로 구별해 색상을 바꾸기 위해서 나누었습니다  -->
+                                            <c:if test="${result.myLikeCheck eq 0}">
+                                                <button id="mbLike" type="button" class="btn btn-secondary btn-myLike" onclick="mylike();"><i class="fas fa-heart"></i></button>
+                                            </c:if><c:if test="${result.myLikeCheck ne 0}">
+                                            <button id="mbLike" type="button" class="btn btn-secondary btn-myLike unLike" onclick="mylike();" ><i class="fas fa-heart"></i></button>
+                                        </c:if>
+                                            <input type="hidden" id="mbval" value=""/>
+                                            <!-- 좋아요  -->    <input type="text"  class="col-2" id="mbcount" value="" />
+                                            <input type="hidden" id="mbnoVal" value="${mBoard.mbno }">
+
                                             <button id="updateBoard" type="button" class="btn btn-secondary" onclick="updateBoard();" >게시글 수정</button>
                                             <button id="deleteBoard" type="button" class="btn btn-secondary" onclick="deleteBoard();" >게시글 삭제</button>
                                         </div>
@@ -442,10 +358,15 @@
                     var $photo3 = $('#photo3 > img');
                     var $photo4 = $('#photo4 > img');
 
+                    var $likeCount = $('#mbcount');
+                    $likeCount.val(data.likeCount);
+                    console.log("좋아요 수 : " + data.likeCount );
+
                     // mbno 값 저장해두기
                     var $updateBoard = $('#updateBoard');
                     var $deleteBoard = $('#deleteBoard');
-                    var $mboardLike = $('#mboardLike');
+                    var $mbLike = $('#mbLike');
+
 
                     $photo1.attr('src', "");
                     $photo2.attr('src', "");
@@ -456,9 +377,9 @@
                     $location.html(data.mBoard.locationname + "<i class=\"fas fa-angle-down rotate-icon\"></i>");
                     $updateBoard.attr('onclick', "updateBoard(" + data.mBoard.mbno + ");");
                     $deleteBoard.attr('onclick', "deleteBoard(" + data.mBoard.mbno + ");");
-                    $mboardLike.attr('onclick', "mboardLike(" + data.mBoard.mbno + ");");
+                    $mbLike.attr('onclick', "mylike(" + data.mBoard.mbno + ");");
 
-
+                    //onclick="updateBoard();
                     for(var i in data.mAttachment){
                         $photo1.attr('src', "/Rang/resources/mBoardPhoto/"+data.mAttachment[0].mchangeName);
                         $photo2.attr('src', "/Rang/resources/mBoardPhoto/"+data.mAttachment[1].mchangeName);
@@ -766,28 +687,30 @@
             });
         }
 
-        // 좋아요 관련 스크립트
-        function mboardLike(mbno){
+        // 메인 게시글 좋아요 스크립트
+        function mylike(mbno){
             $.ajax({
                 url : '${pageContext.request.contextPath}/like.mb',
                 type : 'post',
-                data : { memno : ${member.userNo}, // 로그인 상태가 아닐때 신텍스에러 발생
+                data : { memno : ${member.userNo},
                     mbno : mbno },
                 success : function(data) {
-                    console.log(data);
-                    if(data.like == 0){
+                    if(data.myLike == 0){
                         // 좋아요 성공
                         console.log(data);
                         alert("좋아요 성공 !");
                         $('.btn-myLike').addClass('unLike');
+                        $('#mbcount').val(parseInt($('#mbcount').val()) + 1);
 
-                    } else if(data.like == 1) {
+                    } else if(data.myLike == 1) {
                         // 좋아요 취소
                         alert("좋아요 취소 !");
                         $('.btn-myLike').removeClass('unLike');
+                        $('#mbcount').val(parseInt($('#mbcount').val()) - 1);
                     }
-                },error : function(){
-                    alert("좋아요 실행 실패");
+                },
+                error : function(){
+                    alert("좋아요 실패");
                 }
             });
         }

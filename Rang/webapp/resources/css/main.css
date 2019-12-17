@@ -731,3 +731,106 @@ ul.social-buttons li a:active, ul.social-buttons li a:focus, ul.social-buttons l
   background: -webkit-linear-gradient(#fff, #999);
   background: -o-linear-gradient(#fff, #999);
 }
+
+/* 개인 수정용 */
+.unfollow{
+  background : sandybrown;
+}
+.navbar-nav text-uppercase ml-auto{
+  width : 503.770px;
+  height : 49.688px;
+  margin-left : 4.805em;
+}
+/*.modal-backdrop {*/
+/*    z-index: -1;*/
+/*}*/
+.modal {
+  /*position: absolute;*/
+  top: 50px;
+}
+.unLike {
+  color : red;
+}
+
+
+/* 모달 오픈시 스크롤 방지 */
+.modal-dialog{ overflow-y: initial !important }
+.modal-body{ height: 100%; overflow-y: auto; }
+body.modal-open {
+  overflow: hidden;
+  position:fixed;
+  width: 100%;
+}
+/*댓글용*/
+.detailBox {
+  width:auto;
+  border:1px solid #bbb;
+  margin:20px;
+}
+.titleBox {
+  background-color:#fdfdfd;
+  padding:10px;
+}
+.titleBox label{
+  color:#444;
+  margin:0;
+  display:inline-block;
+}
+.commentBox {
+  padding:10px;
+  border-top:1px dotted #bbb;
+}
+.commentBox .form-group:first-child, .actionBox .form-group:first-child {
+  width:80%;
+}
+.commentBox .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {
+  width:18%;
+}
+.actionBox .form-group * {
+  width:100%;
+}
+.taskDescription {
+  margin-top:10px;
+}
+.commentList {
+  padding:0;
+  list-style:none;
+  max-height:200px;
+  overflow:auto;
+}
+.commentList li {
+  margin:0;
+  margin-top:10px;
+}
+.commentList li > div {
+  display:table-cell;
+}
+.commenterImage {
+  width:30px;
+  margin-right:5px;
+  height:100%;
+  float: left;
+}
+.commenterImage img {
+  width:100%;
+  border-radius:50%;
+}
+.commentText p {
+  margin-left: 10px;
+  margin:0;
+}
+.sub-text {
+  color:#aaa;
+  font-family:verdana;
+  font-size:11px;
+}
+.actionBox {
+  border-top:1px dotted #bbb;
+  padding:10px;
+}
+.fa-save {
+  display : none;
+}
+.commentList > li[class] {
+  margin-left : 20px;
+}

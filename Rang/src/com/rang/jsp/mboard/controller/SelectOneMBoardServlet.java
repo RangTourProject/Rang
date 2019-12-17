@@ -1,11 +1,10 @@
 package com.rang.jsp.mboard.controller;
 
 import com.google.gson.Gson;
-import com.rang.jsp.like.model.service.LikeService;
-import com.rang.jsp.like.model.vo.ILike;
 import com.rang.jsp.mboard.model.service.MBoardService;
 import com.rang.jsp.mboardComment.model.service.MBoardCommnetService;
 import com.rang.jsp.mboardComment.model.vo.MBoardComment;
+import com.rang.jsp.myLike.model.service.MBLikeService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,13 +33,13 @@ public class SelectOneMBoardServlet extends HttpServlet {
         // 게시글 댓글 내용
         ArrayList<MBoardComment> clist = new MBoardCommnetService().MBCommnetList(mbno);
 
-        // 게시글 좋아요
-        ArrayList<ILike> likeList = new LikeService().whoLike(mbno);
+        // 좋아요 숫자 불러오기
+        int likeCount = new MBLikeService().mBoardLikeCount(mbno);
 
         // 게시글 댓글 조회한 내용을 게시글 HashMap에 추가하기
         mboard.put("clist", clist);
-
-        mboard.put("likeList", likeList);
+        // 좋아요 숫자 조회한 내용를 게시글 HashMap에 추가하기
+        mboard.put("likeCount",likeCount);
 
         // 확인
         System.out.println(mboard);
@@ -54,7 +53,5 @@ public class SelectOneMBoardServlet extends HttpServlet {
         }else {
             System.out.println("에러발생");
         }
-
-
     }
 }
