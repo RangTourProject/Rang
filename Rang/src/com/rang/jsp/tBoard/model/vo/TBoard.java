@@ -15,13 +15,18 @@ public class TBoard implements Serializable{
 	private String tbfile;
 	private Date tbdate;
 	private String status;
+	private String place;
+	private int minmember;
+	private int totalmember;
 
 	// 기본
 	public TBoard() {
 	}
 
-	// 전체
-	public TBoard(int tbno, int userno, String writer, String tbTitle, String tbContent, int maxmember, int tbcount, String tbfile, Date tbdate, String status) {
+
+	public TBoard(int tbno, int userno, String writer, String tbTitle, String tbContent, int maxmember, int tbcount,
+			String tbfile, Date tbdate, String status, String place, int minmember, int totalmember) {
+		super();
 		this.tbno = tbno;
 		this.userno = userno;
 		this.writer = writer;
@@ -32,33 +37,57 @@ public class TBoard implements Serializable{
 		this.tbfile = tbfile;
 		this.tbdate = tbdate;
 		this.status = status;
+		this.place = place;
+		this.minmember = minmember;
+		this.totalmember = totalmember;
 	}
 
 
+
+
+	@Override
+	public String toString() {
+		return "TBoard [tbno=" + tbno + ", userno=" + userno + ", writer=" + writer + ", tbTitle=" + tbTitle
+				+ ", tbContent=" + tbContent + ", maxmember=" + maxmember + ", tbcount=" + tbcount + ", tbfile="
+				+ tbfile + ", tbdate=" + tbdate + ", status=" + status + ", place=" + place + ", minmember=" + minmember
+				+ ", totalmember=" + totalmember + "]";
+	}
+
+
+
+
+	/**
+	 * @return the totalmember
+	 */
+	public int getTotalmember() {
+		return totalmember;
+	}
+
+
+
+
+	/**
+	 * @param totalmember the totalmember to set
+	 */
+	public void setTotalmember(int totalmember) {
+		this.totalmember = totalmember;
+	}
+
+
+
+
 	// insert 용
-	public TBoard(int userno, String writer, String tbTitle, String tbContent, String tbfile) {
+	public TBoard(int userno, String writer, String tbTitle, String tbContent, String tbfile, String place, int maxmember) {
 		this.userno = userno;
 		this.writer = writer;
 		this.tbTitle = tbTitle;
 		this.tbContent = tbContent;
 		this.tbfile = tbfile;
+		this.place = place;
+		this.maxmember = maxmember;
 	}
 
-	@Override
-	public String toString() {
-		return "TBoard{" +
-				"tbno=" + tbno +
-				", userno=" + userno +
-				", writer='" + writer + '\'' +
-				", tbTitle='" + tbTitle + '\'' +
-				", tbContent='" + tbContent + '\'' +
-				", maxmember=" + maxmember +
-				", tbcount=" + tbcount +
-				", tbfile='" + tbfile + '\'' +
-				", tbdate=" + tbdate +
-				", status='" + status + '\'' +
-				'}';
-	}
+
 
 	public int getTbno() {
 		return tbno;
@@ -139,4 +168,20 @@ public class TBoard implements Serializable{
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
+	public String getPlace() {
+		return place;
+	}
+
+	public void setPlace(String place) {
+		this.place = place;
+	}
+	public int getMinmember() {
+		return minmember;
+	}
+	
+	public void setMinmember(int minmember) {
+		this.minmember = minmember;
+	}
+
 }

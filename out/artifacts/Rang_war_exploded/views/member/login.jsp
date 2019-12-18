@@ -51,7 +51,7 @@
                         계정이 없으신가요? &nbsp;<a href="signUp.jsp">회원가입</a>
                     </div>
                     <div class="d-flex justify-content-center">
-                        <a href="#">비밀번호 찾기</a>
+                        <a href="find.jsp">아이디 / 비밀번호 찾기</a>
                     </div>
                 </div>
             </div>

@@ -2,11 +2,13 @@ package com.rang.jsp.planner.model.service;
 
 import com.rang.jsp.planner.model.dao.PlanDAO;
 import com.rang.jsp.planner.model.vo.City;
+import com.rang.jsp.planner.model.vo.CityPlan;
 import com.rang.jsp.planner.model.vo.Planner;
 
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static com.rang.jsp.common.JDBCTemplate.*;
 
@@ -75,15 +77,51 @@ public class PlanService {
         HashMap<String, Object> hmap = null;
 
         Planner plan = pdao.selectOnePlanner(con, userno);
+        ArrayList<CityPlan> cplist = pdao.loadCp(con, userno);
         ArrayList<City> cityList = pdao.loadCity(con);
 
         hmap = new HashMap<>();
 
         hmap.put("planner" , plan);
+        hmap.put("cpList", cplist);
         hmap.put("cityList", cityList);
 
         close(con);
 
         return hmap;
+    }
+
+    // 도시계획 추가
+    public int insertCityPlan(List<CityPlan> list) {
+        con = getConnection();
+
+        int result1 = 0;
+        int result2 = 0;
+
+        // 먼저 기존 데이터를 삭제하고
+        // 새로 데이터를 저장한다.
+
+        // 기존의 데이터 제거
+        result1 = pdao.deleteCityPlan(con, Integer.parseInt(list.get(0).getPlan_code()));
+
+        System.out.println("cp 삭제 체크 : " + result1);
+
+        // 반복문으로 각각의 리스트를 저장시킨다
+        for (CityPlan cp : list){
+            // 플랜 추가
+            result2 = pdao.insertCityPlan(con, cp);
+        }
+
+        System.out.println("cp 저장 체크 : " + result2);
+
+        if(result2 > 0){
+            commit(con);
+        }else {
+            rollback(con);
+        }
+        close(con);
+
+
+        return result2;
     }
 }

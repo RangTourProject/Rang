@@ -164,4 +164,34 @@ public class MemberDAO {
 
         return result;
     }
+
+    public int idDupCheck(Connection con, String email) {
+        int result = 0;
+
+        PreparedStatement pstmt = null;
+        ResultSet rset = null;
+
+        String sql = "SELECT COUNT(*) FROM MEMBER WHERE EMAIL = ?";
+
+        try {
+            pstmt = con.prepareStatement(sql);
+
+            pstmt.setString(1, email);
+
+            rset = pstmt.executeQuery();
+
+            if(rset.next()) {
+                result = rset.getInt(1);
+            }
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+
+        } finally {
+            close(rset);
+            close(pstmt);
+        }
+
+        return result;
+    }
 }

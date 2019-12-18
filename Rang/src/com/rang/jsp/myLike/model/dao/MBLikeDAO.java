@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
 import static com.rang.jsp.common.JDBCTemplate.*;
 
 import com.rang.jsp.myLike.model.vo.MbLike;
@@ -32,6 +34,7 @@ public class MBLikeDAO {
 	 * return result; }
 	 */
 	
+	
 	// 메인 게시글 좋아요 숫자 불러올 메소드
 	public int MbLikeCount(Connection con, MbLike ml) {
 		int count = 0;
@@ -43,7 +46,7 @@ public class MBLikeDAO {
 		try {
 			pstmt = con.prepareStatement(sql);
 			
-			pstmt.setInt(1, ml.getmBno());
+			pstmt.setInt(1, ml.getmbno());
 			
 			count = pstmt.executeUpdate();
 		} catch (SQLException e) {			
@@ -172,6 +175,54 @@ public class MBLikeDAO {
 		return likeCount;
 	}
 
+
+	public ArrayList<MbLike> MBLlist(Connection con, int mbno) {
+		
+		ArrayList<MbLike> MBLlist = null;
+		
+        PreparedStatement pstmt = null;
+        ResultSet rset = null;
 	
 
+        String sql = "SELECT M.*, L.* FROM MEMBER M JOIN MBLIKE L ON (M.USERNO = L.USERNO) WHERE L.MBNO= ?";
+
+
+        try {
+
+            pstmt = con.prepareStatement(sql);
+
+            pstmt.setInt(1, mbno);
+
+            rset = pstmt.executeQuery();
+
+            MBLlist = new ArrayList<>();
+
+            while(rset.next()) {
+
+            	MbLike mbl = new MbLike();
+            	
+            	mbl.setmbno(rset.getInt("MBNO"));
+            	mbl.setUserNo(rset.getInt("USERNO"));
+            	mbl.setNickName(rset.getString("NICKNAME"));
+            	
+            	MBLlist.add(mbl);
+            	
+            }
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+
+        } finally {
+
+            close(rset);
+            close(pstmt);
+
+        }
+
+        return MBLlist;
+    }
 }
+
+
+	

@@ -70,4 +70,14 @@ public class MemberService {
 
         return result;
     }
+
+    public int idDupCheck(String email) {
+        con = getConnection();
+
+        int result = mdao.idDupCheck(con, email);
+
+        close(con);
+
+        return result;
+    }
 }

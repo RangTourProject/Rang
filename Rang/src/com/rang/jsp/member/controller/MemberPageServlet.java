@@ -68,6 +68,8 @@ public class MemberPageServlet extends HttpServlet {
 			request.setAttribute("mBoardCount", mBoardCount);
 
 			page = "views/myPage/myPage.jsp";
+		}else {
+			page = "views/common/errorPage.jsp";
 		}
 		request.getRequestDispatcher(page).forward(request, response);
 	}

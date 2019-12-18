@@ -6,10 +6,12 @@ public class CityPlan {
     private String plan_code;
     private String city_name;
     private int day; // 여행일수
-    private String tran;
+    private String trans;
     private String startday; // 교통수단, 시작일
+    private float lat;
+    private float lng;
 
-    private City city;
+    //    private City city;
     private int totalDay;
 
     private String userno;
@@ -17,16 +19,59 @@ public class CityPlan {
     public CityPlan() {
     }
 
-    public CityPlan(String cp_code, String plan_code, String city_name, int day, String tran, String startday, City city, int totalDay, String userno) {
+    public CityPlan(String plan_code, String city_name, int day, String trans, String startday) {
+        this.plan_code = plan_code;
+        this.city_name = city_name;
+        this.day = day;
+        this.trans = trans;
+        this.startday = startday;
+    }
+
+
+    public CityPlan(String cp_code, String plan_code, String city_name, int day, String trans, String startday, float lat, float lng, int totalDay, String userno) {
         this.cp_code = cp_code;
         this.plan_code = plan_code;
         this.city_name = city_name;
         this.day = day;
-        this.tran = tran;
+        this.trans = trans;
         this.startday = startday;
-        this.city = city;
+        this.lat = lat;
+        this.lng = lng;
         this.totalDay = totalDay;
         this.userno = userno;
+    }
+
+
+    @Override
+    public String toString() {
+        return "CityPlan{" +
+                "cp_code='" + cp_code + '\'' +
+                ", plan_code='" + plan_code + '\'' +
+                ", city_name='" + city_name + '\'' +
+                ", day=" + day +
+                ", trans='" + trans + '\'' +
+                ", startday='" + startday + '\'' +
+                ", lat=" + lat +
+                ", lng=" + lng +
+                ", totalDay=" + totalDay +
+                ", userno='" + userno + '\'' +
+                '}';
+    }
+
+    public Float getLat() {
+        return lat;
+    }
+
+    public void setLat(float lat) {
+        this.lat = lat;
+    }
+
+    public Float getLng() {
+        return lng;
+    }
+
+    public void setLng(float lng) {
+        this.lng = lng;
     }
 
     public String getCp_code() {
@@ -61,12 +106,12 @@ public class CityPlan {
         this.day = day;
     }
 
-    public String getTran() {
-        return tran;
+    public String getTrans() {
+        return trans;
     }
 
-    public void setTran(String tran) {
-        this.tran = tran;
+    public void setTrans(String trans) {
+        this.trans = trans;
     }
 
     public String getStartday() {
@@ -75,14 +120,6 @@ public class CityPlan {
 
     public void setStartday(String startday) {
         this.startday = startday;
-    }
-
-    public City getCity() {
-        return city;
-    }
-
-    public void setCity(City city) {
-        this.city = city;
     }
 
     public int getTotalDay() {
@@ -101,18 +138,4 @@ public class CityPlan {
         this.userno = userno;
     }
 
-    @Override
-    public String toString() {
-        return "CityPlan{" +
-                "cp_code='" + cp_code + '\'' +
-                ", plan_code='" + plan_code + '\'' +
-                ", city_name='" + city_name + '\'' +
-                ", day=" + day +
-                ", tran='" + tran + '\'' +
-                ", startday='" + startday + '\'' +
-                ", city=" + city +
-                ", totalDay=" + totalDay +
-                ", userno='" + userno + '\'' +
-                '}';
-    }
 }

@@ -33,16 +33,31 @@ public class SelectOneMBoardServlet extends HttpServlet {
         // 게시글 댓글 내용
         ArrayList<MBoardComment> clist = new MBoardCommnetService().MBCommnetList(mbno);
 
+        // 게시글 댓글 조회한 내용을 게시글 HashMap에 추가하기
+        mboard.put("clist", clist);
+
+
         // 좋아요 숫자 불러오기
         int likeCount = new MBLikeService().mBoardLikeCount(mbno);
 
         // 게시글 댓글 조회한 내용을 게시글 HashMap에 추가하기
         mboard.put("clist", clist);
+
         // 좋아요 숫자 조회한 내용를 게시글 HashMap에 추가하기
         mboard.put("likeCount",likeCount);
 
         // 확인
         System.out.println(mboard);
+
+
+
+        // 게시글에 좋아요한 사용자 리스트
+        // ArrayList<LikeUserVo> LUlist = new LikeService().LikeUserList(mbno);
+
+        // 확인
+        // System.out.println("lulist확인 : " + LUlist);
+
+        // mboard.put("LUlist", LUlist);
 
         if(mboard != null){
 
@@ -53,5 +68,7 @@ public class SelectOneMBoardServlet extends HttpServlet {
         }else {
             System.out.println("에러발생");
         }
+
+
     }
 }

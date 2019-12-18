@@ -1,10 +1,13 @@
 package com.rang.jsp.myLike.model.vo;
 
+import java.util.ArrayList;
+
 public class MbLike {
 	
-	
+	// 20191217 add nickName -Seoan-
 	private int userNo;
-	private int mBno;
+	private int mbno;
+	private String nickName;
 	
 	
 	public MbLike() {
@@ -13,16 +16,17 @@ public class MbLike {
 	}
 
 	
-	public MbLike(int userNo, int mBno) {
+	public MbLike(int userNo, int mbno, String nickName) {
 		super();
 		this.userNo = userNo;
-		this.mBno = mBno;
+		this.mbno = mbno;
+		this.nickName = nickName;
 	}
 
 
 	@Override
 	public String toString() {
-		return "MbLike [userNo=" + userNo + ", mBno=" + mBno + "]";
+		return "MbLike [userNo=" + userNo + ", mbno=" + mbno + ", nickName=" + nickName + "]";
 	}
 
 
@@ -36,17 +40,25 @@ public class MbLike {
 	}
 
 
-	public int getmBno() {
-		return mBno;
+	public int getmbno() {
+		return mbno;
 	}
 
 
-	public void setmBno(int mBno) {
-		this.mBno = mBno;
+	public void setmbno(int mbno) {
+		this.mbno = mbno;
 	}
 	
 	
-	
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
+
 	
 	
 	

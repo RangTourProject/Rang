@@ -1,6 +1,7 @@
 package com.rang.jsp.planner.model.dao;
 
 import com.rang.jsp.planner.model.vo.City;
+import com.rang.jsp.planner.model.vo.CityPlan;
 import com.rang.jsp.planner.model.vo.Planner;
 
 import java.sql.*;
@@ -141,5 +142,107 @@ public class PlanDAO {
         return result;
 
 
+    }
+
+    // cityplan 추가용
+    public int insertCityPlan(Connection con, CityPlan cp) {
+        int result = 0;
+
+        PreparedStatement pstmt = null;
+
+        try {
+
+            String sql = "insert into CITYPLAN values (seq_cp.nextval, ?, ?, ?, ?, to_date(?, 'YYYY-MM-DD'))";
+
+            pstmt = con.prepareStatement(sql);
+
+            pstmt.setInt(1, Integer.parseInt(cp.getPlan_code()));
+            pstmt.setString(2, cp.getCity_name());
+            pstmt.setInt(3, cp.getDay());
+            pstmt.setString(4, cp.getTrans());
+            pstmt.setString(5, cp.getStartday());
+
+            result = pstmt.executeUpdate();
+
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            close(pstmt);
+        }
+
+        return result;
+    }
+
+    // cityplan 삭제용
+    public int deleteCityPlan(Connection con, int plancode) {
+        int result = 0;
+
+        PreparedStatement pstmt = null;
+
+        try {
+
+            String sql = "delete from CITYPLAN where plan_code = ?";
+
+            pstmt = con.prepareStatement(sql);
+
+            pstmt.setInt(1, plancode);
+
+            result = pstmt.executeUpdate();
+
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            close(pstmt);
+        }
+
+        return result;
+    }
+
+    // 기존 저장된 플랜 리스트 로드용
+    public ArrayList<CityPlan> loadCp(Connection con, int userno) {
+        ArrayList<CityPlan> list = null;
+
+        PreparedStatement pstmt = null;
+        ResultSet rset = null;
+
+        try {
+
+            String sql = "select * from CITYPLAN join planner using (plan_code) join CITY using (CITY_NAME) where USERNO = ?";
+
+            pstmt = con.prepareStatement(sql);
+
+            pstmt.setInt(1, userno);
+
+            rset = pstmt.executeQuery();
+
+            list = new ArrayList<>();
+
+            while (rset.next()){
+
+                CityPlan cp = new CityPlan();
+
+                cp.setPlan_code(rset.getString("plan_code"));
+                cp.setCp_code(rset.getString("cp_code"));
+                cp.setCity_name(rset.getString("city_name"));
+                cp.setDay(rset.getInt("day"));
+                cp.setTrans(rset.getString("trans"));
+                cp.setStartday(rset.getString("startday"));
+                cp.setUserno(rset.getString("userno"));
+                cp.setLat(rset.getFloat("lat"));
+                cp.setLng(rset.getFloat("lng"));
+
+                list.add(cp);
+            }
+
+            System.out.println("list 확인 : " + list);
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            close(rset);
+            close(pstmt);
+        }
+
+        return list;
     }
 }

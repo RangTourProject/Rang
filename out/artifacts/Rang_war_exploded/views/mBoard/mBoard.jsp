@@ -6,6 +6,116 @@
 <head>
     <title>메인 게시판</title>
     <c:import url="../common/commonUtil.jsp"/>
+
+    <style>
+        /*.modal-backdrop {*/
+        /*    z-index: -1;*/
+        /*}*/
+        .modal {
+            /*position: absolute;*/
+            top: 50px;
+        }
+
+        /* 모달 오픈시 스크롤 방지 */
+        .modal-dialog{ overflow-y: initial !important }
+        .modal-body{ height: 100%; overflow-y: auto; }
+        body.modal-open {
+            overflow: hidden;
+            position:fixed;
+            width: 100%;
+        }
+        /*댓글용*/
+        .detailBox {
+            width:auto;
+            border:1px solid #bbb;
+            margin:20px;
+        }
+        .titleBox {
+            background-color:#fdfdfd;
+            padding:10px;
+        }
+        .titleBox label{
+            color:#444;
+            margin:0;
+            display:inline-block;
+        }
+
+        .commentBox {
+            padding:10px;
+            border-top:1px dotted #bbb;
+        }
+        .commentBox .form-group:first-child, .actionBox .form-group:first-child {
+            width:80%;
+        }
+        .commentBox .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {
+            width:18%;
+        }
+        .actionBox .form-group * {
+            width:100%;
+        }
+        .taskDescription {
+            margin-top:10px;
+        }
+        .commentList {
+            padding:0;
+            list-style:none;
+            max-height:200px;
+            overflow:auto;
+        }
+        .commentList li {
+            margin:0;
+            margin-top:10px;
+        }
+        .commentList li > div {
+            display:table-cell;
+        }
+        .commenterImage {
+            width:30px;
+            margin-right:5px;
+            height:100%;
+            float: left;
+        }
+        .commenterImage img {
+            width:100%;
+            border-radius:50%;
+        }
+        .commentText p {
+            margin-left: 10px;
+            margin:0;
+        }
+        .sub-text {
+            color:#aaa;
+            font-family:verdana;
+            font-size:11px;
+        }
+        .actionBox {
+            border-top:1px dotted #bbb;
+            padding:10px;
+        }
+        .fa-save {
+            display : none;
+        }
+        .commentList > li[class] {
+            margin-left : 20px;
+        }
+        
+        #idid {
+ 		 display: flex;
+  		flex-direction: column;
+  		justify-content: center;
+  		
+		}
+
+		
+		.unlike {
+		color : red;
+		
+		}
+		
+		
+		
+
+    </style>
 </head>
 <body>
 <c:import url="../common/nav.jsp"/>
@@ -23,7 +133,10 @@
             <!-- 게시글 조회 -->
             <%--        <div class="row">--%>
             <c:forEach var="mboard" items="${list}">
-                <div class="col-md-4 col-sm-6 mboard-item">
+
+                <!--modal에 id주기 -->
+                <div class="col-md-4 col-sm-6 mboard-item" id="${mboard.mbno}">
+
                     <a class="mboard-link" data-toggle="modal" onclick="modalCall(${mboard.mbno});" href="#modal1">
                         <div class="mboard-hover">
                             <div class="mboard-hover-content">
@@ -36,7 +149,7 @@
                         <h4 class="d-block">${mboard.mbtitle}</h4>
                         <ul class="float-right d-inline-block">
                             <li style="display: inline-block; margin-right: 5px">
-                                <i class="far fa-heart mbcount" style="margin-right: 5px; color:#fed136;" ></i>준비
+                                <i class="far fa-heart" style="margin-right: 5px; color:#fed136;"></i>준비
                             </li>
                             <li style="display: inline-block; margin-right: 5px">
                                 <i class="far fa-comment" style="margin-right: 5px; color:#fed136;"></i>준비중
@@ -121,163 +234,100 @@
                         <!-- 모달 내용 부분 -->
 
                         <div class="col-lg-6">
-                            <!-- 타이트 제목 -->
+                            <!-- 타이틀 제목 -->
+                            
+                           
+                            
+                            <br>
                             <h2 class="h2-responsive" id="modalTitle">
                                 <strong></strong>
                             </h2>
                             <h4 class="h4-responsive">
                             </h4>
+                            <br>
 
                             <!-- 아코디언 효과 -->
+
+
                             <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
 
-                                <!-- 아코디언 card -->
-                                <div class="card">
 
-                                    <!-- 1번째 아코디언 헤더 -->
-                                    <div class="card-header" role="tab" id="locationName">
-                                        <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne1" aria-expanded="true"
-                                           aria-controls="collapseOne1">
-                                            <h5 class="mb-0">
-                                                <!-- 소 제목 1-->
-                                                <i class="fas fa-angle-down rotate-icon"></i>
-                                            </h5>
-                                        </a>
-                                    </div>
 
-                                    <!-- Card body -->
-                                    <div id="collapseOne1" class="collapse show" role="tabpanel" aria-labelledby="headingOne1"
-                                         data-parent="#accordionEx">
-                                        <div class="card-body">
-                                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
-                                            squid. 3
-                                            wolf moon officia aute,
-                                            non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
-                                        </div>
-                                    </div>
+                                <ul class="list-group">
+                                
+                                
+								  <li class="list-group-item" id="Writer"> Writer </li>
+                                  <li class="list-group-item" style="height : 80px; vertical-align:top;" id="idid" > </li>
+                                  
+               <!--                    <li class="list-group-item" id="locationName"> 여행지 </li>
+                                  <li class="list-group-item" id="TotalCost"> 금액 </li>  -->
+       				           	  <li class="list-group-item" id="HashTag"> hashTag </li>
+                                  <li class="list-group-item" id="mbdate"> 날짜 </li> 
+                                 
+                                  
+                                  
+                                </ul> 
+                                
+                                <br/>
+                                 
+                     <!--            <ul class="list-group list-group-flush">
+                                
+							    <li class="list-group-item" id="mbdate"></li>
+						
+								</ul> --> 
+                                
+                                <br/>
 
-                                </div>
-                                <!-- Accordion card -->
-
-                                <!-- Accordion card -->
-                                <div class="card">
-
-                                    <!-- Card header -->
-                                    <div class="card-header" role="tab" id="headingTwo2">
-                                        <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseTwo2"
-                                           aria-expanded="false" aria-controls="collapseTwo2">
-                                            <h5 class="mb-0">
-                                                Collapsible Group Item #2 <i class="fas fa-angle-down rotate-icon"></i>
-                                            </h5>
-                                        </a>
-                                    </div>
-
-                                    <!-- Card body -->
-                                    <div id="collapseTwo2" class="collapse" role="tabpanel" aria-labelledby="headingTwo2"
-                                         data-parent="#accordionEx">
-                                        <div class="card-body">
-                                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
-                                            squid. 3
-                                            wolf moon officia aute,
-                                            non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <!-- Accordion card -->
-
-                                <!-- Accordion card -->
-                                <div class="card">
-
-                                    <!-- Card header -->
-                                    <div class="card-header" role="tab" id="headingThree3">
-                                        <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseThree3"
-                                           aria-expanded="false" aria-controls="collapseThree3">
-                                            <h5 class="mb-0">
-                                                Collapsible Group Item #3 <i class="fas fa-angle-down rotate-icon"></i>
-                                            </h5>
-                                        </a>
-                                    </div>
-
-                                    <!-- Card body -->
-                                    <div id="collapseThree3" class="collapse" role="tabpanel" aria-labelledby="headingThree3"
-                                         data-parent="#accordionEx">
-                                        <div class="card-body">
-                                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
-                                            squid. 3
-                                            wolf moon officia aute,
-                                            non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <!-- Accordion card -->
-                                <!-- Accordion card -->
-                                <div class="card">
-
-                                    <!-- Card header -->
-                                    <div class="card-header" role="tab" id="headingThree4">
-                                        <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseThree4"
-                                           aria-expanded="false" aria-controls="collapseThree4">
-                                            <h5 class="mb-0">
-                                                Collapsible Group Item #3 <i class="fas fa-angle-down rotate-icon"></i>
-                                            </h5>
-                                        </a>
-                                    </div>
-
-                                    <!-- Card body -->
-                                    <div id="collapseThree4" class="collapse" role="tabpanel" aria-labelledby="headingThree4"
-                                         data-parent="#accordionEx">
-                                        <div class="card-body">
-                                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
-                                            squid. 3
-                                            wolf moon officia aute,
-                                            non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <!-- Accordion card -->
-
-                                <!-- Accordion card -->
-                                <div class="card">
-
-                                    <!-- Card header -->
-                                    <div class="card-header" role="tab" id="headingThree5">
-                                        <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseThree5"
-                                           aria-expanded="false" aria-controls="collapseThree5">
-                                            <h5 class="mb-0">
-                                                소셜 기능 <i class="fas fa-angle-down rotate-icon"></i>
-                                            </h5>
-                                        </a>
-                                    </div>
-
-                                    <!-- Card body -->
-                                    <div id="collapseThree5" class="collapse" role="tabpanel" aria-labelledby="headingThree5"
-                                         data-parent="#accordionEx">
-                                        <div class="card-body">
-                                            <!-- 좋아요를 누른 상태인지 c:if로 구별해 색상을 바꾸기 위해서 나누었습니다  -->
-                                            <c:if test="${result.myLikeCheck eq 0}">
-                                                <button id="mbLike" type="button" class="btn btn-secondary btn-myLike" onclick="mylike();"><i class="fas fa-heart"></i></button>
-                                            </c:if><c:if test="${result.myLikeCheck ne 0}">
+                              
+                                 
+									<!-- 좋아요를 누른 상태인지 c:if로 구별해 색상을 바꾸기 위해서 나누었습니다  -->
+                                       <c:if test="${result.myLikeCheck eq 0}">
+                                             <button id="mbLike" type="button" class="btn btn-secondary btn-myLike" onclick="mylike();"><i class="fas fa-heart"></i></button>
+                                       </c:if><c:if test="${result.myLikeCheck ne 0}">
                                             <button id="mbLike" type="button" class="btn btn-secondary btn-myLike unLike" onclick="mylike();" ><i class="fas fa-heart"></i></button>
-                                        </c:if>
-                                            <input type="hidden" id="mbval" value=""/>
-                                            <!-- 좋아요  -->    <input type="text"  class="col-2" id="mbcount" value="" />
-                                            <input type="hidden" id="mbnoVal" value="${mBoard.mbno }">
+                                       </c:if>
 
-                                            <button id="updateBoard" type="button" class="btn btn-secondary" onclick="updateBoard();" >게시글 수정</button>
-                                            <button id="deleteBoard" type="button" class="btn btn-secondary" onclick="deleteBoard();" >게시글 삭제</button>
+                                            <input type="hidden" id="mbnoVal" value=""/>
+
+                                            <!-- 좋아요 개수 -->
+                                            <!-- 현재 목록을 가지고온상태, 모달을 가지고 왔을때 mbno가 생겨야함 -->
+                                            <input type="text" class="col-2" id="mbcount" value="" />
+                                            
+                                        <!-- 게시글 수정 및 삭제 -->
+                                        <div>
+<%--                                            <c:if test="${member.userNo ne MBoard.userno}">--%>
+                                                <%--                                             ${member.userNo ne MBoard.userno}--%>
+                                                <button id="updateBoard" type="button" class="btn btn-secondary" onclick="updateBoard();">게시글 수정</button>
+                                                <button id="deleteBoard" type="button" class="btn btn-secondary" onclick="deleteBoard();">게시글 삭제</button>
+<%--                                            </c:if>--%>
                                         </div>
-                                    </div>
 
-                                </div>
+										 
+                                            <!--  <button id="deleteBoard" type="button" class="btn btn-secondary" data-dismiss="modal" value="" onclick="deleteBoard(this);">게시글 삭제</button> -->
+
+
+
+                                            <!-- 이중모달 공사중 -->
+                                            <!-- Small modal -->
+                                            <!--  data target 에서 이름을 이미 줌  -->
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".likelist-modal-sm" onclick="likelist();">Like list</button>
+                                  
+                                        
+
+                                  <!-- List group -->
+
+                                <!-- 아코디언 card-->
+
+                      
+
                                 <!-- Accordion card -->
 
                             </div>
                             <!-- Accordion wrapper -->
 
                         </div>
+                        
+                        
 
                         <!-- 댓글 작성 -->
 
@@ -333,10 +383,44 @@
             </div>
         </div>
     </div>
+    
+                                        <!-- 이중모달 공사중 -->
+                                    <!-- Small modal -->
+
+                                    <div class="modal fade likelist-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-sm" role="document">
+                                            <div class="modal-content">
+
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">좋아요 list</h5>
+                                                </div>
+
+                                                <div class="modal-body" id="likeList">
+                                                </div>
+
+                                                <div class="modal-footer">
+
+                                                    <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                           
+                          <!-- 스크롤 -->  
+                              
+                   <script src="${pageContext.request.contextPath}/resources/js/scroll.js"></script>
+     
+      <!-- 이중모달 공사중 -->
+      
+      
 
     <!-- 모달 ajax -->
     <script>
         loginUserNo = '${member.userNo}';
+
 
         // 이미지와 게시글 내용 불러오기
         function modalCall(mbno){
@@ -352,20 +436,69 @@
 
                     // 게시글 이미지 & 텍스트 불러오기
                     var $title = $('#modalTitle > strong');
-                    var $location = $('#locationName > a > h5');
+            /*   	var $location = $('#locationName').text(data.mBoard.locationname); */
                     var $photo1 = $('#photo1 > img');
                     var $photo2 = $('#photo2 > img');
                     var $photo3 = $('#photo3 > img');
                     var $photo4 = $('#photo4 > img');
+                    
+			        var $Writer = $('#Writer').text(data.mBoard.writer);
+            /*      var $TotalCost = $('#TotalCost').text(data.mBoard.totalcost); */
+                    var $HashTag = $('#HashTag').html(data.mBoard.hashtag);
+                    var $mbdate = $('#mbdate').text(data.mBoard.mbdate);
+                    
+                    
+                   // 1번째 : 유저닉네임, location 
+                   
+                    $('#idid').empty();
+
+                        if (data != 0) {
+                 
+                        $('#idid').append( /* data.mBoard.writer + "<br>" +   */'Location : ' + data.mBoard.locationname + "<br>" + 'Cost : ' + data.mBoard.totalcost + ' 원' );
+                        	 
+                        } else {
+                        	
+                        };
+                        
+                        
+                        /*
+        
+                         // 게시글 수정 & 삭제버튼 안보이게
+                        if(loginUserNo == data.mBoard.userNo){
+                        	
+                        	   $('#updateBoard').append;
+                        	   $('#deleteBoard');
+                       
+                        } else {
+                        	
+                        	$('#updateBoard').hidden.append;
+                       	  	$('#deleteBoard').hidden;
+                        	
+                        };
+
+                        
+                        
+      var button1 = $('<button id="updateBoard" type="button" class="btn btn-secondary" onclick="updateBoard();">'게시글 수정'</button>');
+        var button2 = $('<button id="deleteBoard" type="button" class="btn btn-secondary" onclick="deleteBoard();">'게시글 삭제'</button>');          
+        */    
 
                     var $likeCount = $('#mbcount');
                     $likeCount.val(data.likeCount);
-                    console.log("좋아요 수 : " + data.likeCount );
+                    //console.log("좋아요 수 : " + data.likeCount );
+					
+                    // like  
 
-                    // mbno 값 저장해두기
+                    // 값 저장해두기
                     var $updateBoard = $('#updateBoard');
+                    var $mboardLike = $('#mboardLike');
                     var $deleteBoard = $('#deleteBoard');
-                    var $mbLike = $('#mbLike');
+                    $('#deleteBoard').val(mbno);
+                    // var $mbLike = $('#mbLike');
+                    $('#mbnoVal').val(mbno);
+                    $('#likeList').val(mbno);
+
+                    
+               
 
 
                     $photo1.attr('src', "");
@@ -374,10 +507,10 @@
                     $photo4.attr('src', "");
 
                     $title.text(data.mBoard.mbtitle);
-                    $location.html(data.mBoard.locationname + "<i class=\"fas fa-angle-down rotate-icon\"></i>");
+                   // $location.html(data.mBoard.locationname + "<i class=\"fas fa-angle-down rotate-icon\"></i>");
                     $updateBoard.attr('onclick', "updateBoard(" + data.mBoard.mbno + ");");
                     $deleteBoard.attr('onclick', "deleteBoard(" + data.mBoard.mbno + ");");
-                    $mbLike.attr('onclick', "mylike(" + data.mBoard.mbno + ");");
+                    $mboardLike.attr('onclick', "mboardLike(" + data.mBoard.mbno + ");");
 
                     //onclick="updateBoard();
                     for(var i in data.mAttachment){
@@ -387,6 +520,8 @@
                         $photo4.attr('src', "/Rang/resources/mBoardPhoto/"+data.mAttachment[3].mchangeName);
                     }
                     // 게시글 이미지 & 텍스트 불러오기 끝
+
+
 
                     // 댓글 불러오기
                     // 댓글 초기화
@@ -416,6 +551,21 @@
 
                         // 해당 댓글 수정/삭제
                         var $div3 = $('<div><i class="fas fa-edit"></i><i class="fas fa-save"></i>&nbsp;<i class="fas fa-trash-alt"></i>');
+                        
+                        /*
+                        // 버튼 안보이게
+                        var $button1 = $('<button id="updateBoard" type="button" class="btn btn-secondary" onclick="updateBoard();">게시글 수정</button>');
+           			 	var $button2 = $('<button id="deleteBoard" type="button" class="btn btn-secondary" onclick="deleteBoard();">게시글 삭제</button>');
+                     
+           			 	
+         		 	
+                     	if(data.mBoard.userno == loginUserNo){
+                     		
+                     	} else {
+                     		
+                     	}
+           			 	 */
+                     	
 
                         $div1.append($img);
 
@@ -466,15 +616,15 @@
                 success : function(data){
 
                     console.log(data);
-                    // 댓글 한 개 담는 태그
-
                     // var a; : 자바스트립트 변수. 흔히 아는 방식으로 스크립트만 사용가능
                     // var $a; : 제이쿼리에서 사용하는 내장함수들을 모두 사용O
                     //         .css(), .hide(), .show()등 모든 스크립트 사용이 가능함
 
-                    // li태그로 클래스주고 정렬(은 자동으로 DAO에서 하게끔
-                    // 그냥 lv만 따로 뺴서 묶기
+                    // li태그로 클래스주고 정렬(은 자동으로 DAO에서 하게끔)
+                    // 그냥 lv만 따로 빼서 묶기
 
+
+                    // 댓글 한 개 담는 태그
                     var $li;
 
                     var $appender;
@@ -496,14 +646,16 @@
                         $appender = $('#'+anchor.substring(1));
                     }
 
-                    /* 댓글 실험중 */
-                    // 해당 댓글 작성자 사진
+
+                    
                     // 주석부분1
+                    // 해당 댓글 작성자 사진
                     var $div1 = $('<div class="commenterImage">');
                     var $img = $('<img src="http://placekitten.com/50/50" />');
 
-                    // 해당 댓글 내용
+                
                     // 주석 부분2
+                    // 해당 댓글 내용
                     var $div2 = $('<div class="commentText">');
                     var $p = $('<p>');
                     var $span = $('<span class="date sub-text">');
@@ -514,7 +666,10 @@
                     // append() 현재 선택된 문서요소의 마지막 자식으로 새로운 문서 요소를 추가
                     // insert() 현재 선택된 문서요소의 지정된 요소 앞에 새로운 문서 요소를 추가
 
+                    
                     $div1.append($img);
+                    
+                 	// 해당 댓글유저
                     $div2.append($p.html(anchorTagGenerator($('#myComment').val())))
                     $div2.append($p.text($('#myComment').val()))
                         .append($span.text('방금 전'));
@@ -524,12 +679,12 @@
                         .append($div3);
 
                     if($('#clevelCo').val() == 0){
-                        console.log($li);
-                        console.log($appender);
+                  /*       console.log($li);
+                        console.log($appender); */
                         $appender.append($li);
                     } else {
-                        console.log($li);
-                        console.log($appender);
+                   /*      console.log($li);
+                        console.log($appender); */
                         $li.insertAfter($appender);
                     }
 
@@ -562,7 +717,7 @@
             }
         }
 
-        // 게시글 수정 삭제 등록 아이콘 호출
+        // 댓글 수정 및 삭제 등록 아이콘 호출
         function icon_event(){
 
             // @ anchor 적용
@@ -634,7 +789,7 @@
                 });
             });
 
-            // 삭제
+            // 댓글삭제
             $('.fa-trash-alt').on('click',function(){
 
                 var mcno = $(this).parents('li').attr('id');
@@ -656,44 +811,58 @@
                 });
             });
         }
+        
+        
+       
 
         // 게시글 수정
         function updateBoard(mbno) {
+
             location.href = "${pageContext.request.contextPath}/mUpView.mb?mbno="+mbno;
         }
 
         // 게시글 삭제
         function deleteBoard(mbno){
+
+            location.href = "${pageContext.request.contextPath}/delete.mb?mbno="+mbno;
+
+
+            /*
+            // 게시글 삭제시 참조할 번호
+            var mbno = $(obj).val();
+
             $.ajax({
-                url : "${pageContext.request.contextPath}/delete.mb",
-                type : "post",
-                data : {mbno : mbno},
-                success : function(data) {
+              url : "delete.mb",
+              type : "post",
+              data : {mbno : mbno},
+              success : function(data) {
 
-                    if (data > 0 ) {
+                  if (data > 0 ) {
 
-                        alert ("게시글이 삭제되었습니다.");
-                        $('div#'+mbno).remove();
+                      alert ("게시글이 삭제되었습니다.");
+                      $('div#'+mbno).remove();
 
-                    } else {
+                  } else {
 
-                        alert("failed");
-                    }
+                      alert("failed");
+                  }
 
-                },error : function(){
-                    alert("error 발생")
-                }
+              },error : function(){
+                   alert("error 발생")
+              }
 
-            });
+            });*/
         }
 
+
         // 메인 게시글 좋아요 스크립트
-        function mylike(mbno){
+        function mylike(){
+        	        
             $.ajax({
                 url : '${pageContext.request.contextPath}/like.mb',
                 type : 'post',
-                data : { memno : ${member.userNo},
-                    mbno : mbno },
+                data : {memno : '${member.userNo}',
+                    mbno : $('#mbnoVal').val()},
                 success : function(data) {
                     if(data.myLike == 0){
                         // 좋아요 성공
@@ -708,20 +877,58 @@
                         $('.btn-myLike').removeClass('unLike');
                         $('#mbcount').val(parseInt($('#mbcount').val()) - 1);
                     }
-                },
-                error : function(){
+                }, error : function(){
                     alert("좋아요 실패");
                 }
             });
         }
 
+
+          // 좋아요 누른 회원 list
+            function likelist(){
+        	  
+        	  
+             $.ajax({
+
+              url : '${pageContext.request.contextPath}/likeList.mb',
+              type : 'post',
+              data : {
+            	  
+            	  mbno : $('#mbnoVal').val()
+            	  
+              }, success : function(data) {
+
+            	  console.log(data);
+
+                  $('#likeList').empty();
+
+                  for(var i in data){
+
+                      // 회원 한명 닉네임 담는 태그
+                      var $li;
+
+                      if (data != 0) {
+                          $li = $('<li style="list-style : none; ">'+data[i].nickName+'</li> <br>');
+                          
+                          $('#likeList').append($li);
+
+                      // 데이터가 없으면 "좋아요를 누른 회원이 없습니다"
+                      } else {
+                    	  alert("아직 좋아요가 없네요ㅠ_");
+                      }
+
+              	}
+              }
+           }); 
+          }
     </script>
+
 
 </section>
 
 <c:import url="../common/footer.jsp"/>
 
-<!-- 스크롤 관련 스크립트 -->
+<!— 스크롤 관련 스크립트 —>
 <script src="${pageContext.request.contextPath}/resources/js/scroll.js"></script>
 
 </body>

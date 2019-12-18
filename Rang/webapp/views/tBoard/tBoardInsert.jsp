@@ -53,20 +53,44 @@
 
                     <!-- 텍스트 -->
                     <div class="form-group">
+                        <input type="hidden" class="form-control" id="userNo" name="userNo" placeholder="유저번호" value="${member.userNo}" >
+                    </div>
+                    <div class="form-group">
                         <input type="text" class="form-control" id="bTitle" name="tbTitle" placeholder="제목" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="place" name="place" placeholder="장소(ex.도시, 지역, 국가)">
                     </div>
                     <div class="form-group">
                         <input type="hidden" class="form-control" id="writer" name="writer" value="${member.nickName}" placeholder="작성자" >
                     </div>
                     <div class="form-group">
-                        <input type="hidden" class="form-control" id="userNo" name="userNo" placeholder="유저번호" value="${member.userNo}" >
+                        <input type="number" min="1" max="8" class="form-control" id="maxmember" name="maxmember" placeholder="모집인원(최대 8명)">
                     </div>
+                    
+                    
+                   <!--  <div class="form-group">
+							<h6>모집인원</h6>
+							<select id="maxmember" name="maxmember">
+								<option>1</option>
+								<option>2</option>
+								<option>3</option>
+								<option>4</option>
+								<option>5</option>
+								<option>6</option>
+								<option>7</option>
+								<option>8</option>
+							</select>
+                    </div> -->
+                    
+                    
                 <!--     <div class="form-group">
                         <input type="text" class="form-control" id="totalCost" name="totalCost" placeholder="비용" required>
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" id="hashTag" name="hashTag" placeholder="#태그" required>
                     </div> -->
+                    
                     <div class="form-group">
                         <textarea class="form-control" type="textarea" id="tbcontent" name="tbContent" placeholder="글 내용" maxlength="1000" rows="7"></textarea>
                         <span class="help-block"><p id="characterLeft" class="help-block ">더 이상 작성할 수 없습니다.</p></span>

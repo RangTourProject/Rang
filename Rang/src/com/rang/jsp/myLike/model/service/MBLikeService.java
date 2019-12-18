@@ -5,6 +5,7 @@ import com.rang.jsp.myLike.model.vo.MbLike;
 import static com.rang.jsp.common.JDBCTemplate.*;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -75,6 +76,23 @@ public class MBLikeService {
 		
 		return result;
 	}
+	
+	
+	// 좋아요 누른 사용자 조회
+	
+	public ArrayList<MbLike> MBLlist(int mbno) {
+
+        con = getConnection();
+
+        ArrayList<MbLike> MBLlist = mlDao.MBLlist(con, mbno);
+
+        close(con);
+
+        return MBLlist;
+
+    }
+
+	
 
 }
 

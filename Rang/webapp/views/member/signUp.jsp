@@ -8,13 +8,18 @@
     <c:import url="../common/commonUtil.jsp"/>
     <link rel="stylesheet" href="../../resources/css/singUp.css">
     <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+    <style>
+    	.btnRegister.btnDisable {
+    		background : gray;
+    	}
+    </style>
 </head>
 <body>
 <%--<c:import url="../common/nav.jsp"/>--%>
 
 <section>
     <div class="container register">
-        <form action="${pageContext.request.contextPath}/insert.me" method="post">
+        <form id="insertForm" action="${pageContext.request.contextPath}/insert.me" method="post">
             <div class="row">
                 <!-- 왼쪽 화면 프로필 사진과 간단한 설명등 -->
                 <div class="col-md-3 register-left">
@@ -33,7 +38,7 @@
                     <p>간단한 설명</p>
                 </div>
 
-                <div class="col-md-9 register-right">
+                <div class="col-md-9 register-right" id="signUpForm">
 
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -47,35 +52,39 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
                                         </div>
-                                        <input name="email" class="form-control" placeholder="Email address" type="text">
+                                        <input name="email" id="email" class="form-control" placeholder="이메일" type="text">
+    <%--                                    이메일 중복확인 --%>
+                                    	<button type="button" id="idCheck" style="margin: 0; padding: 0;">
+                                        <span class="input-group-text" ><i class="fas fa-check"></i></span>
+                                        </button>
                                     </div>
     <%--                                    이름 --%>
                                     <div class="form-group input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"> <i class="fa fa-user"></i> </span>
                                         </div>
-                                        <input name="userName" class="form-control" placeholder="Full name" type="text">
+                                        <input name="userName" id="userName" class="form-control" placeholder="이름" type="text">
                                     </div>
     <%--                                    비밀번호 --%>
                                     <div class="form-group input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                                         </div>
-                                        <input name="password" class="form-control" placeholder="Create password" type="password">
+                                        <input name="password" id="password" class="form-control" placeholder="비밀번호 설정" type="password">
                                     </div>
     <%--                                    비밀번호 체크 유효성만 돌리기 --%>
                                     <div class="form-group input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                                         </div>
-                                        <input name="" class="form-control" placeholder="Repeat password" type="password">
+                                        <input name="password2" id="password2" class="form-control" placeholder="비밀번호 확인" type="password">
                                     </div>
     <%--                                    닉네임 --%>
                                     <div class="form-group input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fa fa-id-card"></i> </span>
                                         </div>
-                                        <input name="nickName" class="form-control" placeholder="Nick Name" type="text">
+                                        <input name="nickName" id="nickName" class="form-control" placeholder="별명" type="text">
                                     </div>
                                 </div>
     <%--                                오른쪽 가입 폼 --%>
@@ -85,14 +94,14 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fa fa-birthday-cake"></i> </span>
                                             </div>
-                                            <input name="birthDate" class="form-control" placeholder="생년월일 ex) 1990/04/03 " type="text">
+                                            <input name="birthDate" id="birthDate" class="form-control" placeholder="생년월일 ex)19950915" type="text">
                                         </div>
                                         <%-- address number --%>
                                         <div class="form-group input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"> <i class="fa fa-map-marked-alt"></i> </span>
                                             </div>
-                                            <input id="zipCode" name="zipCode" class="form-control" placeholder="zipCode" type="text">
+                                            <input id="zipCode" name="zipCode" class="form-control" placeholder="우편번호" type="text">
                                             <button type="button" style="margin: 0; padding: 0;">
                                             <span class="input-group-text"><i class="fas fa-search" onclick="addrSearch()"></i></span>
                                             </button>
@@ -102,14 +111,14 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"> <i class="fa fa-map-marked-alt"></i> </span>
                                             </div>
-                                            <input id="address" name="address" class="form-control" placeholder="address" type="text">
+                                            <input id="address" name="address" class="form-control" placeholder="주소" type="text">
                                         </div>
                                         <%-- 전화 번호 --%>
                                         <div class="form-group input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
                                             </div>
-                                            <input name="phone" class="form-control" placeholder="Phone number" type="text">
+                                            <input name="phone" id="phone" class="form-control" placeholder="전화번호" type="text">
                                         </div>
 
     <%--                                    <div class="form-group">--%>
@@ -120,7 +129,7 @@
     <%--                                            <option>What is your Pet Name?</option>--%>
     <%--                                        </select>--%>
     <%--                                    </div>--%>
-                                    <input type="submit" class="btnRegister"  value="회원가입"/>
+                                    <input type="button" class="btnRegister" value="회원가입" onclick="formSubmit(this);"/>
                                 </div>
                             </div>
                         </div>
@@ -176,7 +185,7 @@
             // }
         });
     });
-</script>
+	</script>
 
     <!-- 다음 주소 Api -->
     <script>
@@ -223,7 +232,127 @@
                 }
             }).open();
         }
+        
     </script>
+    
+    <!-- 아이디(이메일) 중복 확인 -->
+    <script>
+		var idCheck = false;
+		$('#idCheck').click(function(){
+			$.ajax({
+				url : "${pageContext.request.contextPath}/idDup.me",
+				type : "post",
+				data : { email : $('#email').val()},
+				success : function(data){
+					if(data == 'true' && $('#email').val() != '') {
+						alert("사용 가능 ٩(๑>∀<๑)۶");
+						//$('.btnRegister').removeClass('btnDisable');
+						idCheck = true;
+					} else {
+						alert("사용 불가 º·(˚ ˃̣̣̥᷄⌓˂̣̣̥᷅ )‧º");
+						$('#email').val('');
+						//$('.btnRegister').addClass('btnDisable');
+						idCheck = false;
+					}
+					
+					
+					console.log(data);
+					
+					
+				}, error : function(request, status, error){
+					console.log(request);
+					console.log(status);
+					console.log(error);
+					
+					console.log("에러 발생!!!");
+				}
+				
+				
+				
+				
+			});
+		});
+		
+    </script>
+    
+    	<!-- 
+    	모든 사항을 입력하지 않았을 때
+    	비밀번호 확인이 일치하지 않을 때
+    	이메일 중복확인을 하지 않았을 때
+    	알람창을 띄우고 위에 조건들이 모두 충족되었을 때 회원가입 성공
+    	 -->
+	<script>
+		function formSubmit(obj){
+			var email = $("#email").val();
+			var userName = $("#userName").val();
+			var password = $("#password").val();
+			var password2 = $("#password2").val();
+			var nickName = $("#nickName").val();
+			var birthDate = $("#birthDate").val();
+			var zipCode = $("#zipCode").val();
+			var address = $("#address").val();
+			var phone = $("#phone").val();
+			
+			// 이메일이 입력되지 않았을 때
+			if(email == "") {
+				alert("이메일을 입력해주세요!");
+			// 이름이 입력되지 않았을 때
+			} else if(userName == "") {
+				alert("이름을 입력해주세요!");
+			// 비밀번호가 입력되지 않았을 때
+			} else if(password == "") {
+				alert("비밀번호를 입력해주세요!");
+			// 비밀번호 확인이 입력되지 않았을 때
+			} else if(password2 == "") {
+				alert("비밀번호 확인을 입력해주세요!");
+			// 비밀번호 확인이 일치하지 않을 때
+			} else if (password != password2) {
+				alert("비밀번호 확인 값과 다릅니다.");
+			// 별명이 입력되지 않았을 때
+			} else if(nickName == "") {
+				alert("별명을 입력해주세요!");
+			// 생년월일이 입력되지 않았을 때
+			} else if(birthDate == "") {
+				alert("생년월일을 입력해주세요!");
+			// 우편번호가 입력되지 않았을 때
+			} else if(zipCode == "") {
+				alert("우편번호를 입력해주세요!");
+			// 주소가 입력되지 않았을 때
+			} else if(address == "") {
+				alert("주소를 입력해주세요!");
+			// 전화번호가 입력되지 않았을 때
+			} else if(phone == "") {
+				alert("전화번호를 입력해주세요!");
+				
+	        // 이메일 검사
+	        // 4글자 이상(\w = [a-zA-Z0-9_], [\w-\.]) @가 나오고
+	        // 1글자 이상(주소). 글자 가 1~3번 반복됨
+			} else if(!(/^[\w]{4,}@[\w]+\.[\w-]{1,3}$/.test(email))) {
+				alert("이메일 형식이 올바르지 않습니다.");
+				
+			// 이메일 중복확인을 하지 않았을 때
+			} else if(idCheck == false){
+				alert('이메일 중복 확인해주세요!');
+			
+	        // 이름 검사
+	        // 2글자 이상의 한글
+			} else if(!(/^[가-힣]{2,}$/.test(userName))) {
+				alert("이름은 2글자 이상의 한글이어야합니다.")
+			
+			// 생년월일 검사
+			// YYYY/MM/DD형식 >> 8자리 숫자
+			} else if(!(/^\d{8}$/.test(birthDate))) {
+				alert("생년월일 형식이 올바르지 않습니다.")
+			
+	        // 전화번호 검사
+			} else if(!((/^\d{2,3}\d{3,4}\d{4}$/).test(phone))) {
+				alert("전화번호 형식이 올바르지 않습니다.")
+	 
+			} else {
+				$('#insertForm').submit();
+			}
+		}
+	</script>
 </section>
 
 <%--<c:import url="../common/footer.jsp"/>--%>

@@ -51,9 +51,11 @@ public class TboardInserServlet extends HttpServlet {
 						);
 				
 				String writer = mre.getParameter("writer");
-				String btitle = mre.getParameter("tbTitle");
+				String tbtitle = mre.getParameter("tbTitle");
 				String content = mre.getParameter("tbContent");
 				int userNo = Integer.parseInt(mre.getParameter("userNo"));
+				String place = mre.getParameter("place");
+				int maxmember = Integer.parseInt(mre.getParameter("maxmember"));
 
 				// 4. 파일을 다운받아 폴더에 저장하면서 해당 경로를
 				// 가져오는 메소드 실행하기
@@ -61,7 +63,7 @@ public class TboardInserServlet extends HttpServlet {
 				String filePath = mre.getFilesystemName("pPhoto");
 
 				// 데이터 전달용 tBoard 객체 만들기
-				TBoard tb = new TBoard(userNo, writer, btitle, content, filePath);
+				TBoard tb = new TBoard(userNo, writer, tbtitle, content, filePath, place, maxmember);
 
 				int result = new TBoardService().insertTboard(tb);
 				

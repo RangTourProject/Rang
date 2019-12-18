@@ -27,7 +27,6 @@
 
             <!-- 플래너 영역 -->
             <div class="col-md-3">
-
                 <ul class="plan-info list-group" style="margin-bottom: 0;">
                     <li class="list-group-item">
                         <h3> 플래너 타이틀 : ${plan.planner.title}</h3>
@@ -40,9 +39,52 @@
                 </ul>
 
                 <!-- 플래너 리스트 영역 -->
-                <div class="">
+                <div class="cityList" id="cityList">
                     <ul class="root-info list-group"  id="ul">
-                        <!-- 저장된 도시계획 리스트 -->
+                        <!-- 기존에 있던 리스트를 불러오는 영역 -->
+                        <c:forEach var="cp" items="${plan.cpList }">
+                        <li class="list-group-item" id="cityli">
+                            <h3 class="root-city" id="city_name">${cp.city_name}</h3>
+
+                            <span class="root-day">
+                                <select id="day" class="daySelector" onchange="changeCp()">
+                                    <c:forEach var="i" begin="1" end="8" step="1">
+                                        <c:choose>
+                                            <c:when test="${i eq cp.day }">
+                                                <option value="${i}" selected>${i}</option>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <option value="${i}">${i}</option>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
+                                </select>박&nbsp;
+						    </span>
+
+                            <span class="root-date">${fn:substring(cp.startday,0,10)} ~ </span><br />
+                            <span class="root-transport">
+                                <select id="trans">
+                                <c:set var="array">열차,항공,버스,배,기타</c:set>
+
+                                <c:forEach var="item" items="${array}" varStatus="idx">
+                                    <c:choose>
+                                        <c:when test="${cp.trans eq item  }">
+                                            <option value="${item}" selected>${item}</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="${item }">${item }</option>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:forEach>
+                                </select>
+                            </span>
+                            <span id="lat" style="display: none;">${cp.lat }</span>
+                            <span id="lng" style="display: none;">${cp.lng }</span>
+                            <span id="cp_code" style="display: none;" value="${cp.cp_code }">${cp.cp_code }</span>
+                            <button onclick="deleteCp(this)">제거</button>
+
+                        </li>
+                        </c:forEach>
 
                     </ul>
                 </div>
@@ -50,6 +92,10 @@
 
             <!-- 지도 영역 -->
             <div class="col-md-9">
+
+                <div>
+                    <a href="javascript:insertCp('${plan.planner.plan_code}');" class="btn btn-success" role="button">저장</a>
+                </div>
 
                 <div class="contents">
                     <!-- 지도 호출 -->
@@ -177,6 +223,12 @@
 
             });// CITY들 마커 띄우기 끝
 
+            // 푸쉬
+            <c:forEach var="cp" items="${plan.cpList }">
+            linePath.push(new google.maps.LatLng(${cp.lat}, ${cp.lng}));
+            addLine();
+            </c:forEach>
+
         } // 지도 관련 끝
 
         // 라인 생성용 스크립트
@@ -232,9 +284,9 @@
             }
 
             var $li = $('<li class="list-group-item" id="cityli">\n'+
-                '<h4 class="root-city" id="ct_name">'+ct_name+'</h4>\n'+
+                '<h4 class="root-city" id="city_name">'+ct_name+'</h4>\n'+
                 '<span class="root-day">\n'+
-                '<select id="day" class="daySelector" onchange="changeCP()">\n'+
+                '<select id="day" class="daySelector" onchange="changeCp()">\n'+
                 '<option value="1">1</option>\n'+
                 '<option value="2">2</option>\n'+
                 '<option value="3">3</option>\n'+
@@ -257,6 +309,7 @@
                 '</span>\n'+
                 '<span id="lat" style="display: none;">'+lat+'</span>\n'+
                 '<span id="lng" style="display: none;">'+lng+'</span>\n'+
+                '<span></span>\n'+
                 '<button onclick="deleteCp(this)">제거</button>'+
                 '</li>');
 
@@ -274,40 +327,19 @@
 
             console.log(btn.parentElement); // 위치 체크
 
-            if (btn.parentElement.children[7].childNodes[0].nodeValue=="제거") {
+            if (btn.parentElement.children[8].childNodes[0].nodeValue=="제거") {
                 alert("경로가 목록에서 제거 되었습니다.");
                 btn.parentElement.remove();
             }
             else{
-                // ajax로 제거?
-                <%--var cp_code = btn.parentElement.children[9].childNodes[0].nodeValue;--%>
-                <%--var answer = confirm("정말 제거 하시겠습니까?");--%>
-                <%--if (answer==true) {--%>
-                <%--    $.ajax({--%>
-                <%--        url: "${pageContext.request.contextPath}/plan/delCP.do",--%>
-                <%--        type:'POST',--%>
-                <%--        //dataType:"JSON",--%>
-                <%--        data: {cp_code:cp_code},--%>
-                <%--        success:function(result){--%>
-                <%--            if (result==1) {--%>
-                <%--                alert("제거 되었습니다.");--%>
-                <%--            }else{--%>
-                <%--                alert("제거에 실패 하였습니다.");--%>
-                <%--            }--%>
-                <%--        },--%>
-                <%--        error:function(jqXHR, textStatus, errorThrown){--%>
-                <%--            alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);--%>
-                <%--        }--%>
-                <%--    });--%>
-                <%--    btn.parentElement.remove();--%>
-                <%--}--%>
+                // ajax로 제거? 고민 좀 해보자
             }
-            changeCP();
+            changeCp();
         }
         // 삭제 관련 스크립트 끝
 
         // 플랜 변경 관련 함수
-        function changeCP() {
+        function changeCp() {
 
             removeLine(); // 경로 비우기
 
@@ -342,15 +374,62 @@
             });
             addLine(); // 비웠던 라인 다시
         }// 플랜 변경 관련 함수 끝
+
+        // 저장 실행
+        function insertCp(plan_code) {
+
+            var arrList= [];
+
+            var lis =  $('#ul').children();
+
+            lis.each(function(idx,li) {
+
+                var list =  new Object();
+
+                // 객체 안에 해당 내용을 담는다.
+                // 각각의 내용을 반복적으로 담기위헤 each로
+                // 담은 내용을 [] 안에 푸쉬
+                list.plan_code = plan_code;
+                // alert(plan_code);
+                list.city_name = $(this).find("#city_name").text();
+                // alert($(this).find("#city_name").text());
+                list.day = $(this).find("#day option:selected").val();
+                // alert($(this).find("#day option:selected").val());
+                list.trans = $(this).find("#trans option:selected").text();
+                // alert($(this).find("#trans option:selected").text());
+                list.startday = $(this).children().eq(2).text().substring(0,10);
+                // alert($(this).children().eq(2).text().substring(0,10));
+                // 도시 코드는 아직 없음 서블릿 작동 하여 저장후 생김
+                list.cp_code = $(this).children().eq(8).text();
+                // alert($(this).children().eq(8).text());
+
+                arrList.push(list);
+
+            });
+
+            $.ajax({
+                url: "${pageContext.request.contextPath}/insert.cp",
+                type:'get',
+                data: { arrList : JSON.stringify(arrList)},
+                success:function(data){
+                    if (data==1) {
+                        alert("저장완료");
+                    }else{
+                        alert("저장 실패");
+                    }
+                },
+                error : function(){
+                    alert("에러 발생");
+                }
+            });
+
+        }//creatcp() end
     </script>
 
     <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
     </script>
     <!-- 지도 api & key -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3phkjHg5O4aOf3Scz99ZBCjg75C6MDnA&callback=initMap"
-            async defer></script>
-
-
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3phkjHg5O4aOf3Scz99ZBCjg75C6MDnA&callback=initMap" async defer></script>
 
 </section>
 

@@ -9,9 +9,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Properties;
+
+import com.rang.jsp.member.model.vo.Member;
 import com.rang.jsp.tBoard.model.vo.*;
+
 import static com.rang.jsp.common.JDBCTemplate.*;
 
 public class TBoardDAO {
@@ -43,7 +45,9 @@ public class TBoardDAO {
 			pstmt.setString(2, b.getWriter());
 			pstmt.setString(3, b.getTbTitle());
 			pstmt.setString(4, b.getTbContent());
-			pstmt.setString(5, b.getTbfile());
+			pstmt.setInt(5, b.getMaxmember());
+			pstmt.setString(6, b.getTbfile());
+			pstmt.setString(7, b.getPlace());
 			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -52,34 +56,27 @@ public class TBoardDAO {
 		} finally {
 			close(pstmt);
 		}
-		System.out.println("DAO에있는 리절트값 : " + result);
+		
 		return result;
 	}
 
 	
 
-	public ArrayList<TBoard> selectList(Connection con) {
+	public ArrayList<TBoard> selectList(Connection con, int startRow, int endRow) {
 		ArrayList<TBoard> list = null;
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		
 		String sql = prop.getProperty("TBoardList");
 		
 		try {
-			/*
-			 * pstmt = con.prepareStatement(sql);
-			 * 
-			 * 
-			 * 
-			 * rset = pstmt.executeQuery();
-			 * 
-			 * list = new ArrayList<TboardVO>();
-			 * 기존 페이징처리했을 때 코드
-			 */
-			
-			stmt = con.createStatement();
+		
+			pstmt = con.prepareStatement(sql);
 
-			rset = stmt.executeQuery(sql);
+			pstmt.setInt(1, endRow);
+			pstmt.setInt(2, startRow);
+			
+			rset = pstmt.executeQuery();
 			
 			list = new ArrayList<>();
 			
@@ -96,6 +93,10 @@ public class TBoardDAO {
 				tb.setTbfile(rset.getString("tbfile"));
 				tb.setTbdate(rset.getDate("tbdate"));
 				tb.setStatus(rset.getString("status"));
+				tb.setPlace(rset.getString("place"));
+				tb.setMaxmember(rset.getInt("maxmember"));
+				tb.setMinmember(rset.getInt("minmember"));
+				tb.setTotalmember(rset.getInt("TBMEMBER_COUNT")); // 쿼리 확인 후 수정
 				
 				list.add(tb);
 			}
@@ -104,30 +105,13 @@ public class TBoardDAO {
 			e.printStackTrace();
 		} finally {
 			close(rset);
-			close(stmt);
+			close(pstmt);
 		}
 		System.out.println("리스트목록 가져오는 리스트 : " + list);
 		return list;
 	}
 
-	public int addReadCount(Connection con, int tbno) {
-		int result = 0;
-		
-		PreparedStatement pstmt = null;
-		
-		try {
-			pstmt = con.prepareStatement(prop.getProperty("addReadCount"));
-			pstmt.setInt(1, tbno);
-			
-			result = pstmt.executeUpdate();
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
-		} finally {
-			close(pstmt);
-		}
-		return result;
-	}
+
 
 	public TBoard selectOne(Connection con, int tbno) {
 
@@ -154,6 +138,7 @@ public class TBoardDAO {
 				tb.setTbfile(rset.getString("tbfile"));
 				tb.setTbdate(rset.getDate("tbdate"));
 				tb.setStatus(rset.getString("status"));
+				
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -163,9 +148,180 @@ public class TBoardDAO {
 			close(pstmt);
 		}
 		
-		System.out.println("selectOne 값은 담기니" + tb);
 		
 		return tb;
 	}
+
+	public int updateTBoard(Connection con, TBoard tb) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		try {
+			pstmt = con.prepareStatement(prop.getProperty("updateTboard"));
+
+			pstmt.setString(1, tb.getTbTitle());
+			pstmt.setString(2, tb.getTbContent());
+			pstmt.setString(3, tb.getTbfile());
+			pstmt.setInt(4, tb.getTbno());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		System.out.println("DAO에있는 리절트값 : " + result);
+		return result;
+	}
+
+	public int deleteTBoard(Connection con, int tbno) {
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		try {
+			pstmt = con.prepareStatement(prop.getProperty("deleteTBoard"));
+			pstmt.setInt(1, tbno);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int getListCount(Connection con) {
+		int result = 0;
+		Statement stmt = null;
+		
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("ListCount");
+		
+		try{
+			stmt = con.createStatement();
+			
+			rset = stmt.executeQuery(sql);
+			
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
+		} catch(SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			close(rset);
+			close(stmt);
+		}
+		
+		return result;
+	}
+
+	public int joinParty(Connection con, int userNo, int tbno) {
+		// TODO Auto-generated method stub
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = "insert into tboardmember values(? , ?)";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, userNo);
+			pstmt.setInt(2, tbno);
+			
+			result = pstmt.executeUpdate();
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public ArrayList<TBoard> TBListPartyCount(Connection con) {
+		
+		
+		ArrayList<TBoard> plist = null;
+		
+		TBoard t = null;
+		
+		Statement pstmt = null;
+		ResultSet rset = null;
+		
+		try {
+			
+			String sql = "SELECT T.*, NVL((SELECT COUNT(*) FROM TBOARDMEMBER TB WHERE TB.TBNO = T.TBNO GROUP BY TB.TBNO), 0) TBMEMBER_COUNT FROM TBOARD T";
+			
+			pstmt = con.createStatement();
+			
+			rset = pstmt.executeQuery(sql);
+			
+			plist = new ArrayList<TBoard>();
+			
+			while(rset.next()) {
+				
+				TBoard tb = new TBoard();
+				
+				tb.setTbno(rset.getInt("TBNO"));
+				tb.setWriter(rset.getString("writer"));
+				tb.setTbTitle(rset.getString("tbtitle"));
+				tb.setTbContent(rset.getString("tbcontent"));
+				tb.setMaxmember(rset.getInt("maxmember"));
+				tb.setTbcount(rset.getInt("tbcount"));
+				tb.setTbfile(rset.getString("tbfile"));
+				tb.setTbdate(rset.getDate("tbdate"));
+				tb.setStatus(rset.getString("status"));
+				
+				tb.setTotalmember(rset.getInt("TBMEMBER_COUNT")); // 쿼리 확인 후 수정
+				
+				plist.add(t);
+				
+			}
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+	
+		
+		return plist;
+	}
+
+	public int addReadCount(Connection con, int tbno) {
+		int result = 0;
+
+		PreparedStatement pstmt = null;
+
+		String sql = prop.getProperty("addReadCount");
+
+		try {
+			pstmt = con.prepareStatement(prop.getProperty("addReadCount"));
+			pstmt.setInt(1, tbno);
+
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+
+	
+	
+	
 
 }

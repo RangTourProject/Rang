@@ -33,8 +33,10 @@ public class MBoardLikeServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+
 		int memno = Integer.parseInt(request.getParameter("memno"));
-		int mbno = Integer.parseInt(request.getParameter("mbno")); 
+		int mbno = Integer.parseInt(request.getParameter("mbno")); // mbno를 지금 못받아옵니다.
+
 		
 		System.out.println("mbno 확인2 : " + mbno);
 		MBLikeService mbl = new MBLikeService();

@@ -2,8 +2,11 @@ package com.rang.jsp.tBoard.controller;
 
 import com.rang.jsp.tBoard.model.service.TBoardService;
 import com.rang.jsp.tBoard.model.vo.TBoard;
+import com.rang.jsp.tBoardComment.model.service.tBoardCommentService;
+import com.rang.jsp.tBoardComment.model.vo.tBoardComment;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -35,12 +38,14 @@ public class TBoardSelectOneServlet extends HttpServlet {
 		int tbno = Integer.parseInt(request.getParameter("tbno"));
 
 		TBoard stb = new TBoardService().selectOne(tbno);
-		
+		ArrayList<tBoardComment> clist = new tBoardCommentService().selectList(tbno);
+
 		String page = "";
 		System.out.println(stb);
 		if (stb != null) {
 			page = "views/tBoard/tBoardDetail.jsp";
 			request.setAttribute("stb", stb);
+			request.setAttribute("tclist", clist);
 			
 		}
 		request.getRequestDispatcher(page).forward(request, response);

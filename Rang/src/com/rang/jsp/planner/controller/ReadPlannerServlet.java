@@ -27,6 +27,8 @@ public class ReadPlannerServlet extends HttpServlet {
 
         Member m = (Member) session.getAttribute("member");
 
+//        m.getUserNo();
+
         HashMap<String, Object> hmap = null;
 
         if(m == null){
