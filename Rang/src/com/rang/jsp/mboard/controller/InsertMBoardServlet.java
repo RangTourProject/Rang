@@ -107,7 +107,7 @@ public class InsertMBoardServlet extends HttpServlet {
         int result = mbs.insertMBoard(mb, list);
 
         if(result > 0 ){
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("selectList.mb");
 
         }else {
 //            request.setAttribute("msg", "게시글 작성 실패");

@@ -184,7 +184,7 @@
 
         var prev_infowindow =false;
 
-        <c:forEach var="cityVo" items="${citylist}"> // 마커찍을 전체 도시들 정보 Array에 저장
+        <c:forEach var="cityVo" items="${plan.cityList}"> // 마커찍을 전체 도시들 정보 Array에 저장
             var cityVo = new Object();
             cityVo.city_name = "${cityVo.city_name}";
             cityVo.lat = "${cityVo.lat}";

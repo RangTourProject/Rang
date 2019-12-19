@@ -42,7 +42,7 @@ public class InsertMemberServlet extends HttpServlet {
         if(result > 0){
             System.out.println("가입 성공");
 
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("views/member/login.jsp");
         }else {
             System.out.println("가입 실패");
 
