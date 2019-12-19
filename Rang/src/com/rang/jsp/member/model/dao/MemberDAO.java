@@ -194,4 +194,77 @@ public class MemberDAO {
 
         return result;
     }
+
+
+    public Member findId(Connection con, Member m) {
+
+        Member result = null;
+
+        PreparedStatement pstmt = null;
+        ResultSet rset = null;
+
+        try {
+
+            String sql = "SELECT * FROM MEMBER WHERE USERNAME = ? AND PHONE = ?";
+
+            pstmt = con.prepareStatement(sql);
+
+            pstmt.setString(1, m.getUserName());
+            pstmt.setString(2, m.getPhone());
+
+            rset = pstmt.executeQuery();
+
+            if(rset.next()){
+                result = new Member();
+
+                result.setUserNo(rset.getInt(1));
+                result.setEmail(rset.getString(2));
+                result.setUserName(rset.getString(3));
+                result.setPassword(rset.getString(4));
+                result.setNickName(rset.getString(5));
+                result.setBirthDate(rset.getString(6));
+                result.setZipCode(rset.getString(7));
+                result.setAddress(rset.getString(8));
+                result.setPhone(rset.getString(9));
+                result.setEnrollDate(rset.getDate(10));
+                result.setStatus(rset.getString(11));
+                result.setGrade(rset.getString(12));
+
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            close(rset);
+            close(pstmt);
+        }
+
+        return result;
+    }
+
+    public int findPwd(Connection con, Member m) {
+        int result = 0;
+        PreparedStatement pstmt = null;
+
+        String sql = "UPDATE MEMBER SET PASSWORD = ? WHERE EMAIL = ? AND PHONE = ?";
+
+        try {
+            pstmt = con.prepareStatement(sql);
+
+            pstmt.setString(1, m.getPassword());
+            pstmt.setString(2, m.getEmail());
+            pstmt.setString(3, m.getPhone());
+
+            result = pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+
+        } finally {
+            close(pstmt);
+        }
+
+        return result;
+    }
 }

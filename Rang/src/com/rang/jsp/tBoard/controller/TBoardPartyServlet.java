@@ -43,10 +43,9 @@ public class TBoardPartyServlet extends HttpServlet {
         
         int result = new TBoardService().joinParty(m.getUserNo(), tbno);
         
+        
         if(result > 0) {
         	request.getRequestDispatcher("/selectOne.tb?tbno="+tbno).forward(request, response);
-        }else {
-        	response.sendRedirect("errorPage.jsp");
         }
         
         

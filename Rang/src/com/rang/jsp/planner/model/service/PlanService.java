@@ -124,4 +124,13 @@ public class PlanService {
 
         return result2;
     }
+
+    public ArrayList<CityPlan> readOnePlan(int userNo) {
+
+        con = getConnection();
+
+        ArrayList<CityPlan> cplist = pdao.loadCp(con, userNo);
+
+        return cplist;
+    }
 }

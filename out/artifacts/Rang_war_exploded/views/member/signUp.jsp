@@ -118,7 +118,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
                                             </div>
-                                            <input name="phone" id="phone" class="form-control" placeholder="전화번호" type="text">
+                                            <input name="phone" id="phone" class="form-control" placeholder="전화번호 '-'없이 입력" type="text">
                                         </div>
 
     <%--                                    <div class="form-group">--%>
@@ -144,7 +144,7 @@
     $(function () {
 
         $imgSrc = $('#imgProfile').attr('src');
-        <!-- 이미지 미리보기 스크립트 -->
+        // <!-- 이미지 미리보기 스크립트 -->
         function readURL(input) {
 
             if (input.files && input.files[0]) {
@@ -158,7 +158,7 @@
             }
         }
 
-        <!-- 이미지 변경시 효과 -->
+        // <!-- 이미지 변경시 효과 -->
         $('#btnChangePicture').on('click', function () {
             if (!$('#btnChangePicture').hasClass('changing')) {
                 $('#profilePicture').click();
@@ -349,6 +349,9 @@
 				alert("전화번호 형식이 올바르지 않습니다.")
 	 
 			} else {
+				
+				alert("회원 가입 성공~!!\n환영합니다 °˖✧◝(⁰▿⁰)◜✧˖°");
+				
 				$('#insertForm').submit();
 			}
 		}

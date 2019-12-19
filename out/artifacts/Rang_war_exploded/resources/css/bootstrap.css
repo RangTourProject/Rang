@@ -7786,6 +7786,7 @@ button.bg-dark:focus {
   z-index: 1030;
 }
 
+
 .fixed-bottom {
   position: fixed;
   right: 0;
@@ -7793,6 +7794,7 @@ button.bg-dark:focus {
   left: 0;
   z-index: 1030;
 }
+
 
 @supports ((position: -webkit-sticky) or (position: sticky)) {
   .sticky-top {
@@ -10239,4 +10241,8 @@ a.text-dark:hover, a.text-dark:focus {
   #most-destination-list li.one-half {
     width: 100%;
   }
+}
+
+.jbFixed {
+  top: 300px;
 }

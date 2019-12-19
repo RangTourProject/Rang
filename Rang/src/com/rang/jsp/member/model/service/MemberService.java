@@ -80,4 +80,24 @@ public class MemberService {
 
         return result;
     }
+
+    public Member findId(Member m) {
+        con = getConnection();
+        Member result = mdao.findId(con, m);
+
+        close(con);
+
+        return result;
+    }
+
+    public int findPwd(Member m) {
+        con = getConnection();
+        int result = mdao.findPwd(con, m);
+
+        close(con);
+
+        return result;
+    }
+
+
 }

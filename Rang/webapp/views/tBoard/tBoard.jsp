@@ -7,6 +7,8 @@
     <title>너랑 나랑 게시판</title>
     <c:import url="../common/commonUtil.jsp"/>
 <style>
+
+
 <%--	--%>
 <%--#notify_identity  {--%>
 <%--  display:inline-block;--%>
@@ -272,6 +274,12 @@
 
 <section>
 
+
+
+
+
+
+
 <div id="wrapper">
 
 <div id="page-content-wrapper">
@@ -280,19 +288,19 @@
 </div>
 
 <div class="col-sm-1 ">
-	<a class="btn pull-right" data-toggle="offcanvas" ng-click="ctrl.openSideBar()"><span
-	class="glyphicon glyphicon-funnel"></span>검색하기 구현되나</a>
+	<a class="btn pull-right" data-toggle="offcanvas"><span
+	class="glyphicon glyphicon-funnel"></span></a>
 </div>
 <div class="col-sm-4">
 	<div class="input-group search-group">
-		<select class="selectpicker form-control">
+		<select  class="selectpicker form-control">
 			<option>번호</option>
 			<option>제목</option>
 			<option>글쓴이</option>
 		</select>
 	<input type="text" class="form-control" aria-label="...">
 <span class="input-group-btn">
-	<button class="btn btn-default" type="button">탐색하기</button>
+	<button class="btn btn-outline-warning" type="button">검색</button>
 </span>
 	</div><!-- /input-group -->
 </div>
@@ -307,7 +315,7 @@
  	</div>
  
 <div class="row table-area">
-	<table id="listtable" class="table table-fixed table-striped table-hover">
+	<table  class="table table-fixed table-striped table-hover">
 		<thead class="header">
 			<tr>
 				<th> 
@@ -328,7 +336,7 @@
 			</tr>
 		</thead>
 
-<tbody>
+<tbody id="listtable">
 	<c:forEach var="tBoard" items="${TbList}" >
 	<tr>
 			<input id="tbno" type="hidden" value="${tBoard.tbno}">
@@ -342,7 +350,7 @@
 		<td>${tBoard.tbTitle}</td>
 		<td>${tBoard.writer}</td>
 		<td>${tBoard.tbdate }</td>
-		<td>${tBoard.totalmember}/${tBoard.maxmember}</td>
+		<td>${tBoard.totalmember + 1}/${tBoard.maxmember}</td>
 		<td>${tBoard.place }</td>
 		<td>${tBoard.tbcount}</td>
 	<!-- end tBoard List -->
@@ -360,24 +368,35 @@
 <br />
 <br />
 
+        
+        
+    
+    
+    
+            
+
+
+ 
+
 
 <%-- 페이지처리 구현하기 --%>
       
 <div class="pagingArea" align="center">
 	<c:url var="selectList" value="selectList.tb"/>
-
+<div class="buttonDetail">
 <!-- 처음 페이지 버튼 -->
-<button onclick="location.href='${selectList }?currentPage=1'">
+<button onclick="location.href='${selectList }?currentPage=1'" class="btn btn-outline-warning">
 	&lt;&lt;
 </button>
 
+
 	<!-- 이전페이지 -->
 	<c:if test="${pi.currentPage le 1 }">
-		<button disabled>&lt;</button>
+		<button disabled class="btn btn-outline-warning">&lt;</button >
 	</c:if>
 
 	<c:if test="${pi.currentPage gt 1 }">
-		<button onclick="location.href='${selectList }?currentPage=${pi.currentPage - 1 }'">
+		<button onclick="location.href='${selectList }?currentPage=${pi.currentPage - 1 }'" class="btn btn-outline-warning">
 			&lt;
 		</button>
 	</c:if>
@@ -385,11 +404,11 @@
 		<c:forEach var="p" begin="${pi.startPage }" end="${pi.endPage }">
 	
 			<c:if test="${p eq pi.currentPage}">
-				<button disabled> ${p}</button>
+				<button disabled class="btn btn-outline"> ${p}</button>
 			</c:if>
 	
 			<c:if test="${p ne pi.currentPage }">
-				<button onclick="location.href='${selectList}?currentPage=${p }'">
+				<button onclick="location.href='${selectList}?currentPage=${p }'" class="btn btn-outline-warning">
 					${p}
 				</button>
 			</c:if>
@@ -398,20 +417,23 @@
 
 <!-- 다음페이즈 -->
 	<c:if test="${pi.currentPage ge pi.maxPage }">
-		<button disabled>&gt;</button>
+		<button disabled class="btn btn-outline-warning">&gt;</button>
 	</c:if>
 	<c:if test="${pi.currentPage lt pi.maxPage }">
-		<button onclick="location.href='${selectList }?currentPage=${pi.currentPage + 1 }'">
+		<button onclick="location.href='${selectList }?currentPage=${pi.currentPage + 1 }'" class="btn btn-outline-warning">
 			&gt;
 		</button>
 	</c:if>
 
 
 	<!-- 마지막 페이지 버튼 -->
-	<button onclick="location.href='${selectList }?currentPage=${pi.maxPage }'">
+	<button onclick="location.href='${selectList }?currentPage=${pi.maxPage }'" class="btn btn-outline-warning">
 		&gt;&gt;
 	</button>	
 </div>
+</div>
+
+
 
 <script>
 	/* 실행 함수 */
@@ -421,7 +443,11 @@
         	  	location.href="${pageContext.request.contextPath}/selectOne.tb?tbno=" + tbno;
           });
        });
-
+      
+    function defaultImg(obj){
+        $(obj).attr('src','/rang/resources/images/Rangicon.png');
+    }
+    
 </script>
 </section>
 <c:import url="../common/footer.jsp"/>

@@ -67,6 +67,7 @@
                     <div class="form-group">
                         <input type="number" min="1" max="8" class="form-control" id="maxmember" name="maxmember" placeholder="모집인원(최대 8명)">
                     </div>
+                   
                     
                     
                    <!--  <div class="form-group">
@@ -105,7 +106,7 @@
 
     <!-- 최대글 작성 한도 스크립트 -->
     <script>
-        $(document).ready(function(){
+        $(document).ready(function(){ㄹ
             $('#characterLeft').text('1000 자 작성가능');
             $('#tbcontent').keydown(function () {
                 var max = 1000;

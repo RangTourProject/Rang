@@ -194,6 +194,7 @@ public class TBoardDAO {
 		return result;
 	}
 
+	
 	public int getListCount(Connection con) {
 		int result = 0;
 		Statement stmt = null;
@@ -247,6 +248,7 @@ public class TBoardDAO {
 		return result;
 	}
 
+
 	public ArrayList<TBoard> TBListPartyCount(Connection con) {
 		
 		
@@ -297,13 +299,12 @@ public class TBoardDAO {
 		
 		return plist;
 	}
-
+	
+	
 	public int addReadCount(Connection con, int tbno) {
 		int result = 0;
 
 		PreparedStatement pstmt = null;
-
-		String sql = prop.getProperty("addReadCount");
 
 		try {
 			pstmt = con.prepareStatement(prop.getProperty("addReadCount"));
@@ -318,9 +319,40 @@ public class TBoardDAO {
 		}
 		return result;
 	}
-
-
 	
+	
+
+	public int checkParty(Connection con, int userNo, int tbno) {
+		
+		int checkParty = 0;
+		PreparedStatement pstmt = null;
+		
+		ResultSet rset = null;
+
+			try {
+				
+				pstmt= con.prepareStatement(prop.getProperty("checkParty"));
+				
+				pstmt.setInt(1, userNo);
+				pstmt.setInt(2, tbno);
+				
+				rset = pstmt.executeQuery();
+				
+				
+				if(rset.next()) {
+					checkParty = rset.getInt(1);
+				}
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			} finally {
+				close(rset);
+				close(pstmt);
+				
+			}
+			return checkParty;
+		
+	}
 	
 	
 

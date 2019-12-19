@@ -47,21 +47,19 @@ public class TBoardService {
 
 		return List;
 	}
-	// 게시글 하나 가져오기
-
+	// 게시글 하나 가져오기 
 	public TBoard selectOne(int tbno) {
 		con = getConnection();
 
+		TBoard tb = tbdao.selectOne(con, tbno);
+		
 		int result = tbdao.addReadCount(con, tbno);
-
-		TBoard tb = null;
-
 		if(result > 0) {
 			tb = tbdao.selectOne(con, tbno);
 			if(tb != null) commit(con);
 		}
 		else rollback(con);
-
+		
 		close(con);
 		return tb;
 	}
@@ -138,6 +136,21 @@ public class TBoardService {
 		return plist;
 	}
 
+	// 사용자가 참여하기를 눌렀는지 조회
+	public int checkParty(int userNo, int tbno) {
+		con = getConnection();
+		
+		int checkParty = tbdao.checkParty(con, userNo, tbno);
+		
+		if(checkParty >0) {
+			commit(con);
+		}rollback(con);
+		
+		close(con);
+		
+		return checkParty;
+		
+	}
 
 	
 

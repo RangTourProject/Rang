@@ -66,6 +66,7 @@ public class TBoardSelectListServlet extends HttpServlet {
         list = tbs.selectList(currentPage, limit);
 
         String page = "";
+        String page2 = "";
 
         if(list != null) {
         	
@@ -75,12 +76,15 @@ public class TBoardSelectListServlet extends HttpServlet {
         	// 서비스랑 연결해서 
         	
         	hmap.put("TbList", list);
+        	
             page = "views/tBoard/tBoard.jsp";
+            
             request.setAttribute("TbList", list);
             request.setAttribute("pi", pi);
            
         }
 
         request.getRequestDispatcher(page).forward(request, response);
+        
     }
 }

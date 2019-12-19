@@ -8,6 +8,13 @@
     <c:import url="../common/commonUtil.jsp"/>
 
     <style>
+        #MOVE_TOP_BTN {
+            position: fixed;
+            right: 2%;
+            bottom: 50px;
+            display: none;
+            z-index: 999;
+        }
         /*.modal-backdrop {*/
         /*    z-index: -1;*/
         /*}*/
@@ -113,8 +120,6 @@
         }
 
 
-
-
     </style>
 </head>
 <body>
@@ -169,7 +174,7 @@
     <!-- 글작성 -->
     <c:if test="${!empty member}">
         <div class="col" align="right">
-            <button type="button" class="btn btn-outline-warning" onclick="location.href='${pageContext.request.contextPath}/views/mBoard/insertMBoard.jsp'">게시글 작성</button>
+            <button id="MOVE_TOP_BTN" type="button" class="btn btn-outline-warning" onclick="location.href='${pageContext.request.contextPath}/views/mBoard/insertMBoard.jsp'">게시글 작성</button>
         </div>
     </c:if>
 
@@ -936,6 +941,24 @@
         }
     </script>
 
+    <script>
+        $(function() {
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 500) {
+                    $('#MOVE_TOP_BTN').fadeIn();
+                } else {
+                    $('#MOVE_TOP_BTN').fadeOut();
+                }
+            });
+
+            $("#MOVE_TOP_BTN").click(function() {
+                $('html, body').animate({
+                    scrollTop : 0
+                }, 400);
+                return false;
+            });
+        });
+    </script>
 
 </section>
 

@@ -63,9 +63,6 @@ public class TBoard implements Serializable{
 		return totalmember;
 	}
 
-
-
-
 	/**
 	 * @param totalmember the totalmember to set
 	 */
