@@ -16,23 +16,26 @@
 <c:import url="../common/nav.jsp"/>
 <section>
 <!-- 내 마이페이지 일 때 -->
-<c:if test="${member.userNo eq mp.userNo}">
+<c:if test="${member.userNo eq mp.userNo}">	
   <div class="wrapper">
     <div class="page-header clear-filter" filter-color="orange">
       <div class="page-header-image" data-parallax="true" style="background-image:url('https://images.unsplash.com/photo-1476984251899-8d7fdfc5c92c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3700&q=80');">
     </div>
     <div class="container">
-
+	<form action="${pageContext.request.contextPath }/changeImg.ci"
+		      method="post" enctype="multipart/form-data">
+     
       <div class="photo-container">
-        <img id="myPagePhoto" src="https://raw.githack.com/creativetimofficial/now-ui-kit/master/assets/img/ryan.jpg" alt="">
+      	<img id="myPagePhoto" src="/Rang/resources/myPagePhoto/${clist.get(0).imgchangename}" onerror="defaultImg(this);" alt="">
         <div class="middle">
-          <input type="button" class="btn btn-outline-warning ml-auto" value="사진변경" />
-          <input type="file" style="display: none;" id="profilePicture" name="myImg" >
+        	<input type="hidden" name="userNo"/>
+          <input type="file" style="display: none;" id="profilePicture" onchange="LoadImg(this,1)" name="name" >
+          <input type="submit" class="btn btn-outline-warning ml-auto" id="change" value="사진변경" />
         </div>
       </div>
-
+		</form>
       <h3 class="title">${member.nickName }</h3>
-      <p class="category" value="${member.nickName}"></p>
+      <p class="category">오늘도 유정훈 선생님은 옳았다.</p>
       <button type="button" class="btn btn-outline-warning ml-auto"
               onclick="location.href='${pageContext.request.contextPath}/views/myPage/updateForm.jsp';">정보 수정</button>
       <div class="content">
@@ -399,7 +402,7 @@
       </div>
       <div class="container">
         <div class="photo-container">
-          <img src="https://raw.githack.com/creativetimofficial/now-ui-kit/master/assets/img/ryan.jpg" alt="">
+          <img src="" onerror="defaultImg(this);" alt="">
         </div>
         <h3 class="title">${mp.nickName}</h3>
 
@@ -485,6 +488,7 @@
 <!-- 스크립트 부분 -->
 
 <script>
+	var userNo = ${member.userNo};
   function follow(){
     $.ajax({
       url : '${ pageContext.request.contextPath }/follow.mm',
@@ -511,18 +515,44 @@
 
   }
 
-  var userNo = '${member.userNo}';
+</script>
 
-  /* $('#myPagePhoto').on('click',function(){
-      $.ajax
-      });
-  }
-  function changeImage(){
-      location.href = "${pageContext.request.contextPath}/changeImg.ci";
+<!-- 기본 사진 script -->
+<script>
+function defaultImg(obj){
+    $(obj).attr('src','/Rang/resources/myPagePhoto/defaultimg.jpg');
+ }
+</script>
 
-    		} */
+<!-- 사진 바꾸기 script -->
+<script>
+	$(function(){
+	       
 
+		  $('#myPagePhoto').click(() => {
+				$('#profilePicture').click();
+			});
+		   $('#profilePicture').change(() => {
+				$('#change').click();
+			}); 
+		  
+	});
+		  function LoadImg(value, num) {
+				if(value.files && value.files[0]) {
+					var reader = new FileReader();
+					
+					reader.onload = function(e){
+						switch(num){
+						case 1: $('#myPagePhoto').attr('src', e.target.result);
+							break;
+						
+						}
+					}
+					reader.readAsDataURL(value.files[0]);
+				}
+			}
 
+	
 </script>
 
 <!-- 모달 ajax -->

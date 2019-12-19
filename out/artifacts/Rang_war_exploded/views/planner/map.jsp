@@ -6,6 +6,7 @@
 <html>
 <head>
     <title>Planner</title>
+    <%-- 시간 관련 처리용 --%>
     <script src="${pageContext.request.contextPath}/resources/js/moment.js"></script>
     <c:import url="../../views/common/commonUtil.jsp"/>
     <style>
@@ -20,7 +21,7 @@
 <c:import url="../../views/common/nav.jsp"/>
 
 <!-- 플랜 파트 -->
-<section>
+<section class="page-section" style="margin-top: 10px">
 
     <div class="container-fluid">
         <div class="row">
@@ -93,9 +94,16 @@
             <!-- 지도 영역 -->
             <div class="col-md-9">
 
-                <div>
-                    <a href="javascript:insertCp('${plan.planner.plan_code}');" class="btn btn-success" role="button">저장</a>
-                </div>
+                <c:if test="${member ne null}">
+                    <div>
+                        <a href="javascript:insertCp('${plan.planner.plan_code}');" class="btn btn-success" role="button">저장</a>
+                    </div>
+                </c:if>
+                <c:if test="${member eq null}">
+                    <div>
+                        <a href="#" class="btn btn-warning" role="button">비회원으로 이용중</a>
+                    </div>
+                </c:if>
 
                 <div class="contents">
                     <!-- 지도 호출 -->
@@ -119,13 +127,13 @@
             <form name="planFrm" method="get" action="${pageContext.request.contextPath}/newplan.do"> <!-- 서블릿으로 이동하여 저장 -->
                 <input type="hidden" name="userNo" value="${member.userNo }"> <!-- 회원 번호 -->
                 <div>
-                    <label for="">플래너 이름</label>&nbsp;<input type="text" name="title" id="subject" placeholder="" required>
+                    <label>플래너 이름</label>&nbsp;<input type="text" name="title" id="subject" placeholder="" required>
                 </div>
                 <div>
-                    <label for="">플래너 시작일</label>&nbsp;<input type="text" name="startday" id="startday" placeholder="예) 2019-05-01" required>
+                    <label>플래너 시작일</label>&nbsp;<input type="text" name="startday" id="startday" placeholder="예) 2019-05-01" required>
                 </div>
                 <div>
-                    <label for="">인원</label>&nbsp;<input type="text" name="people" id="people" placeholder="" required>
+                    <label>인원</label>&nbsp;<input type="text" name="people" id="people" placeholder="" required>
                 </div>
                 <p>
                     <input type="submit" value="planner 생성">
@@ -139,6 +147,7 @@
     플래너 정보가 없고 회원 이라면 실행 -->
     <script>
         var userno = '${member.userNo}';
+
         if (userno != null && userno != ''){
             $.ajax({
                 url : "${pageContext.request.contextPath}/plancheck.do", // 기존 플래너 채크
@@ -171,7 +180,9 @@
         var flightPath;
         var cList = new Array(); //JSON 형식받을 Array (도시들 의 정보)
         var infowindowCons = new Array(); // info 배열
-        var image = "${pageContext.request.contextPath}/resources/images/icon.png";
+        var image = "${pageContext.request.contextPath}/resources/images/marker2.png";
+
+        var prev_infowindow =false;
 
         <c:forEach var="cityVo" items="${plan.cityList}"> // 마커찍을 전체 도시들 정보 Array에 저장
             var cityVo = new Object();
@@ -219,6 +230,15 @@
                 marker.addListener('click', function() {
                     map.setCenter(marker.getPosition());
                     infowindowCon.open(map, marker);
+
+                    // 현재 클릭한 마커 제외 인포창 닫기
+                    if( prev_infowindow ) {
+                        prev_infowindow.close();
+                    }
+
+                    prev_infowindow = infowindowCon;
+                    infowindowCon.open(base.map, marker);
+
                 });
 
             });// CITY들 마커 띄우기 끝
@@ -262,7 +282,7 @@
 
         // 플래너 계획 추가
         //마커에서 추가버튼눌렀을떄 좌측 리스트에 추가
-        function addCity(idx, ct_name, lat, lng) {
+        function addCity(idx, city_name, lat, lng) {
 
             var lis =  $('#ul').children();
             var daytoadd = 0;
@@ -284,7 +304,7 @@
             }
 
             var $li = $('<li class="list-group-item" id="cityli">\n'+
-                '<h4 class="root-city" id="city_name">'+ct_name+'</h4>\n'+
+                '<h4 class="root-city" id="city_name">'+city_name+'</h4>\n'+
                 '<span class="root-day">\n'+
                 '<select id="day" class="daySelector" onchange="changeCp()">\n'+
                 '<option value="1">1</option>\n'+

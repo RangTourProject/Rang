@@ -24,14 +24,7 @@ public class NewPlannerServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-//        HttpSession session = request.getSession(false);
-//        Member m = (Member) session.getAttribute("member");
-
         HashMap<String, Object> hmap = null;
-
-        // 전체 도시 정보 가져오기
-//        ArrayList<City> cityList = new PlanService().loadCity();
-//        hmap.put("cityList", cityList);
 
         System.out.println("로그인 상태");
 

@@ -94,13 +94,13 @@
 
                     <!-- 텍스트 -->
                     <div class="form-group">
-                        <input type="hidden" class="form-control" id="mbno" name="mbno" placeholder="제목" value="${mBoard.mbno}" required>
+                        <input type="hidden" class="form-control" id="mbno" name="mbno" placeholder="" value="${mBoard.mbno}" required>
                     </div>
                     <div class="form-group">
                         <input type="hidden" class="form-control" id="userNo" name="userNo" value="${member.userNo}" style="display: none">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="bTitle" name="mbtitle" placeholder="제목" value="${mBoard.mbtitle}" required>
+                        <input type="text" class="form-control" id="bTitle" name="mbtitle" placeholder="" value="${mBoard.mbtitle}" required>
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" id="writer" name="writer" value="${member.nickName}" style="display: none">

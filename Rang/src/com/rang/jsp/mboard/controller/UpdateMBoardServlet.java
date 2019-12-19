@@ -70,6 +70,10 @@ public class UpdateMBoardServlet extends HttpServlet {
 
         mb.setMbtitle(mre.getParameter("mbtitle"));
         mb.setMbcontent(mre.getParameter("mbcontent"));
+        mb.setHashtag(mre.getParameter("hashTag"));
+        mb.setLocationname(mre.getParameter("locationName"));
+        mb.setTotalcost(Integer.parseInt(mre.getParameter("totalCost")));
+
 
         list = (ArrayList<MAttachment>) originMBoard.get("mAttachment");
 

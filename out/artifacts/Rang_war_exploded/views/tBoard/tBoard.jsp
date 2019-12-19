@@ -421,11 +421,7 @@
         	  	location.href="${pageContext.request.contextPath}/selectOne.tb?tbno=" + tbno;
           });
        });
-      
-    function defaultImg(obj){
-        $(obj).attr('src','/rang/resources/images/Rangicon.png');
-    }
-    
+
 </script>
 </section>
 <c:import url="../common/footer.jsp"/>

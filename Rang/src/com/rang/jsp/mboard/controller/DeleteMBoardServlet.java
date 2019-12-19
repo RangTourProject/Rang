@@ -42,7 +42,10 @@ public class DeleteMBoardServlet extends HttpServlet {
         int result = new MBoardService().deleteMBoard(mbno);
 
 		response.setContentType("application/json; charset=UTF-8");
+
 		new Gson().toJson(result, response.getWriter());
+
+		response.sendRedirect("selectList.mb");
 
 	}
 

@@ -6,9 +6,9 @@
 <header class="masthead">
     <div class="container">
         <div class="intro-text">
-            <div class="intro-lead-in">간단한 소개!</div>
-            <div class="intro-heading text-uppercase">간단한 안내문 작성?</div>
-            <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#">페이지로 이동</a>
+            <div class="intro-lead-in">Rang에 오신걸 환영합니다.</div>
+            <div class="intro-heading text-uppercase">베타 테스트 중 입니다.</div>
+            <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="${pageContext.request.contextPath}/readPlan.do">플래너로 이동</a>
         </div>
     </div>
 </header>

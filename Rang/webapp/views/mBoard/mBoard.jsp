@@ -98,22 +98,22 @@
         .commentList > li[class] {
             margin-left : 20px;
         }
-        
-        #idid {
- 		 display: flex;
-  		flex-direction: column;
-  		justify-content: center;
-  		
-		}
 
-		
-		.unlike {
-		color : red;
-		
-		}
-		
-		
-		
+        #idid {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+        }
+
+
+        .unlike {
+            color : red;
+
+        }
+
+
+
 
     </style>
 </head>
@@ -143,7 +143,7 @@
                                 <i class="fas fa-plus fa-3x"></i>
                             </div>
                         </div>
-                        <img class="img-fluid" src="/Rang/resources/mBoardPhoto/${mboard.mbfile}" alt="">
+                        <img class="img-fluid" src="/Rang/resources/mBoardPhoto/${mboard.mbfile}" alt="" onerror="defaultImg(this);">
                     </a>
                     <div class="mboard-caption">
                         <h4 class="d-block">${mboard.mbtitle}</h4>
@@ -194,16 +194,16 @@
                                 <div class="carousel-inner" role="listbox">
                                     <!-- 첫 페이지 -->
                                     <div id="photo1" class="carousel-item active">
-                                        <img class="d-block w-100" src="">
+                                        <img class="d-block w-100" src="" onerror="defaultImg2(this);">
                                     </div>
                                     <div id="photo2" class="carousel-item">
-                                        <img class="d-block w-100" src="">
+                                        <img class="d-block w-100" src="" onerror="defaultImg2(this);">
                                     </div>
                                     <div id="photo3" class="carousel-item">
-                                        <img class="d-block w-100" src="">
+                                        <img class="d-block w-100" src="" onerror="defaultImg2(this);">
                                     </div>
                                     <div id="photo4" class="carousel-item">
-                                        <img class="d-block w-100" src="">
+                                        <img class="d-block w-100" src="" onerror="defaultImg2(this);">
                                     </div>
                                 </div>
                                 <!-- 좌 우 이동 컨트롤러 -->
@@ -235,9 +235,9 @@
 
                         <div class="col-lg-6">
                             <!-- 타이틀 제목 -->
-                            
-                           
-                            
+
+
+
                             <br>
                             <h2 class="h2-responsive" id="modalTitle">
                                 <strong></strong>
@@ -254,71 +254,71 @@
 
 
                                 <ul class="list-group">
-                                
-                                
-								  <li class="list-group-item" id="Writer"> Writer </li>
-                                  <li class="list-group-item" style="height : 80px; vertical-align:top;" id="idid" > </li>
-                                  
-               <!--                    <li class="list-group-item" id="locationName"> 여행지 </li>
-                                  <li class="list-group-item" id="TotalCost"> 금액 </li>  -->
-       				           	  <li class="list-group-item" id="HashTag"> hashTag </li>
-                                  <li class="list-group-item" id="mbdate"> 날짜 </li> 
-                                 
-                                  
-                                  
-                                </ul> 
-                                
-                                <br/>
-                                 
-                     <!--            <ul class="list-group list-group-flush">
-                                
-							    <li class="list-group-item" id="mbdate"></li>
-						
-								</ul> --> 
-                                
+
+
+                                    <li class="list-group-item" id="Writer"> Writer </li>
+                                    <li class="list-group-item" style="height : 80px; vertical-align:top;" id="idid" > </li>
+
+                                    <!--                    <li class="list-group-item" id="locationName"> 여행지 </li>
+                                                       <li class="list-group-item" id="TotalCost"> 금액 </li>  -->
+                                    <li class="list-group-item" id="HashTag"> hashTag </li>
+                                    <li class="list-group-item" id="mbdate"> 날짜 </li>
+
+
+
+                                </ul>
+
                                 <br/>
 
-                              
-                                 
-									<!-- 좋아요를 누른 상태인지 c:if로 구별해 색상을 바꾸기 위해서 나누었습니다  -->
-                                       <c:if test="${result.myLikeCheck eq 0}">
-                                             <button id="mbLike" type="button" class="btn btn-secondary btn-myLike" onclick="mylike();"><i class="fas fa-heart"></i></button>
-                                       </c:if><c:if test="${result.myLikeCheck ne 0}">
-                                            <button id="mbLike" type="button" class="btn btn-secondary btn-myLike unLike" onclick="mylike();" ><i class="fas fa-heart"></i></button>
-                                       </c:if>
+                                <!--            <ul class="list-group list-group-flush">
 
-                                            <input type="hidden" id="mbnoVal" value=""/>
+                                           <li class="list-group-item" id="mbdate"></li>
 
-                                            <!-- 좋아요 개수 -->
-                                            <!-- 현재 목록을 가지고온상태, 모달을 가지고 왔을때 mbno가 생겨야함 -->
-                                            <input type="text" class="col-2" id="mbcount" value="" />
-                                            
-                                        <!-- 게시글 수정 및 삭제 -->
-                                        <div>
-<%--                                            <c:if test="${member.userNo ne MBoard.userno}">--%>
-                                                <%--                                             ${member.userNo ne MBoard.userno}--%>
-                                                <button id="updateBoard" type="button" class="btn btn-secondary" onclick="updateBoard();">게시글 수정</button>
-                                                <button id="deleteBoard" type="button" class="btn btn-secondary" onclick="deleteBoard();">게시글 삭제</button>
-<%--                                            </c:if>--%>
-                                        </div>
+                                           </ul> -->
 
-										 
-                                            <!--  <button id="deleteBoard" type="button" class="btn btn-secondary" data-dismiss="modal" value="" onclick="deleteBoard(this);">게시글 삭제</button> -->
+                                <br/>
 
 
 
-                                            <!-- 이중모달 공사중 -->
-                                            <!-- Small modal -->
-                                            <!--  data target 에서 이름을 이미 줌  -->
-                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".likelist-modal-sm" onclick="likelist();">Like list</button>
-                                  
-                                        
+                                <!-- 좋아요를 누른 상태인지 c:if로 구별해 색상을 바꾸기 위해서 나누었습니다  -->
+                                <c:if test="${result.myLikeCheck eq 0}">
+                                    <button id="mbLike" type="button" class="btn btn-secondary btn-myLike" onclick="mylike();"><i class="fas fa-heart"></i></button>
+                                </c:if><c:if test="${result.myLikeCheck ne 0}">
+                                <button id="mbLike" type="button" class="btn btn-secondary btn-myLike unLike" onclick="mylike();" ><i class="fas fa-heart"></i></button>
+                            </c:if>
 
-                                  <!-- List group -->
+                                <input type="hidden" id="mbnoVal" value=""/>
+
+                                <!-- 좋아요 개수 -->
+                                <!-- 현재 목록을 가지고온상태, 모달을 가지고 왔을때 mbno가 생겨야함 -->
+                                <input type="text" class="col-2" id="mbcount" value="" />
+
+                                <!-- 게시글 수정 및 삭제 -->
+                                <div>
+                                    <%--                                            <c:if test="${member.userNo ne MBoard.userno}">--%>
+                                    <%--                                             ${member.userNo ne MBoard.userno}--%>
+                                    <button id="updateBoard" type="button" class="btn btn-secondary" onclick="updateBoard();">게시글 수정</button>
+                                    <button id="deleteBoard" type="button" class="btn btn-secondary" onclick="deleteBoard();">게시글 삭제</button>
+                                    <%--                                            </c:if>--%>
+                                </div>
+
+
+                                <!--  <button id="deleteBoard" type="button" class="btn btn-secondary" data-dismiss="modal" value="" onclick="deleteBoard(this);">게시글 삭제</button> -->
+
+
+
+                                <!-- 이중모달 공사중 -->
+                                <!-- Small modal -->
+                                <!--  data target 에서 이름을 이미 줌  -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".likelist-modal-sm" onclick="likelist();">Like list</button>
+
+
+
+                                <!-- List group -->
 
                                 <!-- 아코디언 card-->
 
-                      
+
 
                                 <!-- Accordion card -->
 
@@ -326,8 +326,8 @@
                             <!-- Accordion wrapper -->
 
                         </div>
-                        
-                        
+
+
 
                         <!-- 댓글 작성 -->
 
@@ -383,44 +383,53 @@
             </div>
         </div>
     </div>
-    
-                                        <!-- 이중모달 공사중 -->
-                                    <!-- Small modal -->
 
-                                    <div class="modal fade likelist-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-sm" role="document">
-                                            <div class="modal-content">
+    <!-- 이중모달 공사중 -->
+    <!-- Small modal -->
 
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">좋아요 list</h5>
-                                                </div>
+    <div class="modal fade likelist-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
 
-                                                <div class="modal-body" id="likeList">
-                                                </div>
+                <div class="modal-header">
+                    <h5 class="modal-title">좋아요 list</h5>
+                </div>
 
-                                                <div class="modal-footer">
+                <div class="modal-body" id="likeList">
+                </div>
 
-                                                    <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <div class="modal-footer">
+
+                    <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
 
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                           
-                          <!-- 스크롤 -->  
-                              
-                   <script src="${pageContext.request.contextPath}/resources/js/scroll.js"></script>
-     
-      <!-- 이중모달 공사중 -->
-      
-      
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <!-- 스크롤 -->
+
+    <script src="${pageContext.request.contextPath}/resources/js/scroll.js"></script>
+
+    <!-- 이중모달 공사중 -->
+
+
 
     <!-- 모달 ajax -->
     <script>
         loginUserNo = '${member.userNo}';
 
+        // 리스트 기본 이미지 불러오기
+        function defaultImg(obj){
+            $(obj).attr('src','${pageContext.request.contextPath}/resources/images/noimage2.png');
+        }
+
+        // 모달 기본 이미지
+        function defaultImg2(obj){
+            $(obj).attr('src','${pageContext.request.contextPath}/resources/images/noimage.jpeg');
+        }
 
         // 이미지와 게시글 내용 불러오기
         function modalCall(mbno){
@@ -436,57 +445,57 @@
 
                     // 게시글 이미지 & 텍스트 불러오기
                     var $title = $('#modalTitle > strong');
-            /*   	var $location = $('#locationName').text(data.mBoard.locationname); */
+                    /*   	var $location = $('#locationName').text(data.mBoard.locationname); */
                     var $photo1 = $('#photo1 > img');
                     var $photo2 = $('#photo2 > img');
                     var $photo3 = $('#photo3 > img');
                     var $photo4 = $('#photo4 > img');
-                    
-			        var $Writer = $('#Writer').text(data.mBoard.writer);
-            /*      var $TotalCost = $('#TotalCost').text(data.mBoard.totalcost); */
+
+                    var $Writer = $('#Writer').text(data.mBoard.writer);
+                    /*      var $TotalCost = $('#TotalCost').text(data.mBoard.totalcost); */
                     var $HashTag = $('#HashTag').html(data.mBoard.hashtag);
                     var $mbdate = $('#mbdate').text(data.mBoard.mbdate);
-                    
-                    
-                   // 1번째 : 유저닉네임, location 
-                   
+
+
+                    // 1번째 : 유저닉네임, location
+
                     $('#idid').empty();
 
-                        if (data != 0) {
-                 
-                        $('#idid').append( /* data.mBoard.writer + "<br>" +   */'Location : ' + data.mBoard.locationname + "<br>" + 'Cost : ' + data.mBoard.totalcost + ' 원' );
-                        	 
-                        } else {
-                        	
-                        };
-                        
-                        
-                        /*
-        
-                         // 게시글 수정 & 삭제버튼 안보이게
-                        if(loginUserNo == data.mBoard.userNo){
-                        	
-                        	   $('#updateBoard').append;
-                        	   $('#deleteBoard');
-                       
-                        } else {
-                        	
-                        	$('#updateBoard').hidden.append;
-                       	  	$('#deleteBoard').hidden;
-                        	
-                        };
+                    if (data != 0) {
 
-                        
-                        
-      var button1 = $('<button id="updateBoard" type="button" class="btn btn-secondary" onclick="updateBoard();">'게시글 수정'</button>');
-        var button2 = $('<button id="deleteBoard" type="button" class="btn btn-secondary" onclick="deleteBoard();">'게시글 삭제'</button>');          
-        */    
+                        $('#idid').append( /* data.mBoard.writer + "<br>" +   */'Location : ' + data.mBoard.locationname + "<br>" + 'Cost : ' + data.mBoard.totalcost + ' 원' );
+
+                    } else {
+
+                    };
+
+
+                    /*
+
+                     // 게시글 수정 & 삭제버튼 안보이게
+                    if(loginUserNo == data.mBoard.userNo){
+
+                           $('#updateBoard').append;
+                           $('#deleteBoard');
+
+                    } else {
+
+                        $('#updateBoard').hidden.append;
+                             $('#deleteBoard').hidden;
+
+                    };
+
+
+
+  var button1 = $('<button id="updateBoard" type="button" class="btn btn-secondary" onclick="updateBoard();">'게시글 수정'</button>');
+    var button2 = $('<button id="deleteBoard" type="button" class="btn btn-secondary" onclick="deleteBoard();">'게시글 삭제'</button>');
+    */
 
                     var $likeCount = $('#mbcount');
                     $likeCount.val(data.likeCount);
                     //console.log("좋아요 수 : " + data.likeCount );
-					
-                    // like  
+
+                    // like
 
                     // 값 저장해두기
                     var $updateBoard = $('#updateBoard');
@@ -497,8 +506,8 @@
                     $('#mbnoVal').val(mbno);
                     $('#likeList').val(mbno);
 
-                    
-               
+
+
 
 
                     $photo1.attr('src', "");
@@ -507,7 +516,7 @@
                     $photo4.attr('src', "");
 
                     $title.text(data.mBoard.mbtitle);
-                   // $location.html(data.mBoard.locationname + "<i class=\"fas fa-angle-down rotate-icon\"></i>");
+                    // $location.html(data.mBoard.locationname + "<i class=\"fas fa-angle-down rotate-icon\"></i>");
                     $updateBoard.attr('onclick', "updateBoard(" + data.mBoard.mbno + ");");
                     $deleteBoard.attr('onclick', "deleteBoard(" + data.mBoard.mbno + ");");
                     $mboardLike.attr('onclick', "mboardLike(" + data.mBoard.mbno + ");");
@@ -522,6 +531,10 @@
                     // 게시글 이미지 & 텍스트 불러오기 끝
 
 
+                    if(loginUserNo != data.mBoard.userno) {
+                        $('#updateBoard').css('display', 'none');
+                        $('#deleteBoard').css('display', 'none');
+                    }
 
                     // 댓글 불러오기
                     // 댓글 초기화
@@ -551,21 +564,21 @@
 
                         // 해당 댓글 수정/삭제
                         var $div3 = $('<div><i class="fas fa-edit"></i><i class="fas fa-save"></i>&nbsp;<i class="fas fa-trash-alt"></i>');
-                        
+
                         /*
                         // 버튼 안보이게
                         var $button1 = $('<button id="updateBoard" type="button" class="btn btn-secondary" onclick="updateBoard();">게시글 수정</button>');
            			 	var $button2 = $('<button id="deleteBoard" type="button" class="btn btn-secondary" onclick="deleteBoard();">게시글 삭제</button>');
-                     
-           			 	
-         		 	
+
+
+
                      	if(data.mBoard.userno == loginUserNo){
-                     		
+
                      	} else {
-                     		
+
                      	}
            			 	 */
-                     	
+
 
                         $div1.append($img);
 
@@ -647,13 +660,13 @@
                     }
 
 
-                    
+
                     // 주석부분1
                     // 해당 댓글 작성자 사진
                     var $div1 = $('<div class="commenterImage">');
                     var $img = $('<img src="http://placekitten.com/50/50" />');
 
-                
+
                     // 주석 부분2
                     // 해당 댓글 내용
                     var $div2 = $('<div class="commentText">');
@@ -666,10 +679,10 @@
                     // append() 현재 선택된 문서요소의 마지막 자식으로 새로운 문서 요소를 추가
                     // insert() 현재 선택된 문서요소의 지정된 요소 앞에 새로운 문서 요소를 추가
 
-                    
+
                     $div1.append($img);
-                    
-                 	// 해당 댓글유저
+
+                    // 해당 댓글유저
                     $div2.append($p.html(anchorTagGenerator($('#myComment').val())))
                     $div2.append($p.text($('#myComment').val()))
                         .append($span.text('방금 전'));
@@ -679,12 +692,12 @@
                         .append($div3);
 
                     if($('#clevelCo').val() == 0){
-                  /*       console.log($li);
-                        console.log($appender); */
+                        /*       console.log($li);
+                              console.log($appender); */
                         $appender.append($li);
                     } else {
-                   /*      console.log($li);
-                        console.log($appender); */
+                        /*      console.log($li);
+                             console.log($appender); */
                         $li.insertAfter($appender);
                     }
 
@@ -811,9 +824,9 @@
                 });
             });
         }
-        
-        
-       
+
+
+
 
         // 게시글 수정
         function updateBoard(mbno) {
@@ -857,7 +870,7 @@
 
         // 메인 게시글 좋아요 스크립트
         function mylike(){
-        	        
+
             $.ajax({
                 url : '${pageContext.request.contextPath}/like.mb',
                 type : 'post',
@@ -884,43 +897,43 @@
         }
 
 
-          // 좋아요 누른 회원 list
-            function likelist(){
-        	  
-        	  
-             $.ajax({
+        // 좋아요 누른 회원 list
+        function likelist(){
 
-              url : '${pageContext.request.contextPath}/likeList.mb',
-              type : 'post',
-              data : {
-            	  
-            	  mbno : $('#mbnoVal').val()
-            	  
-              }, success : function(data) {
 
-            	  console.log(data);
+            $.ajax({
 
-                  $('#likeList').empty();
+                url : '${pageContext.request.contextPath}/likeList.mb',
+                type : 'post',
+                data : {
 
-                  for(var i in data){
+                    mbno : $('#mbnoVal').val()
 
-                      // 회원 한명 닉네임 담는 태그
-                      var $li;
+                }, success : function(data) {
 
-                      if (data != 0) {
-                          $li = $('<li style="list-style : none; ">'+data[i].nickName+'</li> <br>');
-                          
-                          $('#likeList').append($li);
+                    console.log(data);
 
-                      // 데이터가 없으면 "좋아요를 누른 회원이 없습니다"
-                      } else {
-                    	  alert("아직 좋아요가 없네요ㅠ_");
-                      }
+                    $('#likeList').empty();
 
-              	}
-              }
-           }); 
-          }
+                    for(var i in data){
+
+                        // 회원 한명 닉네임 담는 태그
+                        var $li;
+
+                        if (data != 0) {
+                            $li = $('<li style="list-style : none; ">'+data[i].nickName+'</li> <br>');
+
+                            $('#likeList').append($li);
+
+                            // 데이터가 없으면 "좋아요를 누른 회원이 없습니다"
+                        } else {
+                            alert("아직 좋아요가 없네요ㅠ_");
+                        }
+
+                    }
+                }
+            });
+        }
     </script>
 
 

@@ -254,7 +254,10 @@ public class MBoardDAO {
 
             pstmt.setString(1, mb.getMbtitle());
             pstmt.setString(2, mb.getMbcontent());
-            pstmt.setInt(3, mb.getMbno());
+            pstmt.setString(3, mb.getHashtag());
+            pstmt.setString(4, mb.getLocationname());
+            pstmt.setInt(5, mb.getTotalcost());
+            pstmt.setInt(6, mb.getMbno());
 
             result = pstmt.executeUpdate();
 
@@ -370,7 +373,7 @@ public class MBoardDAO {
         PreparedStatement pstmt = null;
         ResultSet rset = null;
 
-        String sql = "SELECT COUNT(*) FROM MBOARD WHERE WRITER = ?";
+        String sql = "SELECT COUNT(*) FROM MBOARD WHERE WRITER = ? AND STATUS = 'N'";
 
         try {
             pstmt = con.prepareStatement(sql);

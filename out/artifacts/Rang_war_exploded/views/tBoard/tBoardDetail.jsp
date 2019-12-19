@@ -418,7 +418,7 @@ nav .navbar-right li {
 			</div><hr />
 			<div class="thumbnail">
 			
-				<img src="/Rang/resources/tBoardPhoto/${stb.tbfile }" alt="">
+				<img src="/Rang/resources/tBoardPhoto/${stb.tbfile }" alt="" onerror="defaultImg(this);">
 			</div>
 			<div class="tagsContainer">
 				<div class="trendTags">
@@ -615,6 +615,9 @@ function reConfirm(obj){
 			+ '&tclevel=' + tclevel
 			+ '&reftcno=' + reftcno; 
 }
+function defaultImg(obj){
+	$(obj).attr('src','/Rang/resources/tBoardPhoto/마블리6.jpeg');
+}
 
 </script>
 </section>
@@ -623,7 +626,6 @@ function reConfirm(obj){
 
 <%-- <c:import url="../common/footer.jsp"/>  --%>
 <script src="${pageContext.request.contextPath}/resources/js/scroll.js"></script>
-
 
 <c:import url="../common/footer.jsp"/>
 </body>

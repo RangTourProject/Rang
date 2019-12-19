@@ -12,8 +12,8 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav text-uppercase ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link active" href="${pageContext.request.contextPath}/selectList.mb">여행공유</a>
+                <li class="nav-item" >
+                    <a class="nav-link" href="${pageContext.request.contextPath}/selectList.mb">여행공유</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link " href="${pageContext.request.contextPath}/selectList.tb">너랑나랑</a>
@@ -22,11 +22,13 @@
                     <a class="nav-link " href="${pageContext.request.contextPath}/readPlan.do">Planner</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="${pageContext.request.contextPath}/memberPage.mp?nickName=${member.nickName}">마이페이지</a>
+                    <c:if test="${member.nickName != null}">
+                        <a class="nav-link " href="${pageContext.request.contextPath}/memberPage.mp?nickName=${member.nickName}">마이페이지</a>
+                    </c:if>
                 </li>
             </ul>
             <!-- 검색 버튼 -->
-            <form class="form-inline my-4 my-lg-0 ml-auto" >
+            <form class="form-inline my-4 my-lg-0" >
                 <select name="searchCondition" id="searchCondition" class="btn btn-outline-warning my-2 my-sm-0">
                     <option value="nickName" id="searchNickName">닉네임</option>
                     <option value="hashtag" id="searchHashtag">#태그</option>
@@ -38,7 +40,7 @@
             <!-- 로그인 상태가 아닐때 -->
             <c:if test="${empty member}">
             <!-- login 버튼 -->
-            <button type="button" class="btn btn-outline-warning ml-auto" onclick="location.href='${pageContext.request.contextPath}/views/member/login.jsp'">Login</button>
+            <button type="button" class="btn btn-outline-warning ml-auto" onclick="location.href='${pageContext.request.contextPath}/views/member/login.jsp'">Login / Join</button>
             </c:if>
 
             <!-- 로그인 일 때 -->
@@ -48,7 +50,7 @@
                         <i class="fas fa-user-circle fa-3x" style="color: #fed136;"></i>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                        <a class="dropdown-item" href="${pageContext.request.contextPath}/memberPage.mp">마이페이지</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/memberPage.mp?nickName=${member.nickName}">마이페이지</a>
                         <a class="dropdown-item" href="logout.me">로그아웃</a>
                     </div>
                 </div>
