@@ -35,7 +35,7 @@
                         <!-- 사진1 -->
                         <div class="d-inline-block align-top" style="margin-bottom: 10px">
                             <div class="image-container d-inline-block">
-                                <img src="" id="imgProfile1" style="width: 200px; height: 200px" class="img-thumbnail" />
+                                <img src="${pageContext.request.contextPath}/resources/images/noimage.jpeg" id="imgProfile1" style="width: 200px; height: 200px" class="img-thumbnail" />
                                 <div class="middle">
                                     <input type="button" class="btn btn-secondary" id="btnChangePicture1" value="사진 등록">
                                     <input type="file" style="display: none;" id="profilePicture1" name="img1">
@@ -49,7 +49,7 @@
                         <!-- 사진2 -->
                         <div class="d-inline-block align-top" style="margin-bottom: 10px">
                             <div class="image-container d-inline-block">
-                                <img src="" id="imgProfile2" style="width: 200px; height: 200px" class="img-thumbnail" />
+                                <img src="${pageContext.request.contextPath}/resources/images/noimage.jpeg" id="imgProfile2" style="width: 200px; height: 200px" class="img-thumbnail" />
                                 <div class="middle">
                                     <input type="button" class="btn btn-secondary" id="btnChangePicture2" value="사진 등록">
                                     <input type="file" style="display: none;" id="profilePicture2" name="img2">
@@ -63,7 +63,7 @@
                         <!-- 사진3 -->
                         <div class="d-inline-block align-top" style="margin-bottom: 10px">
                             <div class="image-container d-inline-block">
-                                <img src="" id="imgProfile3" style="width: 200px; height: 200px" class="img-thumbnail" />
+                                <img src="${pageContext.request.contextPath}/resources/images/noimage.jpeg" id="imgProfile3" style="width: 200px; height: 200px" class="img-thumbnail" />
                                 <div class="middle">
                                     <input type="button" class="btn btn-secondary" id="btnChangePicture3" value="사진 등록">
                                     <input type="file" style="display: none;" id="profilePicture3" name="img3">
@@ -77,7 +77,7 @@
                         <!-- 사진4 -->
                         <div class="d-inline-block align-top" style="margin-bottom: 10px">
                             <div class="image-container d-inline-block">
-                                <img src="" id="imgProfile4" style="width: 200px; height: 200px" class="img-thumbnail" />
+                                <img src="${pageContext.request.contextPath}/resources/images/noimage.jpeg" id="imgProfile4" style="width: 200px; height: 200px" class="img-thumbnail" />
                                 <div class="middle">
                                     <input type="button" class="btn btn-secondary" id="btnChangePicture4" value="사진 등록">
                                     <input type="file" style="display: none;" id="profilePicture4" name="img4">

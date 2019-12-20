@@ -1,6 +1,9 @@
 package com.rang.jsp.mboard.model.vo;
 
+import java.util.ArrayList;
 import java.util.Date;
+
+import com.rang.jsp.myLike.model.vo.MbLike;
 
 public class MBoard {
     private int mbno;
@@ -15,139 +18,181 @@ public class MBoard {
     private String mbfile;
     private Date mbdate;
     private String status;
-
-
-
+    private int likecount;
+    private int commentcount;
+    
+    
+    
     public MBoard() {
     }
 
-    // 전체
-    public MBoard(int mbno, int userno, String writer, String mbtitle, String mbcontent, String hashtag, String locationname, int totalcost, int mbcount, String mbfile, Date mbdate, String status) {
-        this.mbno = mbno;
-        this.userno = userno;
-        this.writer = writer;
-        this.mbtitle = mbtitle;
-        this.mbcontent = mbcontent;
-        this.hashtag = hashtag;
-        this.locationname = locationname;
-        this.totalcost = totalcost;
-        this.mbcount = mbcount;
-        this.mbfile = mbfile;
-        this.mbdate = mbdate;
-        this.status = status;
-    }
 
-    public int getMbno() {
-        return mbno;
-    }
+	public MBoard(int mbno, int userno, String writer, String mbtitle, String mbcontent, String hashtag,
+			String locationname, int totalcost, int mbcount, String mbfile, Date mbdate, String status) {
+		super();
+		this.mbno = mbno;
+		this.userno = userno;
+		this.writer = writer;
+		this.mbtitle = mbtitle;
+		this.mbcontent = mbcontent;
+		this.hashtag = hashtag;
+		this.locationname = locationname;
+		this.totalcost = totalcost;
+		this.mbcount = mbcount;
+		this.mbfile = mbfile;
+		this.mbdate = mbdate;
+		this.status = status;
+	}
 
-    public void setMbno(int mbno) {
-        this.mbno = mbno;
-    }
 
-    public int getUserno() {
-        return userno;
-    }
+	@Override
+	public String toString() {
+		return "MBoard [mbno=" + mbno + ", userno=" + userno + ", writer=" + writer + ", mbtitle=" + mbtitle
+				+ ", mbcontent=" + mbcontent + ", hashtag=" + hashtag + ", locationname=" + locationname
+				+ ", totalcost=" + totalcost + ", mbcount=" + mbcount + ", mbfile=" + mbfile + ", mbdate=" + mbdate
+				+ ", status=" + status + "]";
+	}
 
-    public void setUserno(int userno) {
-        this.userno = userno;
-    }
 
-    public String getWriter() {
-        return writer;
-    }
+	public int getMbno() {
+		return mbno;
+	}
 
-    public void setWriter(String writer) {
-        this.writer = writer;
-    }
 
-    public String getMbtitle() {
-        return mbtitle;
-    }
+	public void setMbno(int mbno) {
+		this.mbno = mbno;
+	}
 
-    public void setMbtitle(String mbtitle) {
-        this.mbtitle = mbtitle;
-    }
 
-    public String getMbcontent() {
-        return mbcontent;
-    }
+	public int getUserno() {
+		return userno;
+	}
 
-    public void setMbcontent(String mbcontent) {
-        this.mbcontent = mbcontent;
-    }
 
-    public String getHashtag() {
-        return hashtag;
-    }
+	public void setUserno(int userno) {
+		this.userno = userno;
+	}
 
-    public void setHashtag(String hashtag) {
-        this.hashtag = hashtag;
-    }
 
-    public String getLocationname() {
-        return locationname;
-    }
+	public String getWriter() {
+		return writer;
+	}
 
-    public void setLocationname(String locationname) {
-        this.locationname = locationname;
-    }
 
-    public int getTotalcost() {
-        return totalcost;
-    }
+	public void setWriter(String writer) {
+		this.writer = writer;
+	}
 
-    public void setTotalcost(int totalcost) {
-        this.totalcost = totalcost;
-    }
 
-    public int getMbcount() {
-        return mbcount;
-    }
+	public String getMbtitle() {
+		return mbtitle;
+	}
 
-    public void setMbcount(int mbcount) {
-        this.mbcount = mbcount;
-    }
 
-    public String getMbfile() {
-        return mbfile;
-    }
+	public void setMbtitle(String mbtitle) {
+		this.mbtitle = mbtitle;
+	}
 
-    public void setMbfile(String mbfile) {
-        this.mbfile = mbfile;
-    }
 
-    public Date getMbdate() {
-        return mbdate;
-    }
+	public String getMbcontent() {
+		return mbcontent;
+	}
 
-    public void setMbdate(Date mbdate) {
-        this.mbdate = mbdate;
-    }
 
-    public String getStatus() {
-        return status;
-    }
+	public void setMbcontent(String mbcontent) {
+		this.mbcontent = mbcontent;
+	}
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
-    @Override
-    public String toString() {
-        return "MBoard{" +
-                "mbno=" + mbno +
-                ", userno=" + userno +
-                ", writer='" + writer + '\'' +
-                ", mbtitle='" + mbtitle + '\'' +
-                ", mbcontent='" + mbcontent + '\'' +
-                ", hashtag='" + hashtag + '\'' +
-                ", locationname='" + locationname + '\'' +
-                ", totalcost=" + totalcost +
-                ", mbcount=" + mbcount +
-                ", mbfile='" + mbfile + '\'' +
-                ", mbdate=" + mbdate +
-                ", status='" + status + '\'' +
-                '}';
-    }
+	public String getHashtag() {
+		return hashtag;
+	}
+
+
+	public void setHashtag(String hashtag) {
+		this.hashtag = hashtag;
+	}
+
+
+	public String getLocationname() {
+		return locationname;
+	}
+
+
+	public void setLocationname(String locationname) {
+		this.locationname = locationname;
+	}
+
+
+	public int getTotalcost() {
+		return totalcost;
+	}
+
+
+	public void setTotalcost(int totalcost) {
+		this.totalcost = totalcost;
+	}
+
+
+	public int getMbcount() {
+		return mbcount;
+	}
+
+
+	public void setMbcount(int mbcount) {
+		this.mbcount = mbcount;
+	}
+
+
+	public String getMbfile() {
+		return mbfile;
+	}
+
+
+	public void setMbfile(String mbfile) {
+		this.mbfile = mbfile;
+	}
+
+
+	public Date getMbdate() {
+		return mbdate;
+	}
+
+
+	public void setMbdate(Date mbdate) {
+		this.mbdate = mbdate;
+	}
+
+
+	public String getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+
+	public int getLikecount() {
+		return likecount;
+	}
+
+
+	public void setLikecount(int likecount) {
+		this.likecount = likecount;
+	}
+
+
+	public int getCommentcount() {
+		return commentcount;
+	}
+
+
+	public void setCommentcount(int commentcount) {
+		this.commentcount = commentcount;
+	}
+
+
+    
 }

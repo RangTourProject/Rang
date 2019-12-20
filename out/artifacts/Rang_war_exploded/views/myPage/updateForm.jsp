@@ -85,6 +85,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fa fa-birthday-cake"></i> </span>
                                             </div>
+                                            <input type="hidden" name="userNo" class="form-control" value="${member.userNo}" />
                                             <input name="birthDate" class="form-control" type="text" value="${member.birthDate}">
                                         </div>
                                         <%-- address number --%>

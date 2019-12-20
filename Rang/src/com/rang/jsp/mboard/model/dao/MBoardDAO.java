@@ -158,6 +158,8 @@ public class MBoardDAO {
                 mb.setMbdate(rset.getDate("mbdate"));
                 mb.setMbcount(rset.getInt("MBCOUNT"));
                 mb.setMbfile(rset.getString("mchangename"));
+                mb.setLikecount(rset.getInt("MBLC"));
+                mb.setCommentcount(rset.getInt("MCC"));
 
                 list.add(mb);
             }
@@ -444,5 +446,78 @@ public class MBoardDAO {
         }
 
         return list;
+    }
+
+    // 무한 페이징
+    public ArrayList<MBoard> selectListPaging(Connection con, int startRow, int endRow) {
+        ArrayList<MBoard> list = null;
+        PreparedStatement pstmt = null;
+        ResultSet rset = null;
+
+        String sql = prop.getProperty("selectListPaging");
+
+        try {
+            pstmt = con.prepareStatement(sql);
+
+            pstmt.setInt(1, endRow);
+            pstmt.setInt(2, startRow);
+
+            rset = pstmt.executeQuery();
+
+            list = new ArrayList<>();
+
+            //selectList
+            while(rset.next()) {
+
+                MBoard m = new MBoard();
+
+                m.setMbno(rset.getInt("MBNO"));
+                m.setWriter(rset.getString("writer"));
+                m.setMbtitle(rset.getString("mbtitle"));
+                m.setMbcontent(rset.getString("mbcontent"));
+                m.setHashtag(rset.getString("hashtag"));
+                m.setLocationname(rset.getString("locationname"));
+                m.setTotalcost(rset.getInt("totalcost"));
+                m.setMbdate(rset.getDate("mbdate"));
+                m.setMbcount(rset.getInt("MBCOUNT"));
+                m.setMbfile(rset.getString("mchangename"));
+                m.setLikecount(rset.getInt("MBLC"));
+                m.setCommentcount(rset.getInt("MCC"));
+
+                list.add(m);
+            }
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        } finally {
+            close(rset);
+            close(pstmt);
+        }
+        return list;
+    }
+
+
+    public int getListCount(Connection con) {
+        int result = 0;
+        Statement stmt = null;
+        ResultSet rset = null;
+
+        String sql = prop.getProperty("getListCount");
+
+        try {
+            stmt = con.createStatement();
+            rset = stmt.executeQuery(sql);
+
+            if(rset.next()) {
+                result = rset.getInt(1);
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+
+        } finally {
+            close(rset);
+            close(stmt);
+        }
+        return result;
     }
 }

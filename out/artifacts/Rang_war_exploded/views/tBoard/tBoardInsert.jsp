@@ -38,7 +38,7 @@
                         <!-- 사진1 -->
                         <div class="d-inline-block align-top" style="margin-bottom: 10px">
                             <div class="image-container d-inline-block">
-                                <img src="" id="imgProfile1" style="width: 200px; height: 200px" class="img-thumbnail" />
+                                <img src="${pageContext.request.contextPath}/resources/images/noimage.jpeg" id="imgProfile1" style="width: 200px; height: 200px" class="img-thumbnail" />
                                 <div class="middle">
                                     <input type="button" class="btn btn-secondary" id="btnChangePicture1" value="사진 등록">
                                     <input type="file" style="display: none;" id="profilePicture1" name="pPhoto">
@@ -106,7 +106,7 @@
 
     <!-- 최대글 작성 한도 스크립트 -->
     <script>
-        $(document).ready(function(){ㄹ
+        $(document).ready(function(){
             $('#characterLeft').text('1000 자 작성가능');
             $('#tbcontent').keydown(function () {
                 var max = 1000;

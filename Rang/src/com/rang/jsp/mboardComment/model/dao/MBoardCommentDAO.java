@@ -131,6 +131,7 @@ public class MBoardCommentDAO {
                 mbc.setMcdate(rset.getDate("mcdate"));
                 mbc.setMccontent(rset.getString("mccontent"));
                 mbc.setMclevel(rset.getInt("mclevel"));
+                mbc.setNickName(rset.getString("nickName"));
 
                 list.add(mbc);
             }

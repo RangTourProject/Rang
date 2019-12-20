@@ -157,4 +157,28 @@ public class MBoardService {
 
         return list;
     }
+
+    // 총 몇페이지가 나와서 끝은 무엇이있는지 계산
+    public ArrayList<MBoard> selectList(int currentPage, int limit) {
+        con = getConnection();
+
+        int startRow = (currentPage - 1) * limit;
+        int endRow = startRow + 3;
+
+        ArrayList<MBoard> list = mbdao.selectListPaging(con, startRow, endRow);
+
+        close(con);
+
+        return list;
+    }
+
+    public int getListCount() {
+        con = getConnection();
+
+        int result = mbdao.getListCount(con);
+
+        close(con);
+
+        return result;
+    }
 }

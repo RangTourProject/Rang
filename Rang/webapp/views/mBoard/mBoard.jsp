@@ -154,10 +154,10 @@
                         <h4 class="d-block">${mboard.mbtitle}</h4>
                         <ul class="float-right d-inline-block">
                             <li style="display: inline-block; margin-right: 5px">
-                                <i class="far fa-heart" style="margin-right: 5px; color:#fed136;"></i>준비
+                                <i class="far fa-heart" style="margin-right: 5px; color:#fed136;"></i>${mboard.likecount}
                             </li>
                             <li style="display: inline-block; margin-right: 5px">
-                                <i class="far fa-comment" style="margin-right: 5px; color:#fed136;"></i>준비중
+                                <i class="far fa-comment" style="margin-right: 5px; color:#fed136;"></i>${mboard.commentcount}
                             </li>
                             <li style="display: inline-block; margin-right: 5px">
                                 <i class="fas fa-map-marked-alt" style="margin-right: 5px; color:#fed136;"></i>${mboard.locationname}
@@ -262,11 +262,11 @@
 
 
                                     <li class="list-group-item" id="Writer"> Writer </li>
-                                    <li class="list-group-item" style="height : 80px; vertical-align:top;" id="idid" > </li>
 
-                                    <!--                    <li class="list-group-item" id="locationName"> 여행지 </li>
-                                                       <li class="list-group-item" id="TotalCost"> 금액 </li>  -->
-                                    <li class="list-group-item" id="HashTag"> hashTag </li>
+                                    <li class="list-group-item" style="height : 80px; vertical-align:top;" id="idid" > </li>
+                                    <li class="list-group-item" style="height : 100px; vertical-align:top; overflow:scroll; " id="mbcontent"> mbcontent </li>
+
+                                    <li class="list-group-item" style="overflow:scroll;" id="HashTag"> hashTag </li>
                                     <li class="list-group-item" id="mbdate"> 날짜 </li>
 
 
@@ -423,7 +423,69 @@
 
 
     <!-- 모달 ajax -->
+
+
+
     <script>
+
+        // 무한스크롤 각 페이지 계산할 전역변수
+        var currentPage = 1;
+
+        // 스크롤이 내려가는것을 감지하는 함수 (공식)
+        $(function(){
+            window.onscroll = function(){
+                var pageEnd = $('body').get(0).scrollHeight - $(window).scrollTop() /*- $(window).height()*/;
+
+                if (pageEnd <= 696){
+                    $.ajax({
+                        url : "${pageContext.request.contextPath}/InfinityPaging.mb",
+                        type : "get",
+                        data : {currentPage : ++currentPage },
+                        success : function(data) {
+
+                            if ( data.length == 0 ) {
+                                alert("더이상 가져올 글이 없습니다.");
+
+                            } else {
+                                for(var i in data) {
+
+                                    $('#mboard').find('.row').append('<div class="col-md-4 col-sm-6 mboard-item" id="' + data[i].mbno + '">'
+                                        + '<a class="mboard-link" data-toggle="modal" onclick="modalCall(' + data[i].mbno + ');" href="#modal1">'
+                                        + ' <div class="mboard-hover"> '
+                                        +'        <div class="mboard-hover-content">'
+                                        +'           <i class="fas fa-plus fa-3x"></i> '
+                                        +'        </div>'
+                                        +'     </div>'
+                                        +'   <img class="img-fluid" src="/Rang/resources/mBoardPhoto/' + data[i].mbfile +'" alt="" onerror="defaultImg(this);">'
+                                        +' </a>'
+                                        +' <div class="mboard-caption">'
+                                        +'   <h4 class="d-block">' + data[i].mbtitle + '</h4>'
+                                        +'   <ul class="float-right d-inline-block">'
+                                        +'      <li style="display: inline-block; margin-right: 5px">'
+                                        +'          <i class="far fa-heart" style="margin-right: 5px; color:#fed136;"></i>' + data[i].likeCount // 이부분 수정 하세요
+                                        +'       </li>'
+                                        +'       <li style="display: inline-block; margin-right: 5px">'
+                                        +'          <i class="far fa-comment" style="margin-right: 5px; color:#fed136;"></i>' +data[i].commentCount // 이부분 수정 하세요
+                                        +'       </li>'
+                                        +'      <li style="display: inline-block; margin-right: 5px">'
+                                        +'          <i class="fas fa-map-marked-alt" style="margin-right: 5px; color:#fed136;"></i>' + data[i].locationname
+                                        +'       </li>'
+                                        +'   </ul>'
+                                        +'   <p class="text-muted txt_post d-inline-block">' + data[i].mbcontent
+                                        +'    </p>'
+                                        +'</div>'
+                                        +'</div>');
+
+                                }
+                            }
+                        }, error : function(data) {
+                            console.log(data);
+                        }
+                    });
+                }
+            }
+        });
+
         loginUserNo = '${member.userNo}';
 
         // 리스트 기본 이미지 불러오기
@@ -457,8 +519,8 @@
                     var $photo4 = $('#photo4 > img');
 
                     var $Writer = $('#Writer').text(data.mBoard.writer);
-                    /*      var $TotalCost = $('#TotalCost').text(data.mBoard.totalcost); */
-                    var $HashTag = $('#HashTag').html(data.mBoard.hashtag);
+                    var $mbcontent = $('#mbcontent').text(data.mBoard.mbcontent);
+                    var $HashTag = $('#HashTag').text(data.mBoard.hashtag);
                     var $mbdate = $('#mbdate').text(data.mBoard.mbdate);
 
 
@@ -551,11 +613,11 @@
                         var $li;
 
                         if (data.clist[i].mclevel == 0) {
-                            $li = $('<li id="' + data.clist[i].mcno + '">');
+                            $li = $('<li id="' + data.clist[i].mcno + '">' + data.clist[i].nickName);
+
+
                         } else {
-                            // 참조한 댓글의 레벨 답댓글
-                            //var clevel = Number($(obj).siblings('input[name=clevel]').val()) +1
-                            $li = $('<li id="' + data.clist[i].mcno + '" class="'  + data.clist[i].mclevel + '">');
+                            $li = $('<li id="' + data.clist[i].mcno + '" class="'  + data.clist[i].nickName + '">');
                         }
 
                         // 해당 댓글 작성자 사진
@@ -570,26 +632,12 @@
                         // 해당 댓글 수정/삭제
                         var $div3 = $('<div><i class="fas fa-edit"></i><i class="fas fa-save"></i>&nbsp;<i class="fas fa-trash-alt"></i>');
 
-                        /*
-                        // 버튼 안보이게
-                        var $button1 = $('<button id="updateBoard" type="button" class="btn btn-secondary" onclick="updateBoard();">게시글 수정</button>');
-           			 	var $button2 = $('<button id="deleteBoard" type="button" class="btn btn-secondary" onclick="deleteBoard();">게시글 삭제</button>');
-
-
-
-                     	if(data.mBoard.userno == loginUserNo){
-
-                     	} else {
-
-                     	}
-           			 	 */
-
 
                         $div1.append($img);
 
                         $div2.append($p.html(anchorTagGenerator(data.clist[i].mccontent)));
                         $div2.append($p.text(data.clist[i].mccontent))
-                            .append($span.text(data.clist[i].mcdate));
+                            .append($span.text(data.clist[i].nickName + " : " + data.clist[i].mcdate));
 
                         if(data.clist[i].userno == loginUserNo){
                             $li.append($div1)
