@@ -114,7 +114,7 @@
 			type : "post",
 			data : { 
 				email : $('#email').val(),
-				phone : $('phone2').val()
+				phone : $('#phone2').val()
 				},
 			async : false,
 			success : function(data){

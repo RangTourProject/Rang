@@ -16,7 +16,7 @@
 <c:import url="../common/nav.jsp"/>
 <section>
 <!-- 내 마이페이지 일 때 -->
-<c:if test="${member.userNo eq mp.userNo}">	
+<c:if test="${member.userNo eq mp.userNo}">
   <div class="wrapper">
     <div class="page-header clear-filter" filter-color="orange">
       <div class="page-header-image" data-parallax="true" style="background-image:url('https://images.unsplash.com/photo-1476984251899-8d7fdfc5c92c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3700&q=80');">
@@ -24,7 +24,7 @@
     <div class="container">
 	<form action="${pageContext.request.contextPath }/changeImg.ci"
 		      method="post" enctype="multipart/form-data">
-     
+
       <div class="photo-container">
       	<img id="myPagePhoto" src="/Rang/resources/myPagePhoto/${clist.get(0).imgchangename}" onerror="defaultImg(this);" alt="">
         <div class="middle">
@@ -527,32 +527,32 @@ function defaultImg(obj){
 <!-- 사진 바꾸기 script -->
 <script>
 	$(function(){
-	       
+
 
 		  $('#myPagePhoto').click(() => {
 				$('#profilePicture').click();
 			});
 		   $('#profilePicture').change(() => {
 				$('#change').click();
-			}); 
-		  
+			});
+
 	});
 		  function LoadImg(value, num) {
 				if(value.files && value.files[0]) {
 					var reader = new FileReader();
-					
+
 					reader.onload = function(e){
 						switch(num){
 						case 1: $('#myPagePhoto').attr('src', e.target.result);
 							break;
-						
+
 						}
 					}
 					reader.readAsDataURL(value.files[0]);
 				}
 			}
 
-	
+
 </script>
 
 <!-- 모달 ajax -->

@@ -532,14 +532,15 @@ nav .navbar-right li {
                     <tr>
                        <td rowspan="3"> </td>
                      <td align=left style="cols:40">
+
+                         <!-- 대댓글 창 -->
+                         <div class="media-body">
+                             <h5 class="media-heading" style="font-family:'메이플스토리 OTF';">${member.nickName}가<span class="userFont">${tbco.tcdate}에 씀</span></h5>
+                             <textarea class="reply-content" cols="40" rows="1.5"
+                                       readonly="readonly">${tbco.tccontent}</textarea>
+
+
                         <c:if test="${member.userNo eq tbco.userno }">
-
-
-                        <!-- 대댓글 창 -->
-                        <div class="media-body">
-                           <h5 class="media-heading" style="font-family:'메이플스토리 OTF';">${member.nickName}가<span class="userFont">${tbco.tcdate}에 씀</span></h5>
-                           <textarea class="reply-content" cols="40" rows="1.5"
-                               readonly="readonly">${tbco.tccontent}</textarea>
 
 
                         </div>

@@ -103,7 +103,7 @@
                         <input type="text" class="form-control" id="locationName" name="locationName" placeholder="여행지" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="totalCost" name="totalCost" placeholder="비용" required>
+                        <input type="text" class="form-control" id="totalCost" name="totalCost" placeholder="비용 (₩)" required>
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" id="hashTag" name="hashTag" placeholder="#태그" required>

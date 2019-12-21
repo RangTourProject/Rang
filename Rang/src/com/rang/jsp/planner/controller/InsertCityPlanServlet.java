@@ -26,7 +26,7 @@ public class InsertCityPlanServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-//        System.out.println( "서블릿으로 온 값 확인 : " + request.getParameter("arrList"));
+        System.out.println( "서블릿으로 온 값 확인 : " + request.getParameter("arrList"));
 
 //        int plancode = Integer.parseInt(request.getParameter("plancode"));
 
