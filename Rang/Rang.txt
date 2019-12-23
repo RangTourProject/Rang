@@ -1,0 +1,240 @@
+create sequence SEQ_MEM
+/
+
+create sequence SEQ_MBNO
+/
+
+create sequence SEQ_MFNO
+/
+
+create sequence SEQ_TBNO
+/
+
+create sequence SEQ_MC
+/
+
+create sequence SEQ_PLAN
+/
+
+create sequence SEQ_CP
+/
+
+create sequence SEQ_TC
+/
+
+create table MEMBER
+(
+    USERNO     NUMBER         not null
+        primary key,
+    EMAIL      VARCHAR2(30)
+        unique,
+    USERNAME   VARCHAR2(30)   not null,
+    PASSWORD   VARCHAR2(1000) not null,
+    NICKNAME   VARCHAR2(30)   not null,
+    BIRTHDATE  DATE           not null,
+    ZIPCODE    VARCHAR2(100)  not null,
+    ADDRESS    VARCHAR2(300)  not null,
+    PHONE      VARCHAR2(20)   not null,
+    ENROLLDATE DATE default SYSDATE,
+    STATUS     CHAR default 'N'
+        check (STATUS IN ('Y', 'N')),
+    GRADE      CHAR default 1
+        check (GRADE IN (0, 1))
+)
+/
+
+create table MBOARD
+(
+    MBNO         NUMBER         not null
+        primary key,
+    USERNO       NUMBER
+        references MEMBER,
+    WRITER       VARCHAR2(30)   not null,
+    MBTITLE      VARCHAR2(200)  not null,
+    MBCONTENT    VARCHAR2(3000) not null,
+    HASHTAG      VARCHAR2(500),
+    LOCATIONNAME VARCHAR2(100),
+    TOTALCOST    NUMBER,
+    MBCOUNT      NUMBER default 0,
+    MBFILE       VARCHAR2(900),
+    MBDATE       DATE   default SYSDATE,
+    STATUS       CHAR   default 'N'
+        check (STATUS IN ('Y', 'N'))
+)
+/
+
+create table MATTACHMENT
+(
+    MFNO        NUMBER,
+    MBNO        NUMBER
+        references MBOARD,
+    MORIGINNAME VARCHAR2(2000),
+    MCHANGENAME VARCHAR2(2000),
+    UPLOADDATE  DATE default SYSDATE,
+    MFILEPATH   VARCHAR2(600),
+    MFLEVEL     NUMBER,
+    STATUS      CHAR default 'N'
+        check (STATUS IN ('Y', 'N'))
+)
+/
+
+create table FOLLOW
+(
+    MEMNO        NUMBER not null
+        references MEMBER,
+    TARGET_MEMNO NUMBER not null
+        references MEMBER,
+    primary key (MEMNO, TARGET_MEMNO)
+)
+/
+
+create table MCOMMENT
+(
+    MCNO      NUMBER         not null
+        primary key,
+    MBNO      NUMBER
+        references MBOARD,
+    USERNO    NUMBER
+        references MEMBER,
+    MCCONTENT VARCHAR2(1000) not null,
+    MCDATE    DATE default SYSDATE,
+    MCLEVEL   NUMBER,
+    STATUS    CHAR default 'N'
+        check (STATUS IN ('Y', 'N')),
+    REF_MCNO  NUMBER
+)
+/
+
+create table CITY
+(
+    CITY_NAME VARCHAR2(300)
+        unique,
+    LAT       NUMBER,
+    LNG       NUMBER
+)
+/
+
+create table CITYPLAN
+(
+    CP_CODE   NUMBER                 not null
+        primary key,
+    PLAN_CODE NUMBER                 not null,
+    CITY_NAME VARCHAR2(300)          not null
+        references CITY (CITY_NAME),
+    DAY       NUMBER default 1       not null,
+    TRANS     VARCHAR2(30),
+    STARTDAY  DATE   default SYSDATE not null
+)
+/
+
+create table PLANNER
+(
+    PLAN_CODE NUMBER       not null,
+    USERNO    NUMBER       not null,
+    TITLE     VARCHAR2(30) not null,
+    PEOPLE    NUMBER       not null,
+    STARTDAY  DATE         not null,
+    foreign key () references MEMBER
+)
+/
+
+create table MBLIKE
+(
+    USERNO NUMBER
+        references MEMBER,
+    MBNO   NUMBER
+        references MBOARD
+)
+/
+
+create table TBOARD
+(
+    TBNO      NUMBER         not null
+        primary key,
+    USERNO    NUMBER
+        references MEMBER,
+    WRITER    VARCHAR2(30)   not null,
+    TBTITLE   VARCHAR2(200)  not null,
+    TBCONTENT VARCHAR2(3000) not null,
+    MAXMEMBER NUMBER default 1,
+    TBCOUNT   NUMBER default 0,
+    TBFILE    VARCHAR2(900),
+    TBDATE    DATE   default SYSDATE,
+    STATUS    CHAR   default 'N'
+        check (STATUS IN ('Y', 'N')),
+    PLACE     VARCHAR2(30),
+    MINMEMBER NUMBER
+)
+/
+
+create table TBOARDMEMBER
+(
+    USERNO NUMBER not null
+        references MEMBER,
+    TBNO   NUMBER not null
+        references TBOARD,
+    primary key (USERNO, TBNO)
+)
+/
+
+create table TCOMMENT
+(
+    TCNO      NUMBER         not null
+        primary key,
+    TBNO      NUMBER
+        references TBOARD,
+    USERNO    NUMBER
+        references MEMBER,
+    TCCONTENT VARCHAR2(1000) not null,
+    TCDATE    DATE default SYSDATE,
+    TCLEVEL   NUMBER,
+    STATUS    CHAR default 'N'
+        check (STATUS IN ('Y', 'N')),
+    REF_TCNO  NUMBER
+)
+/
+
+create table CHANGEIMAGE
+(
+    USERNO        NUMBER
+        references MEMBER,
+    IMGORIGINNAME VARCHAR2(2000),
+    IMGCHANGENAME VARCHAR2(2000),
+    UPLOADDATE    DATE default SYSDATE,
+    IMGFILEPATH   VARCHAR2(600)
+)
+/
+
+------ 지도 샘플
+
+
+insert into CITY values('로마', 41.903343, 12.527748);
+insert into CITY values('런던', 51.506897, -0.126969);
+insert into CITY values('맨체스터', 53.479703, -2.238321);
+insert into CITY values('버밍엄', 52.482644, -1.886891);
+insert into CITY values('옥스퍼드', 51.752112, -1.258103);
+insert into CITY values('케임브리지', 52.205653, 0.122323);
+insert into CITY values('피렌체 플로렌스', 43.770765, 11.255647);
+insert into CITY values('밀라노', 45.464293, 9.190267);
+insert into CITY values('베니스', 45.442631, 12.319613);
+insert into CITY values('나폴리', 40.849757, 14.268229);
+insert into CITY values('마드리드', 40.416685, -3.702174);
+insert into CITY values('바르셀로나', 41.386053, 2.179341);
+insert into CITY values('발렌시아', 41.386053, 2.179341);
+insert into CITY values('리스본', 38.717895, -9.134800);
+insert into CITY values('암스테르담', 52.370225, 4.898042);
+insert into CITY values('로테르담', 51.923685, 4.477605);
+insert into CITY values('뮌헨', 48.140289, 11.567780);
+insert into CITY values('베를린', 52.513136, 13.410807);
+insert into CITY values('함부르크', 53.549735, 9.991619);
+insert into CITY values('취리히', 47.365203, 8.547509);
+insert into CITY values('프라하', 50.083993, 14.415215);
+insert into CITY values('비엔나', 48.210622, 16.355873);
+insert into CITY values('부다페스트', 47.498295, 19.069869);
+insert into CITY values('브리쉘', 50.872569, 4.358464);
+insert into CITY values('스톡홀름', 59.307922, 18.088895);
+insert into CITY values('오슬로', 59.913749, 10.758019);
+insert into CITY values('헬싱키', 60.163821, 24.937295);
+insert into CITY values('레이캬비크', 64.145154, -21.926601);
+insert into CITY values('이스탄불', 41.023031, 29.006889);
+
